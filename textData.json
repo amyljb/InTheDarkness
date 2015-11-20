@@ -1,0 +1,29 @@
+{
+  "scene1": {
+    "text": [
+      {
+        "text": "Freddie was very worried.",
+        "xPos": 1020,
+        "yPos": 776
+      }
+    ]
+  },
+  "scene2": {
+    "text": [
+      {
+        "text": "He had just moved into a new house, and he hated it. It was just a regular house but when Freddie looked at it he saw a scary and unfamiliar place. The garden was a wild tangle of thorns and brambles. I looked as though it was about to swallow the house. “This is a horrible place!” thought Freddie. “I want to go back to my old house!”",
+        "xPos": 1020,
+        "yPos": 776
+      }
+    ]
+  },
+  "scene3": {
+    "text": [
+      {
+        "text": " Freddie liked the inside even less. The house made strange noises, and the lights often flickered and went out. Freddie’s mum had told him not to worry. The electricity would be fixed in a few days. Freddie worried anyway. He was terribly afraid of the dark. “Ghosts and monsters hide in the darkness.” he thought to himself. ",
+        "xPos": 1020,
+        "yPos": 776
+      }
+    ]
+  }
+}

@@ -1,0 +1,555 @@
+[
+  {
+    "text": [
+      {
+        "value": "He was so easily frightened, that even moving into a new house had him worried sick. To you and I, the house may look normal. But not to Freddie.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+  {
+    "text": [
+      {
+        "value": " The house made peculiar noises and Freddie feared that ghosts and monsters may be hiding in the darkness. ",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+    {
+    "text": [
+      {
+        "value": "toolbox.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+    {
+    "text": [
+      {
+        "value": "butterflies.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+    {
+    "text": [
+      {
+        "value": "Page6.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page7.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page8.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page9.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page10.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page11.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page12.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page13.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page14.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page15.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page16.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page17.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page18.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page19.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page20.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page21.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+         "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page22.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page23.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page24.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+      {
+    "text": [
+      {
+        "value": "Page25.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 48,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  }
+]
