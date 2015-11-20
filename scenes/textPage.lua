@@ -63,7 +63,7 @@ function loadText(params)
     for i = 1, #params do
             local x = getXCoordinates(params[i].x)
             local y = getYCoordinates(params[i].y)
-            local text = display.newText(params[i].value, x, y, native.systemFont, params[i].fontSize)
+            local text = display.newText(params[i].value, x, y, "MoonFlowerBold", params[i].fontSize) --native.systemFont
             text.align = "center"
             text.width = 1500
             sceneGroup:insert(text)

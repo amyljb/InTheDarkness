@@ -1,5 +1,4 @@
 --BUTTERFLY PAGE
-
 local sceneName = "scene5"
 local composer = require( "composer" )
 local scene = composer.newScene( "scene5" )
@@ -14,19 +13,13 @@ local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene6"
 
---    Create a scene object based on data read from data.json
+--Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
     transitions = {},
     nextScene = nextSceneNumber
 })
-
---options table for next page transitions
-local pageChangeOptions = {
-    effect = "crossFade",
-    time = 2000
-}
 
 -------------------------------------------------------------------------------
 --SCENE CREATION

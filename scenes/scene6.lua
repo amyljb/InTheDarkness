@@ -1,5 +1,5 @@
 --SOUNDS PAGE
-local sceneName = "page5"
+local sceneName = "scene5"
 local composer = require( "composer" )
 local scene = composer.newScene("scene6")
 local widget = require ("widget")
