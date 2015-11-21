@@ -52,7 +52,7 @@ function scene:create( event )
         --Initialize the scene
     local sceneComponents = sceneObject:getText()
     
-local overlayOptions2 =
+local overlayOptions =
 {
     effect = "fade",
     time = 2000,
@@ -64,9 +64,10 @@ local overlayOptions2 =
 }
 
 --change page on button tap
-local function changePage( )
+local function changePage()
+    print("changing pg")
     nextTapped = true
-    composer.gotoScene( "scenes.textPage", overlayOptions2 )
+    composer.gotoScene( "scenes.textPage", overlayOptions )
     if soundPlaying == true then
         audio.stop()
     end
@@ -81,7 +82,7 @@ end
     defaultFile = "Images/nextBtn.png",
     x = 1950,
     y = display.contentHeight/2,
-    onRelease = changePage,
+    onRelease = changePage
 }
     
     local layer = {}
@@ -253,9 +254,6 @@ local sceneGroup = self.view
     display.remove(particleSystem)
     particleSystem = nil
     removeListeners()
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

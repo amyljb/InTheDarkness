@@ -14,7 +14,7 @@
           "op": "/"
         },
         
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -37,7 +37,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -60,7 +60,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -83,7 +83,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -106,7 +106,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -129,7 +129,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -152,7 +152,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -175,7 +175,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -198,7 +198,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -221,7 +221,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -244,7 +244,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -267,7 +267,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -290,7 +290,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -313,7 +313,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -336,7 +336,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -359,7 +359,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -382,7 +382,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -405,7 +405,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -428,7 +428,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -451,7 +451,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -474,7 +474,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -497,7 +497,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -520,7 +520,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,
@@ -543,7 +543,53 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 48,
+        "fontSize": 72,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+    {
+    "text": [
+      {
+        "value": "Page26.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 72,
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ]
+  },
+    {
+    "text": [
+      {
+        "value": "Page27.",
+        "x": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "y": {
+          "value": 2,
+          "base": true,
+          "op": "/"
+        },
+        "fontSize": 72,
         "color": {
           "r": 1,
           "g": 1,

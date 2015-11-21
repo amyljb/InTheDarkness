@@ -1,12 +1,12 @@
 --HEART
 local composer = require( "composer" )
 local widget = require( "widget" )
-local scene = composer.newScene("scene12")
-local sceneName = "scene12"
-local sceneNumber = 12
+local scene = composer.newScene("scene16")
+local sceneName = "scene16"
+local sceneNumber = 16
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local nextSceneNumber = "scenes.scene13"
+local nextSceneNumber = "scenes.scene17"
 local breathText
 local scaleNum = 0
 numTapped = 0
@@ -214,4 +214,6 @@ scene:addEventListener( "destroy", scene )
 ---------------------------------------------------------------------------------
 
 return scene
+
+
 
