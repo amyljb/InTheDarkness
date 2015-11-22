@@ -2,7 +2,7 @@
   {
     "text": [
       {
-        "value": "He was so easily frightened, that even moving into a new house had him worried sick. To you and I, the house may look normal. But not to Freddie.",
+        "value": "He was so easily frightened, that even moving into a new house scared him. ",
         "x": {
           "value": 2,
           "base": true,
@@ -49,7 +49,7 @@
     {
     "text": [
       {
-        "value": "Just before bedtime, Freddie searched the house for things to help protect him from the darkness. In his father’s toolbox, he found a torch. His father wouldn’t mind if he borrowed it. Freddie hoped that the torch would help him to feel brave during the night.",
+        "value": "Just before bedtime, Freddie searched the house for things to help protect him from the darkness. Can you help Freddie find something that might help?",
         "x": {
           "value": 2,
           "base": true,
@@ -72,7 +72,7 @@
     {
     "text": [
       {
-        "value": "When bedtime arrived butterflies began to flutter in Freddie’s tummy. “I’m almost nine!” he thought to himself. “Thats too old be be afraid of the dark!” He really wanted to be brave but sometimes it was difficult.",
+        "value": "When bedtime arrived butterflies began to flutter in Freddie’s stomach. “I’m almost nine!” he thought to himself. “Thats too old be be afraid of the dark!” He really wanted to be brave but sometimes it was difficult.",
         "x": {
           "value": 2,
           "base": true,
@@ -95,7 +95,7 @@
     {
     "text": [
       {
-        "value": "His mum tried to calm him as she tucked him into bed. “Sometimes things seem scarier in the dark, but if you take a deep breath and then use the torch soon you’ll see that there is nothing to fear.”  ",
+        "value": "His mum tried to calm him as she tucked him into bed. “Sometimes things seem scarier in the dark, but if use your torch you’ll see that there is nothing to fear.” SOUNDS ",
         "x": {
           "value": 2,
           "base": true,
@@ -118,7 +118,7 @@
       {
     "text": [
       {
-        "value": "When the lights went out, Freddie began to get scared. He began to imagine all sorts of terrifying things.",
+        "value": "When the lights went out, Freddie got scared. He began to imagine all sorts of terrifying things.",
         "x": {
           "value": 2,
           "base": true,
@@ -141,7 +141,7 @@
       {
     "text": [
       {
-        "value": "Freddie took out his torch and searched through the darkness. He didn’t see anything scary, just the contents of his very untidy bedroom. Relief swept over him and he settled back into bed.",
+        "value": "Freddie took out his torch and searched through the darkness. ",
         "x": {
           "value": 2,
           "base": true,
@@ -164,7 +164,7 @@
       {
     "text": [
       {
-        "value": "But the Fear wouldn’t let him sleep. “There is a monster hiding underneath your bed” the Fear said. Freddie lay in the darkness and imagined a slobbering slimy creature with long tentacles lurking beneath him.",
+        "value": "Freddie didn’t see anything scary, but the fear wouldn’t go away. “There is a monster hiding underneath the bed” he thought to himself. Freddie lay in the darkness and imagined a slobbering slimy creature with long tentacles lurking beneath him.",
         "x": {
           "value": 2,
           "base": true,
@@ -187,7 +187,7 @@
       {
     "text": [
       {
-        "value": "Freddie felt dizzy. His heart beat faster. He started to sweat. Freddie tried to be brave but it was too difficult.  “Let’s go downstairs where the monsters can’t find us!” said the Fear,. With that Freddie leapt out of bed and the Fear followed.",
+        "value": "Freddie fear of the monster under the bed grew bigger and bigger. Freddie tried to be brave but it was too difficult.  “I'll go downstairs where the monsters can’t find me!” he said. With that Freddie leapt out of bed.",
         "x": {
           "value": 2,
           "base": true,
@@ -210,7 +210,7 @@
       {
     "text": [
       {
-        "value": "In the darkness of the hallway, Freddie glimpsed something frightening. It was gigantic, and dripped great oozing globs of slime onto the cold tile floor. “It’s a ferocious swamp creature”, the Fear insisted. Freddie's imagination ran wild. He imagined a misty swampland filled with strange insects and reptiles.",
+        "value": "As Freddie walked down the stairs, and into the darkness, his surroundings appeared to change. Where he expected to see the hallway, he saw a strange misty swampland. A gigantic creature emerged from the water. ",
         "x": {
           "value": 2,
           "base": true,
@@ -233,7 +233,7 @@
       {
     "text": [
       {
-        "value": "Deep Breath.",
+        "value": "Freddie's heart began to race.",
         "x": {
           "value": 2,
           "base": true,
@@ -256,7 +256,7 @@
       {
     "text": [
       {
-        "value": "When Freddie was finally calm, he shone the torch on the monster. The  monster disappeared in a flash. All that was left was  a coat stand full of tattered and damp raincoats. ",
+        "value": "When Freddie was finally calm, he shone the torch on the monster. ",
         "x": {
           "value": 2,
           "base": true,
@@ -302,7 +302,7 @@
       {
     "text": [
       {
-        "value": "In front of his eyes, a ghostly form appeared. It danced in front of the window, pale and mysterious. The light of the moon shone through it. “It’s a ghost!",
+        "value": "In front of his eyes, a ghostly form appeared. It danced in front of the window, the light of the moon shining through it. A GHOST!!!",
         "x": {
           "value": 2,
           "base": true,
@@ -325,7 +325,7 @@
       {
     "text": [
       {
-        "value": "DEEP BREATH.",
+        "value": "Freddie's heart pounded in his chest.",
         "x": {
           "value": 2,
           "base": true,
@@ -348,7 +348,7 @@
       {
     "text": [
       {
-        "value": " Freddie really wanted to call out for his mum but he was determined to be brave and face the monsters alone. He shone his father’s torch on the ghost, and hoped that it would disappear. Looking closely, Freddie saw that the ghost was covered in a strange flower pattern. It wasn't a ghost at all,  but a curtain blowing in the wind.",
+        "value": " Freddie really wanted to call out for his mum but he was determined to be brave and face the monsters alone. He shone his father’s torch on the ghost, and hoped that it would disappear.",
         "x": {
           "value": 2,
           "base": true,
@@ -371,7 +371,7 @@
       {
     "text": [
       {
-        "value": "Freddie felt very silly indeed. He had gotten scared by monsters that weren’t even there at all. The swamp monster had just been an old coat. The ghost had been a curtain blowing in the wind. Maybe the monster under the bed wasn’t real either. After all this adventure, Freddie was exhausted. His sleepy head was longing for a fluffy pillow. Freddie began to make his way back upstairs, ignoring the Fear’s protests.  ",
+        "value": "Freddie felt very silly indeed. He had gotten scared by monsters that weren’t even there at all. The swamp monster had just been an old coat. The ghost had been a curtain blowing in the wind. Maybe the monster under the bed wasn’t real either. After all this adventure, Freddie was exhausted. He decided to make his way back to bed.  ",
         "x": {
           "value": 2,
           "base": true,
@@ -394,7 +394,7 @@
       {
     "text": [
       {
-        "value": "When they reached the bedroom, Freddie was determined to face his foe and discover it's true identity using his father's torch. ",
+        "value": "When he reached the bedroom, the fear returned but Freddie was determined to face his foe and discover it's true identity. Clutching his fathers torch he made his way under the bed. ",
         "x": {
           "value": 2,
           "base": true,
@@ -417,7 +417,7 @@
       {
     "text": [
       {
-        "value": "Freddie crawled on his belly, under the bed and into the depths of the monster’s cave. The cave was too dark and deep for even the faintest light to be seen. Freddie couldn’t help but be scared. This kind of darkness was where the Fear was the strongest. Despite his fear, Freddie kept crawling.",
+        "value": "Freddie crawled on his belly, under the bed and into the depths of the monster’s cave. The cave was too dark and deep for even the faintest light to be seen. Freddie couldn’t help but be scared. This kind of darkness was where the fear was the strongest. Despite this, Freddie kept crawling.",
         "x": {
           "value": 2,
           "base": true,
@@ -486,7 +486,7 @@
       {
     "text": [
       {
-        "value": "Freddie was lost in a cloud of dust. ",
+        "value": "Freddie was lost in a cloud of dust. He was in need of some help. Can you help him?",
         "x": {
           "value": 2,
           "base": true,
@@ -509,7 +509,7 @@
       {
     "text": [
       {
-        "value": "In the blink of an eye, the monster had disappeared. Around him, all was still and quiet. Not a ghoul or monster in sight. In his hand, Freddie found himself wrapped up in a dusty old blanket. “So this is the true identity of the monster under the bed!” he said. Beside him stood the Fear, so tiny he could barely be seen.",
+        "value": "Finally, the monster was defeated! Freddie used his torch to finally yreveal the monster's true identity. ",
         "x": {
           "value": 2,
           "base": true,
@@ -532,7 +532,7 @@
       {
     "text": [
       {
-        "value": "The bedroom door creaked open and Freddie’s mother appeared. “I heard a racket, did something frighten you?”, she asked. “No mum,” Freddie answered. “I wasn’t afraid of anything.” So she kissed him goodnight and went back to bed. ",
+        "value": "The bedroom door creaked open and Freddie’s mother appeared. ",
         "x": {
           "value": 2,
           "base": true,
@@ -555,7 +555,7 @@
     {
     "text": [
       {
-        "value": "Freddie climbed into his own bed, and lay his head upon the pillow. His father's torch lay beside him, emitting a warm, comforting glow. The Fear had disappeared and Freddie felt braver than he ever had before. Within moments, he was fast asleep.",
+        "value": "Freddie climbed into his own bed, and lay his head upon the pillow. His father's torch lay beside him, emitting a warm, comforting glow. The fear had disappeared and Freddie felt braver than he ever had before.",
         "x": {
           "value": 2,
           "base": true,

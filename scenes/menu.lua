@@ -22,9 +22,9 @@ local function changePage( event )
                 else if event.target.id == "soundStory" then
                     composer.gotoScene( "scenes.scene6", pageChangeOptions ) 
                 else if event.target.id == "monstersStory" then
-                    composer.gotoScene( "scenes.scene10", pageChangeOptions )
+                    composer.gotoScene( "scenes.scene11", pageChangeOptions )
                 else
-                    composer.gotoScene( "scenes.scene21", pageChangeOptions )
+                    composer.gotoScene( "scenes.scene19", pageChangeOptions )
                     end
                 end 
         end
@@ -49,18 +49,18 @@ function scene:create( event )
     id ="playFull",
     defaultFile = "Images/fullStoryBtn.png",
     x = display.contentWidth/2,
-    y = display.contentHeight/2 - 450,
+    y = display.contentHeight/6,
     onRelease = changePage
 }
 
    local soundStory = widget.newButton
 {
-    width = 580,
-    height = 580,
+    width = 600,
+    height = 850,
     id ="soundStory",
-    defaultFile = "Images/storyButton.png",
+    defaultFile = "Images/soundChapter.png",
     x = display.contentWidth/2-650,
-    y = display.contentHeight*0.6,
+    y = display.contentHeight*0.7,
     onRelease = changePage
 }
    local monstersStory = widget.newButton
@@ -112,9 +112,6 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -125,9 +122,6 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -138,9 +132,6 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
 
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

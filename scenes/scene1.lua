@@ -80,6 +80,7 @@ end
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
     onRelease = loadOverlay
 }
 

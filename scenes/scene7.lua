@@ -5,7 +5,6 @@ local widget = require( "widget" )
 local sceneName = "scene7"
 local scene = composer.newScene("scene7")
 local numTaps = 0
---local tapIndicatorFunc = require("tapIndicatorFunc")
 local tapIndicator
 local sceneNumber = 7
 local sceneData = require("loadData")
@@ -50,13 +49,6 @@ end
     local background = display.newImage("Images/page6.png", true)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
-    local fearImage = display.newImage("Images/fearImage.png", true)
-    fearImage.x = display.contentWidth/2
-    fearImage.y = display.contentHeight/2
-    tapIndicator = display.newImage("Images/tapButton.png", true)
-    tapIndicator.x= display.contentWidth/2 
-    tapIndicator.y= display.contentHeight/2
-    tapIndicator.alpha = 0
     
     local sheetInfo = require("Sprites.thoughtBubble")
     local bubbleSheet1 = graphics.newImageSheet( "Sprites/thoughtBubble.png", sheetInfo:getSheet() )
@@ -68,34 +60,21 @@ end
     bubbleSprite.y = display.contentHeight/4
     bubbleSprite.alpha=0
     
-    
      local nextPgBtn = widget.newButton
 {
     width = 120,
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1950,
-    y = display.contentHeight/2,
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth*0.95,
+    y = display.contentWidth*0.85,
     onRelease = changePage,
 }
-    
+
     sceneGroup:insert(background)
-    sceneGroup:insert(fearImage)
-    sceneGroup:insert(tapIndicator)
     sceneGroup:insert(bubbleSprite)
     sceneGroup:insert(nextPgBtn)
-
---not scaling correctly
-function scaleFear(event)
-    if event.phase=="began" then
-        display.getCurrentStage():setFocus(event.target)
-        event.target.isFocus = true
-        transition.scaleTo( fearImage, { xScale=2.5, yScale=2.5, time=2000 } ) 
-        --transition.scaleTo( tapIndicator, { alpha = 0, time=200} ) 
-    end
- return true
-end
 
 function playBubble()
     bubbleSprite.alpha=1
@@ -112,10 +91,8 @@ end
 
     function removeEventListeners6()
         print("removeEventListeners called scene 6")
-        fearImage:removeEventListener("touch", scaleFear)
     end
     
-    fearImage:addEventListener("touch", scaleFear)
 end
 -- "scene:show()"
 function scene:show( event )

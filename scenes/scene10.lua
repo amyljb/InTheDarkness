@@ -1,3 +1,4 @@
+--SYMPTOMS?
 local composer = require( "composer" )
 local widget = require("widget")
 local scene = composer.newScene("scene10")

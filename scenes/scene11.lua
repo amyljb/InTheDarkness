@@ -86,12 +86,14 @@ end
 }
     
     local layer = {}
+    local swampGroup = display.newGroup()
 --layers image for parallax
 for i =1, 4 do
     layer[i] = display.newImage("Images/layer" .. i .. ".png", 0, 0)
     --SET REFERENCE POINT
     layer[i].x = centerX
     layer[i].y = centerY
+    swampGroup:insert(layer[i])
     sceneGroup:insert(layer[i])
 end
 
@@ -117,7 +119,12 @@ end
     monsterShadow.y = display.contentHeight/2
 
     local frontImage = display.newImage( "Images/monsterHall.png" )
+   -- frontImage.x = display.contentWidth/2
+   -- frontImage.y = display.contentHeight/2
+    
     snapshot.canvas:insert(frontImage)
+    snapshot:invalidate( "canvas" )
+    --snapshot.canvas:insert(swampGroup)
     snapshot:invalidate( "canvas" )
 
     local previousX, previousY

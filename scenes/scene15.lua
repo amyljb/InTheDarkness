@@ -49,20 +49,21 @@ end
 
 local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1900,
-    y = display.contentHeight/2,
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
-local backImage = display.newImage( "Images/dungeon.png", display.contentCenterX, display.contentCenterY  )
+local backImage = display.newImage( "Images/kitchen.png", display.contentCenterX, display.contentCenterY  )
 
 local snapshot = display.newSnapshot(2048, 1536)
 snapshot:translate( display.contentCenterX, display.contentCenterY )
 
-local kitchenBkg = display.newImage( "Images/kitchen.png", true )
+local kitchenBkg = display.newImage( "Images/dungeon.png", true )
 --kitchenBkg.x=display.contentWidth/2
 --kitchenBkg.y=display.contentHeight/2
 

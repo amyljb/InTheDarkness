@@ -50,7 +50,6 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
-
     group = display.newGroup()
   
     local snapshot = display.newSnapshot(2048, 1536)
@@ -106,7 +105,6 @@ local overlayOptions =
     lightningSprite.x = display.contentWidth/2
     lightningSprite.y = display.contentHeight/4
 
-    
     snapshot.canvas:insert(niceHouse)
     snapshot:invalidate( "canvas" )
 

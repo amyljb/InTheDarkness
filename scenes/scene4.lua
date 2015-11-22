@@ -48,6 +48,13 @@ local overlayOptions =
     }
 }
 
+-- Options table for the overlay scene "badgeOverlay.lua"
+local overlayOptions2 = {
+   isModal = true,
+   effect = "crossFade",
+   time = 400
+}
+
 --change page on button tap --ADD PERFORM WITH DELAY
 local function changePage(event)
     if not (event.phase) then
@@ -144,10 +151,6 @@ end
     hardhat.linearDamping = 0.8
     hardhat.angularDamping = 1
     
-    local function dragBody( event )
-	return gameUI.dragBody( event )
-    end
-    
     local instructionText = display.newImage("Images/findTorchText.png")
     instructionText.x = display.contentWidth/2
     instructionText.y = display.contentHeight/2 
@@ -183,6 +186,17 @@ function textPlay()
     transition.scaleTo( instructionText, { xScale=1.1, yScale=1.1, time=1000, onComplete=scaleDown}) 
 end  
 
+    
+    local function dragBody( event )
+	return gameUI.dragBody( event )
+    end
+    
+    function foundTorch()
+        transition.scaleTo( flashlight, { xScale=2, yScale=2, rotation =720, time=700}) 
+        composer.showOverlay( "scenes.badgeOverlay", overlayOptions2 )
+        timer.performWithDelay(2500, changePage)
+end
+
 --CAUSES LOADS OF PROBLEMS - FIRES NEXT SCENE TWICE???/
 --function torchAnimate()
   -- transition.scaleTo( flashlight, { xScale=2, yScale=2, rotation =720, time=700, onComplete=changePage}) 
@@ -198,8 +212,8 @@ end
     gloves:addEventListener("touch", dragBody)
     screwdriver2:addEventListener("touch", dragBody)
     hardhat:addEventListener("touch", dragBody)
-    flashlight:addEventListener("tap", changePage)
-    flashlight:addEventListener("touch", changePage)
+    flashlight:addEventListener("tap", foundTorch)
+    flashlight:addEventListener("touch", foundTorch)
     
     function removeEventListeners3()
         print("removeEventListeners called scene 3")  
@@ -229,10 +243,6 @@ function scene:show( event )
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
         timer.performWithDelay(1000,textPlay)
-        -- Called when the scene is now on screen
-        -- 
-        -- INSERT code here to make the scene come alive
-        -- e.g. start timers, begin animation, play audio, etc
     end 
 end
 
@@ -241,10 +251,6 @@ function scene:hide( event )
     local phase = event.phase
 
     if event.phase == "will" then
-        -- Called when the scene is on screen and is about to move off screen
-        --
-        -- INSERT code here to pause the scene
-        -- e.g. stop timers, stop animation, unload sounds, etc.)
     elseif phase == "did" then
         -- Called when the scene is now off screen
     end 

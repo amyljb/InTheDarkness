@@ -1,4 +1,4 @@
---UNDER BED IMAGE
+--UNDER BED TENTACLES
 local composer = require( "composer" )
 local scene = composer.newScene("scene9")
 local sceneName = "scene9"
@@ -67,7 +67,7 @@ local sheetInfo = require("Sprites.tentacle")
 local sheetInfo2 = require("Sprites.bearclaw")
         local bearclawSheet = graphics.newImageSheet( "Sprites/bearclaw.png", sheetInfo2:getSheet() )
         local sequenceData2 = 
-            {name="claws", start = 1, time = 1000, loopCount = 1, count=5}
+            {name="claws", start = 1, time = 2000, loopCount = 1, count=5}
                                 
         bearclaw = display.newSprite(bearclawSheet, sequenceData2)
         bearclaw.x = display.contentWidth/3.5
@@ -117,11 +117,11 @@ local function onTouch( event )
 end
 
 function playClaws()
-    if numTapped ~=5 and transitioned == false then
         bearclaw:play()
         tentacle2:play()
         tentBottomL:play()
-    end
+        tentacleNew:play()
+       spikedTent:play()
 end
 
 bearclaw:addEventListener( "tap", onTouch )
@@ -149,9 +149,7 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       tentacleNew:play()
-       spikedTent:play()
-       timer.performWithDelay(1000, playClaws, 5 )
+       timer.performWithDelay(1000, playClaws )
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
