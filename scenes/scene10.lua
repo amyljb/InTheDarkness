@@ -52,16 +52,6 @@ local overlayOptions2 =
 local background = display.newImage("Images/page9.png", true)
 background.x = display.contentWidth/2
 background.y = display.contentHeight/2
-
-local sheetInfo = require("Sprites.heartbeat")
-    local heartbeatSheet = graphics.newImageSheet( "Images/heartbeat.png", sheetInfo:getSheet() )
-
-    local sequenceData =
-    {name="beating", start = 1, time = 600, loopCount = 0, count=17}
-    
-heartbeatSprite = display.newSprite(heartbeatSheet, sequenceData)
-heartbeatSprite.x = display.contentWidth/2 + 750
-heartbeatSprite.y = display.contentHeight/2 - 400
         
 function loadOverlay()
 composer.showOverlay( "scenes.brainOverlay", overlayOptions1 )
@@ -94,11 +84,9 @@ local infoButton = widget.newButton
     y = display.contentHeight/2,
     onRelease = changePage,
 }
-
     
 sceneGroup:insert(background)
 sceneGroup:insert(infoButton)    
-sceneGroup:insert(heartbeatSprite)
 sceneGroup:insert(nextPgBtn)
 --event listeners
 
@@ -131,7 +119,6 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-       heartbeatSprite:pause()
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
      

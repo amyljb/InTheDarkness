@@ -7,6 +7,8 @@ local easingx  = require("easingx")
 system.activate( "multitouch" )
 local badThoughts
 local numTapped = 0
+local exitPressed = false
+local score = 0
 --Find device display height and width
 _H = display.contentHeight
 _W = display.contentWidth
@@ -24,6 +26,7 @@ local pageChangeOptions = {
 
 function exitOverlay()
     -- By some method (a "resume" button, for example), hide the overlay
+    exitPressed = true
         composer.hideOverlay( "fade", 200 )
         composer.removeScene("brainOverlay")
         composer.gotoScene( "scenes.scene10")
@@ -40,7 +43,7 @@ physics.start()
 -- 2. Set gravity to be inverted
 physics.setGravity(0, 4)
 
-   local background = display.newImage("Images/darkness.png", true)
+   local background = display.newImage("Images/brainBkg.png", true)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
     
@@ -48,6 +51,12 @@ physics.setGravity(0, 4)
     puck.x = display.contentWidth/2
     puck.y = display.contentHeight*0.7
     
+    local enemy = display.newCircle( 100, 100, 100 )
+    enemy:setFillColor( 0.5 )
+    physics.addBody(enemy, 'static', {radius = 25})
+    
+    local score = display.newText(score, 289, 206, 'Courier-Bold', 100)
+    score:setTextColor(227, 2, 2)
     
     local topWall1 = display.newRect( 300, 10, 600, 10)
     physics.addBody(topWall1, "static", {friction=0, bounce=0.9 })
@@ -69,6 +78,7 @@ physics.setGravity(0, 4)
     toolMaterial = { density=0.3, friction=0.6, radius=66.0 }
     
     physics.addBody (puck, "dynamic", toolMaterial )
+    puck.isFixedRotation = true
     puck.linearDamping = 0.8
     puck.angularDamping = 1
     puck.gravityScale = 0
@@ -81,34 +91,48 @@ physics.setGravity(0, 4)
     id ="exit",
     defaultFile = "Images/exitButton.png",
     x = 1900,
-    y = 150,
+    y = 250,
     onRelease = exitOverlay
 }
 
-function generateThoughts()
--- Create an image, 250 pixels by 250 pixels
-thought = display.newImageRect("Images/z.png", 250, 250)
-	-- Set the reference point to the center of the image
-        thought.anchorX = _W/2
-	
-	-- Generate Zs randomly on the X-coordinate
-	thought.x = Random(50, _W-50)
-	
-	-- Generate Zs 10 pixels off screen on the Y-Coordinate
-	thought.y = Random(-500, _H)
-        
-        thought.name = "thought"
-	
-	-- Apply physics engine to the Zs, set density, friction, bounce and radius
-	physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1, radius=125})
+--function generateThoughts()
+--    if exitPressed == false then
+--       -- Create an image, 250 pixels by 250 pixels
+--        local thought = display.newImage("Images/badThought.png", true)
+--	-- Set the reference point to the center of the image
+--        thought.anchorX = _W/2
+--	
+--	-- Generate Zs randomly on the X-coordinate
+--	thought.x = Random(50, _W-50)
+--	
+--	-- Generate Zs 10 pixels off screen on the Y-Coordinate
+--	thought.y = Random(-500, _H)
+--        
+--        thought.name = "thought"
+--	
+--	-- Apply physics engine to the Zs, set density, friction, bounce and radius
+--	physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1, radius=125})
+--
+--	-- Increment the Zs variable by 1 for each balloon created
+--	numThoughts = numThoughts + 1
+--        sceneGroup:insert(thought)
+--        thought.collision = onCollision
+--        thought:addEventListener( "collision", thought )
+--        return thought 
+--    end
+--end
 
-	-- Increment the Zs variable by 1 for each balloon created
-	numThoughts = numThoughts + 1
-        sceneGroup:insert(thought)
-        thought.collision = onCollision
-        thought:addEventListener( "collision", thought )
-        return thought
-end
+
+--       -- Create an image, 250 pixels by 250 pixels
+       local thought = display.newImage("Images/badThought.png", true)
+
+--	
+--	-- Generate Zs randomly on the X-coordinate
+	thought.x = display.contentWidth/2
+
+	thought.y = display.contentHeight/2
+        physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1, radius=125})
+--        sceneGroup:insert(thought)
 
 
 local function dragBody( event )
@@ -116,12 +140,33 @@ local function dragBody( event )
         return gameUI.dragBody( event )
 end
 
-local function onCollision(event)
-    if event.phase == "began" then
-        if event.object1.name == "puck" and event.object2.name == "thought" then
-            print("colldied")
-        end 
-    end 
+
+function moveEnemy(e)
+	-- Move Enemy
+	if(thought.y < display.contentHeight * 0.5) then
+		transition.to(enemy, {time = 300, x = thought.x})
+	end
+end
+
+function update()
+	-- Score
+	if(thought.y < -100) then
+		score.text = tostring(tonumber(score.text) + 1)
+                end
+	
+	-- Reset Puck position
+	
+	if(thought.y < -100) then
+		thought.x = display.contentCenterX
+		thought.y = display.contentCenterY
+		thought.isAwake = false
+	end
+	
+	-- Keep paddle on player side
+	
+	--if(puck.y < display.contentWidth - 60) then
+	--	puck.y = display.contentWidth - 60
+	--end
 end
 
 sceneGroup:insert(background)
@@ -132,12 +177,12 @@ sceneGroup:insert(rightWall)
 sceneGroup:insert(topWall1)
 sceneGroup:insert(topWall2)
 sceneGroup:insert(floor)
-
+sceneGroup:insert(enemy)
+sceneGroup:insert(thought)
+sceneGroup:insert(score)
+ 
 puck:addEventListener("touch", dragBody)
-Runtime:addEventListener( "collision", onCollision )
-
-puck.collision = onCollision
-puck:addEventListener( "collision", puck )
+Runtime:addEventListener('enterFrame', update)
 
 end
 
@@ -151,7 +196,8 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-timer.performWithDelay(1500, generateThoughts, totalThoughts)
+    --timer.performWithDelay(1500, generateThoughts, totalThoughts)
+    timerSrc = timer.performWithDelay(100, moveEnemy, 0)
    end
 end
 
