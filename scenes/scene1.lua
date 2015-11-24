@@ -25,8 +25,9 @@ local textOptions = {
    text = "This is Freddie.",
    x = display.contentWidth/2,
    y = display.contentHeight*0.8,
-   fontSize = 48,
+   fontSize = 72,
    width = 1800,
+   font = "MoonFlowerBold",
    height = 0,
    align = "center"
 }
@@ -111,7 +112,6 @@ function textFunc()
     sceneGroup:insert(pageText)
     sceneGroup:insert(nextPgBtn)
      
---event listeners
 --end of scene create
     end
 --------------------------------------------------------------------------------
@@ -138,10 +138,6 @@ function scene:hide( event )
     local phase = event.phase
 
     if event.phase == "will" then
-        -- Called when the scene is on screen and is about to move off screen
-        --
-        -- INSERT code here to pause the scene
-        -- e.g. stop timers, stop animation, unload sounds, etc.)
     elseif phase == "did" then
         print("hiding scene1")-- Called when the scene is now off screen
     end 
@@ -153,8 +149,6 @@ end
 function scene:destroy( event )
     local sceneGroup = self.view
     print("destroying scene1")
-   -- backgroundOne:removeEventListener("touch", swipeHandler)
-    --transition.cancel()
 end
 
 -------------------------------------------------------------------------------

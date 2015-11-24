@@ -4,8 +4,6 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 local sceneName = "scene7"
 local scene = composer.newScene("scene7")
-local numTaps = 0
-local tapIndicator
 local sceneNumber = 7
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
@@ -68,7 +66,7 @@ end
     defaultFile = "Images/nextBtn.png",
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth*0.95,
-    y = display.contentWidth*0.85,
+    y = display.contentHeight*0.85,
     onRelease = changePage,
 }
 
@@ -109,10 +107,6 @@ function scene:show( event )
             end
             timer.performWithDelay(2000, playBubble)
             timer.performWithDelay(3000, bobFunction)
-            --timer.performWithDelay(5000, tapIndicatorFunc.pulsateFunction(tapIndicator))
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -123,14 +117,9 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
        transition.cancel(scaleTrans)
        transition.cancel(bobTrans)
-       tapIndicator:removeSelf()
-       tapIndicator = nil
       -- Called immediately after scene goes off screen.
    end
 end
@@ -140,9 +129,6 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
    removeEventListeners6()
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

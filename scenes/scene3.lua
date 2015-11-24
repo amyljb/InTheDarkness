@@ -13,7 +13,7 @@ local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene4"
 local nextSceneButton
-physics.start()
+local numTapped = 0
 local light = 5
 Random = math.random
 local movedPage = false
@@ -44,7 +44,6 @@ local sceneObject = BaseScene:new({
     nextScene = nextSceneNumber
 })
 
-
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
@@ -64,9 +63,9 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
-
 --change page on button tap --ADD PERFORM WITH DELAY
 local function changePage()
+    print("changing pg")
     movedPage = true
     composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -74,10 +73,13 @@ end
 
     local spawnTable = {}
 
-    -- Called when the scene's view does not exist
     local backgroundOne = display.newImage("Images/page3_hall.png", true)
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
+    
+    
+    local myText = display.newText( "0", 1875, 150, native.systemFont, 150 )
+    myText:setFillColor( 0, 0, 0 )
  
      local nextPgBtn = widget.newButton
 {
@@ -92,10 +94,17 @@ end
            
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(nextPgBtn) 
+    sceneGroup:insert(myText)
   
+ local function checkTaps()
+    if numTapped == 10 then
+        composer.showOverlay( "scenes.badgeOverlay", overlayOptions )
+    end
+end
+
 --Function to spawn first ghost
 function spawnGhost1()
-    if movedPage == false then
+    if movedPage == false and numTapped < 10 then
         local sheetInfo = require("Sprites.ghost1Sprite")
         local ghostSheet1 = graphics.newImageSheet( "Sprites/ghost1Sprite.png", sheetInfo:getSheet() )
         local sequenceDataG1 =
@@ -115,7 +124,7 @@ end
     
 --Function to spawn first ghost
 function spawnGhost2()
-    if movedPage == false then
+    if movedPage == false and numTapped < 10 then
         local sheetInfo3 = require("Sprites.smallGhost")
         local smallGhostSheet = graphics.newImageSheet( "Sprites/smallGhost.png", sheetInfo3:getSheet() )
         local sequenceData3 =
@@ -124,7 +133,6 @@ function spawnGhost2()
         smallGhost = display.newSprite(smallGhostSheet, sequenceData3)
         smallGhost.x = -200
         smallGhost.y = Random(100, display.contentHeight)
-  
         smallGhost:play()
         transition.to(smallGhost, {x=display.contentWidth+1000, time=12000})    
         sceneGroup:insert(smallGhost)
@@ -143,10 +151,8 @@ function loadLight()
 				physics.addBody(hang, 'static', {radius = 8})
                                 sceneGroup:insert(hang)
 				
-				shade = display.newImage('Images/shade.png', display.contentWidth/2, 700 + (90)) --i*29.5, j*32 + (90)
+				shade = display.newImage('Images/shade.png', display.contentWidth/2, 700 + (90))
 				physics.addBody(shade, 'dynamic', {shape = {-21.5, -5.5, 18.5, -12.5, 20.5, 2.5, -18.5, 11.5}})
-                                --shade.x = display.contentWidth/2
-                                --shade.y = display.contentHeight/2 - 700
                                 sceneGroup:insert(shade)
                         end
 		end
@@ -181,15 +187,7 @@ function loadLight()
 		end
 	end
 end
-    
---function changeBack()
-  --      flickerTrans = transition.to(hallLight, {alpha = 0, time = 700, onComplete = lightFlicker})
---end
-
---function lightFlicker()
-  --      flickerTrans = transition.to(hallLight, {alpha = 1, time = 700, onComplete = changeBack})
---end
-        
+   
      --remove event listeners - called in scene destroy   
     function removeEventListeners2()
         print("removeEventListeners called scene 2")
@@ -198,6 +196,9 @@ end
     
     function removeGhost(event)
         event.target:removeSelf()
+        numTapped = numTapped + 1
+        myText.text = numTapped
+        checkTaps()
     end
     
    loadLight() 
@@ -212,14 +213,11 @@ function scene:show( event )
     local phase = event.phase
 
     if phase == "will" then
-        -- Called when the scene is off screen and is about to move on screen
+        
     elseif phase == "did" then
-        timer.performWithDelay(4000, spawnGhost1, 5)
-        timer.performWithDelay(3000, spawnGhost2, 5)
-       -- ghostSprite2:play()
-      --  timer.performWithDelay(4500, startScale)
-        --lightFlicker()
-        -- Called when the scene is now on screen
+        physics.start()
+        timer.performWithDelay(4000, spawnGhost1, 10)
+        timer.performWithDelay(3000, spawnGhost2, 10)
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -235,6 +233,7 @@ function scene:hide( event )
     local phase = event.phase
 
     if event.phase == "will" then
+        physics.pause()
         -- Called when the scene is on screen and is about to move off screen
         --
         -- INSERT code here to pause the scene

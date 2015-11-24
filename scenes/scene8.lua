@@ -45,10 +45,6 @@ function changePage( )
     return true
 end
 
-local text = display.newImage("Images/pg7text.png")
-text.x = display.contentWidth - 1020
-text.y = display.contentHeight - 120
-
 local maskGroup = display.newGroup()
 --maskGroup:translate( centerX, centerY )
 -- Image to be masked
@@ -84,7 +80,6 @@ local mask = graphics.newMask( "Images/circlemask3.png" )
 --image:setMask( mask )
 maskGroup:setMask( mask )
 
-sceneGroup:insert(text)
 --sceneGroup:insert(mouseSprite)
 --sceneGroup:insert(image)
 sceneGroup:insert(maskGroup)

@@ -104,11 +104,6 @@ end
     screwdriver2.x = display.contentWidth/3
     screwdriver2.y = display.contentHeight/3
     
-    
-    local text = display.newImage("Images/text3.png")
-    text.x = display.contentWidth/2
-    text.y = display.contentHeight/2 + 650
-    
     local leftWall = display.newRect( 0, display.contentHeight/2, 5, display.contentHeight )
     physics.addBody(leftWall, "static", {friction=0, bounce=0.9 })
     local rightWall = display.newRect( display.contentWidth, display.contentHeight/2, 5, display.contentHeight )
@@ -168,7 +163,6 @@ end
         sceneGroup:insert(gloves)
         sceneGroup:insert(hardhat)
         sceneGroup:insert(screwdriver2)
-        sceneGroup:insert(text)
         sceneGroup:insert(instructionText)
         sceneGroup:insert(floor)
         sceneGroup:insert(ceiling)

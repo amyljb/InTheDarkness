@@ -38,9 +38,17 @@ end
 -- "scene:create()"
 function scene:create( event )
    local sceneGroup = self.view
-   local menuBackground = display.newImage("Images/menuBkg.png", true)
-   menuBackground.x = display.contentWidth/2
-    menuBackground.y = display.contentHeight/2
+   
+   local function loadOverlay()
+       composer.gotoScene("scenes.scene10", pageChangeOptions)
+        --composer.showOverlay( "scenes.menuOverlay", overlayOptions )
+    end
+
+local menuBackground = display.newImage("Images/menuBkg.png", true)
+menuBackground.x = display.contentWidth/2
+menuBackground.y = display.contentHeight/2
+    
+    
 
    local playFullBtn = widget.newButton
 {
@@ -51,6 +59,17 @@ function scene:create( event )
     x = display.contentWidth/2,
     y = display.contentHeight/6,
     onRelease = changePage
+}
+
+   local helpBtn = widget.newButton
+{
+    width = 190,
+    height = 190,
+    id ="playHelp",
+    defaultFile = "Images/menuHelp.png",
+    x = display.contentWidth*0.94,
+    y = display.contentHeight/9,
+    onRelease = loadOverlay
 }
 
    local soundStory = widget.newButton
@@ -65,28 +84,24 @@ function scene:create( event )
 }
    local monstersStory = widget.newButton
 {
-    width = 580,
-    height = 580,
+    width = 600,
+    height = 850,
     id ="monstersStory",
-    defaultFile = "Images/storyButton.png",
+    defaultFile = "Images/monstersBtn.png",
     x = display.contentWidth/2,
-    y = display.contentHeight*0.6,
+    y = display.contentHeight*0.7,
     onRelease = changePage
 }
    local underbedStory = widget.newButton
 {
-    width = 580,
-    height = 580,
+    width = 600,
+    height = 850,
     id ="underbedStory",
-    defaultFile = "Images/storyButton.png",
+    defaultFile = "Images/bedStory.png",
     x = display.contentWidth/2+ 650,
-    y = display.contentHeight*0.6,
+    y = display.contentHeight*0.7,
     onRelease = changePage
 }
-
-function loadOverlay()
-composer.showOverlay( "scenes.menuOverlay", overlayOptions )
-end
 
 --timer.performWithDelay(1500, loadOverlay)
 
@@ -97,6 +112,7 @@ end
    sceneGroup:insert(soundStory)
    sceneGroup:insert(monstersStory)
    sceneGroup:insert(underbedStory)
+    sceneGroup:insert(helpBtn)
 end
 
 -- "scene:show()"

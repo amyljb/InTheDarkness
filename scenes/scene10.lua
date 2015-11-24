@@ -64,7 +64,7 @@ heartbeatSprite.x = display.contentWidth/2 + 750
 heartbeatSprite.y = display.contentHeight/2 - 400
         
 function loadOverlay()
-composer.showOverlay( "scenes.overlay", overlayOptions1 )
+composer.showOverlay( "scenes.brainOverlay", overlayOptions1 )
 end
 
 -- swipe handler function 
