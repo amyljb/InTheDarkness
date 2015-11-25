@@ -74,35 +74,63 @@ end
     flashlight.x = Random(50, display.contentWidth-100)
     flashlight.y = Random(50, display.contentHeight-100)
     local drill = display.newImage("Images/Tools/drill.png")
-    drill.x = display.contentWidth/2 - 200
-    drill.y = display.contentHeight/2 - 400
+    drill.x = Random(50, display.contentWidth-100)
+    drill.y = Random(50, display.contentHeight-100)
     local pliers = display.newImage("Images/Tools/pliers.jpg")
-    pliers.x = display.contentWidth/2 + 300
-    pliers.y = display.contentHeight/2 +200
+    pliers.x = Random(50, display.contentWidth-100)
+    pliers.y = Random(50, display.contentHeight-100)
     local screws = display.newImage("Images/Tools/screws.png")
-    screws.x = display.contentWidth/2 +100
-    screws.y = display.contentHeight/2 +100
+    screws.x = Random(50, display.contentWidth-100)
+    screws.y = Random(50, display.contentHeight-100)
     local staplegun = display.newImage("Images/Tools/staplegun.png")
-    staplegun.x = display.contentWidth/2
-    staplegun.y = display.contentHeight/2 
+    staplegun.x = Random(50, display.contentWidth-100)
+    staplegun.y = Random(50, display.contentHeight-100)
     local screwdriver = display.newImage("Images/Tools/screwdriver.png")
-    screwdriver.x = display.contentWidth/2
-    screwdriver.y = display.contentHeight/2
+    screwdriver.x = Random(50, display.contentWidth-100)
+    screwdriver.y = Random(50, display.contentHeight-100)
     local saw = display.newImage("Images/Tools/saw.jpg")
-    saw.x = display.contentWidth/4
-    saw.y = display.contentHeight/4
+    saw.x = Random(50, display.contentWidth-100)
+    saw.y = Random(50, display.contentHeight-100)
     local spanner = display.newImage("Images/Tools/spanner.png")
-    spanner.x = display.contentWidth/2
-    spanner.y = display.contentHeight/2
+    spanner.x = Random(50, display.contentWidth-100)
+    spanner.y = Random(50, display.contentHeight-100)
     local gloves = display.newImage("Images/Tools/gloves.png")
-    gloves.x = display.contentWidth/3
-    gloves.y = display.contentHeight/3
+    gloves.x = Random(50, display.contentWidth-100)
+    gloves.y = Random(50, display.contentHeight-100)
     local hardhat = display.newImage("Images/Tools/hardhat.png")
-    hardhat.x = display.contentWidth/5
-    hardhat.y = display.contentHeight/5
+    hardhat.x = Random(50, display.contentWidth-100)
+    hardhat.y = Random(50, display.contentHeight-100)
     local screwdriver2 = display.newImage("Images/Tools/screwdriver2.png")
-    screwdriver2.x = display.contentWidth/3
-    screwdriver2.y = display.contentHeight/3
+    screwdriver2.x = Random(50, display.contentWidth-100)
+    screwdriver2.y = Random(50, display.contentHeight-100)
+    
+    local drill2 = display.newImage("Images/Tools/drill.png")
+    drill2.x = Random(50, display.contentWidth-100)
+    drill2.y = Random(50, display.contentHeight-100)
+    local pliers2 = display.newImage("Images/Tools/pliers.jpg")
+    pliers2.x = Random(50, display.contentWidth-100)
+    pliers2.y = display.contentHeight/2 +200
+    local screws2 = display.newImage("Images/Tools/screws.png")
+    screws2.x = Random(50, display.contentWidth-100)
+    screws2.y = display.contentHeight/2 +100
+    local staplegun2 = display.newImage("Images/Tools/staplegun.png")
+    staplegun2.x = Random(50, display.contentWidth-100)
+    staplegun2.y = display.contentHeight/2 
+    local saw2 = display.newImage("Images/Tools/saw.jpg")
+    saw2.x = Random(50, display.contentWidth-100)
+    saw2.y = display.contentHeight/4
+    local spanner2 = display.newImage("Images/Tools/spanner.png")
+    spanner2.x = Random(50, display.contentWidth-100)
+    spanner2.y = display.contentHeight/2
+    local gloves2 = display.newImage("Images/Tools/gloves.png")
+    gloves2.x = Random(50, display.contentWidth-100)
+    gloves2.y = display.contentHeight/3
+    local hardhat2 = display.newImage("Images/Tools/hardhat.png")
+    hardhat2.x = Random(50, display.contentWidth-100)
+    hardhat2.y = display.contentHeight/5
+    local screwdriver3 = display.newImage("Images/Tools/screwdriver2.png")
+    screwdriver3.x = Random(50, display.contentWidth-100)
+    screwdriver3.y = display.contentHeight/3
     
     local leftWall = display.newRect( 0, display.contentHeight/2, 5, display.contentHeight )
     physics.addBody(leftWall, "static", {friction=0, bounce=0.9 })
@@ -123,8 +151,17 @@ end
     physics.addBody (saw, "dynamic", toolMaterial )
     physics.addBody (spanner, "dynamic", toolMaterial )
     physics.addBody (gloves, "dynamic", toolMaterial )
-    physics.addBody (screwdriver2, "dynamic", toolMaterial )
     physics.addBody (hardhat, "dynamic", toolMaterial )
+    physics.addBody (drill2, "dynamic", toolMaterial )
+    physics.addBody (pliers2, "dynamic", toolMaterial )
+    physics.addBody (screws2, "dynamic", toolMaterial )
+    physics.addBody (staplegun2, "dynamic", toolMaterial )
+    physics.addBody (screwdriver2, "dynamic", toolMaterial )
+    physics.addBody (saw2, "dynamic", toolMaterial )
+    physics.addBody (spanner2, "dynamic", toolMaterial )
+    physics.addBody (gloves2, "dynamic", toolMaterial )
+    physics.addBody (screwdriver3, "dynamic", toolMaterial )
+    physics.addBody (hardhat2, "dynamic", toolMaterial )
     drill.linearDamping = 0.8
     drill.angularDamping = 1
     pliers.linearDamping = 0.8
@@ -145,6 +182,26 @@ end
     screwdriver2.angularDamping = 1
     hardhat.linearDamping = 0.8
     hardhat.angularDamping = 1
+    drill2.linearDamping = 0.8
+    drill2.angularDamping = 1
+    pliers2.linearDamping = 0.8
+    pliers2.angularDamping = 1
+    screws2.linearDamping = 0.8
+    screws2.angularDamping = 1
+    staplegun2.linearDamping = 0.8
+    staplegun2.angularDamping = 1
+    screwdriver2.linearDamping = 0.8
+    screwdriver2.angularDamping = 1
+    saw2.linearDamping = 0.8
+    saw2.angularDamping = 1
+    spanner2.linearDamping = 0.8
+    spanner2.angularDamping = 1
+    gloves2.linearDamping = 0.8
+    gloves2.angularDamping = 1
+    screwdriver3.linearDamping = 0.8
+    screwdriver3.angularDamping = 1
+    hardhat2.linearDamping = 0.8
+    hardhat2.angularDamping = 1
     
     local instructionText = display.newImage("Images/findTorchText.png")
     instructionText.x = display.contentWidth/2
@@ -163,6 +220,15 @@ end
         sceneGroup:insert(gloves)
         sceneGroup:insert(hardhat)
         sceneGroup:insert(screwdriver2)
+        sceneGroup:insert(drill2)
+        sceneGroup:insert(pliers2)
+        sceneGroup:insert(screws2)
+        sceneGroup:insert(staplegun2)
+        sceneGroup:insert(saw2)
+        sceneGroup:insert(spanner2)
+        sceneGroup:insert(gloves2)
+        sceneGroup:insert(hardhat2)
+        sceneGroup:insert(screwdriver3)      
         sceneGroup:insert(instructionText)
         sceneGroup:insert(floor)
         sceneGroup:insert(ceiling)
@@ -206,6 +272,16 @@ end
     gloves:addEventListener("touch", dragBody)
     screwdriver2:addEventListener("touch", dragBody)
     hardhat:addEventListener("touch", dragBody)
+    drill2:addEventListener("touch", dragBody)
+    pliers2:addEventListener("touch", dragBody)
+    screws2:addEventListener("touch", dragBody)
+    staplegun2:addEventListener("touch", dragBody)
+    saw2:addEventListener("touch", dragBody)
+    spanner2:addEventListener("touch", dragBody)
+    gloves2:addEventListener("touch", dragBody)
+    screwdriver3:addEventListener("touch", dragBody)
+    hardhat2:addEventListener("touch", dragBody)
+    
     flashlight:addEventListener("tap", foundTorch)
     flashlight:addEventListener("touch", foundTorch)
     

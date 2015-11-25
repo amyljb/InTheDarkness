@@ -32,7 +32,6 @@ local function changePage( event )
 return true
 end
 ---------------------------------------------------------------------------------
-
 ---------------------------------------------------------------------------------
 
 -- "scene:create()"
@@ -40,14 +39,13 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-       composer.gotoScene("scenes.scene10", pageChangeOptions)
+       composer.gotoScene("scenes.scene24", pageChangeOptions)
         --composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
 local menuBackground = display.newImage("Images/menuBkg.png", true)
 menuBackground.x = display.contentWidth/2
 menuBackground.y = display.contentHeight/2
-    
     
 
    local playFullBtn = widget.newButton

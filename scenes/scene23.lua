@@ -54,7 +54,8 @@ local overlayOptions2 =
 }
 
 local function changePage()
-        composer.gotoScene( "scenes.textPage", overlayOptions2 )
+    movedPage = true
+    composer.gotoScene( "scenes.textPage", overlayOptions2 )
     return true
 end
 

@@ -47,7 +47,7 @@ local function changePage( event )
     return true
 end
 
-local caveBkg = display.newImage( "Images/caveImage.png", true )
+local caveBkg = display.newImage( "Images/cave.png", true )
 caveBkg.x=display.contentWidth/2
 caveBkg.y=display.contentHeight/2
 --
