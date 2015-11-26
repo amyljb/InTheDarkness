@@ -91,11 +91,6 @@ local overlayOptions =
     tapIndicator.y= display.contentHeight/2 + 125
     tapIndicator.alpha = 0
     
-    local myText = display.newImage("Images/textBk2.png", true)
-    myText.x= display.contentWidth/2 
-    myText.y= display.contentHeight-125
-    myText.alpha = 0
-    
   local sheetInfo = require("Sprites.lightning1")
    local lightningSheet = graphics.newImageSheet( "Sprites/lightning1.png", sheetInfo:getSheet() )
    local sequenceData =
@@ -148,7 +143,6 @@ local overlayOptions =
         transition.to(clouds, { time=40000, x=-3000 } )
         transition.to(forestR, { time=5000, x=display.contentWidth+150 } )
         transition.to(forestL, { time=5000, x=-230 } )
-        transition.to(myText, { alpha=1, time = 15000 } )
         lightningSprite:play()
         return true
    end
@@ -169,7 +163,6 @@ local overlayOptions =
     sceneGroup:insert(forestL)
     sceneGroup:insert(forestR)
     sceneGroup:insert(tapIndicator)
-    sceneGroup:insert(myText)
    
     
          

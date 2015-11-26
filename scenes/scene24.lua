@@ -1,4 +1,4 @@
---OUT OF STOMACH - WRAPPED IN BLANKET
+--underbed monster revealed
 local composer = require( "composer" )
 local scene = composer.newScene("scene24")
 local sceneName = "scene24"
@@ -58,6 +58,16 @@ local pile = display.newImage("Images/pileClothes.png", true)
 pile.x = display.contentWidth/2
 pile.y = display.contentHeight/2
 pile.alpha = 0
+
+local sheetInfo = require("Sprites.dizzy")
+local dizzySheet = graphics.newImageSheet( "Sprites/dizzy.png", sheetInfo:getSheet() )
+
+local sequenceData =
+    {name="spinning", start = 1, time = 500, loopCount = 0, count=6}  
+        dizzySprite = display.newSprite(dizzySheet, sequenceData)
+    
+        dizzySprite.x = display.contentWidth/2
+        dizzySprite.y = display.contentHeight/8
 
 local hotspot = display.newCircle( display.contentWidth/2, display.contentHeight/2, 350 )
 hotspot:setFillColor( 0.5 )
@@ -273,6 +283,7 @@ sceneGroup:insert(explosionAnim)
 sceneGroup:insert(torchLight)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(torchBtn)
+sceneGroup:insert(dizzySprite)
 
 torchLight:addEventListener( "touch", torchLight )
 end
@@ -286,6 +297,7 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
+       dizzySprite:play()
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

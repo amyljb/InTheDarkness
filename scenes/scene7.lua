@@ -1,5 +1,4 @@
 --FEAR APPEARS
---REMOVE FEAR
 local composer = require( "composer" )
 local widget = require( "widget" )
 local sceneName = "scene7"

@@ -50,9 +50,6 @@ local breath = display.newImage( "Images/breath.png" )
 breath.x=display.contentWidth/2
 breath.y=display.contentHeight/2
 breath.alpha = 0
-local pageText = display.newImage( "Images/coldText.png" )
-pageText.x=display.contentWidth/2
-pageText.y=display.contentHeight - 125
     
     local nextPgBtn = widget.newButton
 {
@@ -68,7 +65,6 @@ nextPgBtn.y = display.contentHeight/2
 
 sceneGroup:insert(freddieCold)
 sceneGroup:insert(breath)
-sceneGroup:insert(pageText)
 sceneGroup:insert(nextPgBtn)
 
 function changeAlpha()

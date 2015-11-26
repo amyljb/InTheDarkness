@@ -29,6 +29,14 @@ local options = {
    height = 0,
    align = "center"
 }
+
+
+-- Options table for the overlay scene "badgeOverlay.lua"
+local overlayOptions2 = {
+   isModal = true,
+   effect = "crossFade",
+   time = 400
+}
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 
@@ -57,27 +65,32 @@ local function changePage()
     return true
 end
 
-    local bkg = display.newImage("Images/breathingBkg.png", true)
+    local bkg = display.newImage("Images/heartBkg.png", true)
     bkg.x = display.contentWidth/2
     bkg.y = display.contentHeight/2
     
+    local redBkg = display.newImage("Images/redBkg.png", true)
+    redBkg.x = display.contentWidth/2
+    redBkg.y = display.contentHeight/2
+    redBkg.alpha = 0
+    
     local freddie = display.newImage("Images/freddieHalf.png", true)
-    freddie.x = display.contentWidth/2.5
+    freddie.x = display.contentWidth*0.65
     freddie.y = display.contentHeight/2
     
-    local myText = display.newText( "0!", 1900, 200, native.systemFont, 82 )
-    myText:setFillColor( 1, 0, 0 )
-    local instructionText = display.newText(options)
-    instructionText:setFillColor( 1, 0, 0 )
+    local myText = display.newText( "0", 1890, 150, native.systemFont, 150 )
+    myText:setFillColor( 0, 0, 0 )
     
-        local nextPgBtn = widget.newButton
+
+    local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1900,
-    y = display.contentHeight/2,
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
     
@@ -90,47 +103,25 @@ local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInf
     {name="beatingSlow", start = 1, time = 800, loopCount = 0, count=3}
     }
         beatSprite = display.newSprite(heartbeatSheet, sequenceData)
-        beatSprite.x = display.contentWidth/4
+        beatSprite.x = display.contentWidth/2
         beatSprite.y = display.contentHeight*0.8 
-        
-local sheetInfo2 = require("Sprites.circleTimer")
-local timerSheet1 = graphics.newImageSheet( "Sprites/circleTimer.png", sheetInfo2:getSheet() )
-
-local sheetInfo3 = require("Sprites.circleTimer2")
-local timerSheet2 = graphics.newImageSheet( "Sprites/circleTimer2.png", sheetInfo3:getSheet() )
- 
- local sequenceData2 = {
-    {name="seq1", sheet = timerSheet1, start = 1, time = 1000, loopCount = 1, count=14},
-    {name="seq2", sheet = timerSheet2, start = 1, time = 700, loopCount = 1, count=6}
-    }
-        timerSprite = display.newSprite(timerSheet1, sequenceData2)
-        timerSprite.x = display.contentWidth*0.7
-        timerSprite.y = display.contentHeight/2  
-        
-local function swapSheet()
-    print("swapped sheet")
-    timerSprite:setSequence("seq2")
-    timerSprite:play()
-end
-
-function playTimer()
-    timerSprite:setSequence("seq1")
-    timerSprite:play()
-    timer.performWithDelay(700, swapSheet)
-end
+         
 
 function removeButton(button)
     button:removeSelf()
+    transition.to(bkg, {time = 500, alpha = 1})
+    transition.to(redBkg, {time = 500, alpha = 0})
 end
 
 function generateButton()
     if numTapped < 4 then
-        playTimer()
        local button = display.newImage("Images/heartBtn.png", true)
-        button.x=display.contentWidth*0.7
-        button.y=display.contentHeight/2
-        button.id = "green"
+        button.x=display.contentWidth/2
+        button.y=display.contentHeight*0.8
         button:addEventListener("tap", slowBeat)
+        button.alpha = 0.1
+        transition.to(bkg, {time = 500, alpha = 0})
+        transition.to(redBkg, {time = 500, alpha = 1})
         sceneGroup:insert(button)
         local myClosure = function() return removeButton( button ) end
         timer.performWithDelay( 1000, myClosure, 1 )
@@ -150,17 +141,16 @@ function slowBeat()
         beatSprite:play()
     end
     if numTapped == 4 then
-        myText.text = "Great job! Freddie is feeling better!"
+        composer.showOverlay( "scenes.badgeOverlay", overlayOptions2 )
     end
 end
 
+sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
-sceneGroup:insert(instructionText)
 sceneGroup:insert(freddie)
 sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
-sceneGroup:insert(timerSprite)
 end
 
 -- "scene:show()"
@@ -174,7 +164,6 @@ function scene:show( event )
    elseif ( phase == "did" ) then
       beatSprite:play()
       audio.play(heartSound)
-      playTimer()
      timer.performWithDelay(2000, generateButton, 20)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
@@ -190,7 +179,6 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-   transition.cancel(scaleBreath)
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -200,7 +188,6 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-   transition.cancel(scaleBreath)
 end
 
 ---------------------------------------------------------------------------------

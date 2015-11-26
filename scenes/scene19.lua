@@ -43,7 +43,7 @@ local function changePage()
     return true
 end
 
-local scene21bkg = display.newImage("Images/bedroomScene1.png", true)
+local scene21bkg = display.newImage("Images/scaryRoom.png", true)
 scene21bkg.x = display.contentWidth/2
 scene21bkg.y = display.contentHeight/2
 scene21bkg.alpha = 0

@@ -2,6 +2,7 @@
 local composer = require( "composer" )
 local widget = require("widget")
 local scene = composer.newScene("scene22")
+local tapIndicatorFunc = require("tapIndicatorFunc")
 local sceneName = "scene22"
 local sceneNumber = 22
 local sceneData = require("loadData")
@@ -11,7 +12,7 @@ local physics = require("physics")
 local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
 local dustSprite
 local movedPage = false
-physics.start()
+
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -55,9 +56,6 @@ caveBkg.y=display.contentHeight/2
 --freddie.x = display.contentWidth*0.75
 --freddie.y = display.contentHeight - display.contentHeight/3
         
-local text = display.newImage("Images/caveText.png", true)
-text.x = display.contentWidth/2
-text.y = display.contentHeight*0.9 
 
 local cloud1 = display.newImage( "Images/cloud1.png", true )
 cloud1.x=display.contentWidth/3
@@ -81,6 +79,11 @@ cloud5.y=display.contentHeight/4
 
 local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
 cloudHotspot.alpha = 0.1
+
+local tapIndicator = display.newImage("Images/tapButton.png", true)
+tapIndicator.x= display.contentWidth/4
+tapIndicator.y= display.contentHeight/2
+tapIndicator.alpha = 0
 
     local nextPgBtn = widget.newButton
 {
@@ -199,8 +202,8 @@ sceneGroup:insert(cloud5)
 sceneGroup:insert(crouchSprite)
 sceneGroup:insert(dustSprite) 
 sceneGroup:insert(cloudHotspot) 
-sceneGroup:insert(text)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(tapIndicator)
 
 dustSprite:addEventListener("sprite", spriteListener)
 --freddie:addEventListener("touch", touchFreddie)
@@ -222,6 +225,9 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
       -- timer.performWithDelay(2000, loadDustballs, 10)
+      physics.start()
+      local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
+        timer.performWithDelay(15000, myClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

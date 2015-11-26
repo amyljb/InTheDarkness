@@ -249,7 +249,7 @@ end
     
     local function dragBody( event )
 	return gameUI.dragBody( event )
-    end
+    end    
     
     function foundTorch()
         transition.scaleTo( flashlight, { xScale=2, yScale=2, rotation =720, time=700}) 

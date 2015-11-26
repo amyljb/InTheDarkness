@@ -40,7 +40,7 @@ local function changePage()
     return true
 end
 
-local bkg = display.newImage("Images/kitchen2.png", true)
+local bkg = display.newImage("Images/kitchen.png", true)
 bkg.x= display.contentWidth/2
 bkg.y= display.contentHeight/2
 

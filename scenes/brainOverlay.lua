@@ -13,10 +13,6 @@ local score = 0
 _H = display.contentHeight
 _W = display.contentWidth
 Random = math.random
---Number of Zs variable
-numThoughts = 0
--- How many Zs do we start with?
-totalThoughts = 20
 
 --options table for next page transitions
 local pageChangeOptions = {
@@ -27,9 +23,11 @@ local pageChangeOptions = {
 function exitOverlay()
     -- By some method (a "resume" button, for example), hide the overlay
     exitPressed = true
+    timer.cancel(moveTimer)
         composer.hideOverlay( "fade", 200 )
-        composer.removeScene("brainOverlay")
+        --composer.removeScene("brainOverlay")
         composer.gotoScene( "scenes.scene10")
+        
 end
 
 
@@ -40,23 +38,29 @@ function scene:create( event )
 
 -- 1. Start the physics engine
 physics.start()
--- 2. Set gravity to be inverted
+--  Set gravity 
 physics.setGravity(0, 4)
 
    local background = display.newImage("Images/brainBkg.png", true)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
     
+    local instructions = display.newImage("Images/puckInstructions.png", true)
+    instructions.x = display.contentWidth/2
+    instructions.y = display.contentHeight/2
+    instructions.alpha=0
+    
     local puck = display.newImage("Images/puck_green.png", true)
-    puck.x = display.contentWidth/2
+    puck.x = display.contentWidth/4
     puck.y = display.contentHeight*0.7
     
-    local enemy = display.newCircle( 100, 100, 100 )
-    enemy:setFillColor( 0.5 )
+    local enemy = display.newImage("Images/enemy.png", true)
+    enemy.x = display.contentWidth/7
+    enemy.y = display.contentHeight/9
     physics.addBody(enemy, 'static', {radius = 25})
     
-    local score = display.newText(score, 289, 206, 'Courier-Bold', 100)
-    score:setTextColor(227, 2, 2)
+    local score = display.newText(score, 1875, 150, 'Courier-Bold', 150)
+    score:setTextColor(0, 0, 0)
     
     local topWall1 = display.newRect( 300, 10, 600, 10)
     physics.addBody(topWall1, "static", {friction=0, bounce=0.9 })
@@ -75,9 +79,9 @@ physics.setGravity(0, 4)
    -- puck.linearDamping = 0.4
    -- puck.angularDamping = 0.6
     
-    toolMaterial = { density=0.3, friction=0.6, radius=66.0 }
+   -- toolMaterial = { density=0.3, friction=0.6, radius=66.0 }
     
-    physics.addBody (puck, "dynamic", toolMaterial )
+    physics.addBody (puck, "dynamic", { friction=0.6, bounce = 0.4} )
     puck.isFixedRotation = true
     puck.linearDamping = 0.8
     puck.angularDamping = 1
@@ -86,88 +90,73 @@ physics.setGravity(0, 4)
     
     local exitButton = widget.newButton
 {
-    width = 190,
-    height = 190,
+    width = 150,
+    height = 150,
     id ="exit",
     defaultFile = "Images/exitButton.png",
-    x = 1900,
-    y = 250,
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.9,
     onRelease = exitOverlay
 }
-
---function generateThoughts()
---    if exitPressed == false then
---       -- Create an image, 250 pixels by 250 pixels
---        local thought = display.newImage("Images/badThought.png", true)
---	-- Set the reference point to the center of the image
---        thought.anchorX = _W/2
---	
---	-- Generate Zs randomly on the X-coordinate
---	thought.x = Random(50, _W-50)
---	
---	-- Generate Zs 10 pixels off screen on the Y-Coordinate
---	thought.y = Random(-500, _H)
---        
---        thought.name = "thought"
---	
---	-- Apply physics engine to the Zs, set density, friction, bounce and radius
---	physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1, radius=125})
---
---	-- Increment the Zs variable by 1 for each balloon created
---	numThoughts = numThoughts + 1
---        sceneGroup:insert(thought)
---        thought.collision = onCollision
---        thought:addEventListener( "collision", thought )
---        return thought 
---    end
---end
-
 
 --       -- Create an image, 250 pixels by 250 pixels
        local thought = display.newImage("Images/badThought.png", true)
 
---	
 --	-- Generate Zs randomly on the X-coordinate
 	thought.x = display.contentWidth/2
 
 	thought.y = display.contentHeight/2
-        physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1, radius=125})
---        sceneGroup:insert(thought)
-
+        physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1.5, radius=125})
 
 local function dragBody( event )
-	--gameUI.dragBody( event, { maxForce=10000, frequency=10, dampingRatio=0.2, center=true } )
-        return gameUI.dragBody( event )
+	gameUI.dragBody( event, { maxForce=10000, frequency=10, dampingRatio=0.2, center=true } )
+       -- return gameUI.dragBody( event )
 end
 
 
 function moveEnemy(e)
 	-- Move Enemy
-	if(thought.y < display.contentHeight * 0.5) then
-		transition.to(enemy, {time = 300, x = thought.x})
+	if(thought.y < display.contentHeight * 0.5) and exitPressed == false then
+		transition.to(enemy, {time = 700, x = thought.x})
 	end
 end
 
 function update()
 	-- Score
-	if(thought.y < -100) then
+	if(thought.y < -100) and exitPressed == false then
 		score.text = tostring(tonumber(score.text) + 1)
                 end
 	
 	-- Reset Puck position
 	
-	if(thought.y < -100) then
+	if(thought.y < -100) and exitPressed == false then
 		thought.x = display.contentCenterX
 		thought.y = display.contentCenterY
 		thought.isAwake = false
 	end
 	
-	-- Keep paddle on player side
+	-- Keep puck inside play area
 	
-	--if(puck.y < display.contentWidth - 60) then
-	--	puck.y = display.contentWidth - 60
-	--end
+	if(puck.y < -100) and exitPressed == false then
+            puck.x = display.contentWidth/2
+            puck.y = display.contentHeight*0.7
+        end
 end
+
+function textDelete()
+   instructions.alpha = 0
+   --instructions:removeSelf()
+    moveTimer = timer.performWithDelay(100, moveEnemy, 0)
+end   
+
+function scaleDown()
+    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2000, onComplete=textDelete } )    
+end    
+
+function playInstructions()
+    instructions.alpha = 1
+    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
+end 
 
 sceneGroup:insert(background)
 sceneGroup:insert(exitButton)
@@ -180,6 +169,7 @@ sceneGroup:insert(floor)
 sceneGroup:insert(enemy)
 sceneGroup:insert(thought)
 sceneGroup:insert(score)
+sceneGroup:insert(instructions)
  
 puck:addEventListener("touch", dragBody)
 Runtime:addEventListener('enterFrame', update)
@@ -196,8 +186,9 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
+       timer.performWithDelay(700, playInstructions)
     --timer.performWithDelay(1500, generateThoughts, totalThoughts)
-    timerSrc = timer.performWithDelay(100, moveEnemy, 0)
+   
    end
 end
 
@@ -212,6 +203,7 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
        physics.pause()
+       Runtime:removeEventListener('enterFrame', update)
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end

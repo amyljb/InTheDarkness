@@ -41,9 +41,9 @@ local overlayOptions =
 }
     
 --set up background image    
-    local backgroundFour = display.newImage("Images/page4_butterfly.png", true)
+    local backgroundFour = display.newImage("Images/stomach.png", true)
     backgroundFour.x = display.contentWidth/2
-    backgroundFour.y = display.contentHeight/2 + 750
+    backgroundFour.y = display.contentHeight/2
         
 --setup image sheets for butterflies    
     local sheetInfo = require("Sprites.bf2") 
@@ -66,7 +66,6 @@ local overlayOptions =
     
     local function tapCounter()
     if numTapped == 3 then
-        print("3 tapped")
        composer.gotoScene( "scenes.textPage", overlayOptions )
     end
     return true
@@ -75,21 +74,15 @@ end
    --tap handler to remove butterflies and update numTapped variable
     function butterflyTap(event)
         if not ( event.phase ) then
-        print("butterflyTap initialised")
         event.target:pause()
         event.target:removeSelf()
         event.target= nil
         numTapped = numTapped + 1
-        print(numTapped)
         timer.performWithDelay(500, tapCounter) 
         end
         return true 
         end      
-    
-    --function to create and play butterfly animations
-    local playButterflies = function()
-        --remove event listener from background to prevent repeat creation of butterfly sprites
-        backgroundFour:removeEventListener("touch", swipeHandler)
+
         --setup butterfly sprites
         local myButterflySprite = display.newSprite(myButterflySheet, sequenceData)
         myButterflySprite.x = display.contentWidth/2 + 150
@@ -106,9 +99,13 @@ end
         myButterflySprite3.y = display.contentHeight/2 + 100
         myButterflySprite3:play()
       
-        sceneGroup:insert(myButterflySprite)
-        sceneGroup:insert(myButterflySprite2)
-        sceneGroup:insert(myButterflySprite3)
+               
+   --insert elements into sceneGroup    
+    sceneGroup:insert(backgroundFour)
+    sceneGroup:insert(myButterflySprite)
+    sceneGroup:insert(myButterflySprite2)
+    sceneGroup:insert(myButterflySprite3)
+    
         --two handlers are attached to each butterfly sprite to handler event propagation 
         myButterflySprite:addEventListener("tap", butterflyTap)
         myButterflySprite2:addEventListener("tap", butterflyTap)
@@ -116,33 +113,6 @@ end
         myButterflySprite:addEventListener("touch", butterflyTap)
         myButterflySprite2:addEventListener("touch", butterflyTap)
         myButterflySprite3:addEventListener("touch", butterflyTap)
-            return true
-    end
-
---swipe handler
-    function swipeHandler(event)
-        if event.phase== "began" then
-        startTouchY = event.y  
-    end
-    if event.phase == "ended" and swiping == false  then
-        if event.y <= startTouchY + swipeDistance then
-            swiping = true
-            transition.to( backgroundFour , { time=700, y=(display.contentWidth/2 - 1000), onComplete = playButterflies } )
-            end
-        end
-        return true
-    end
-
-               
-   --insert elements into sceneGroup    
-    sceneGroup:insert(backgroundFour)
-  --  sceneGroup:insert(arrow)
-  --  sceneGroup:insert(handSwipe)
-    
-    --setup of event listeners
-    backgroundFour:addEventListener("touch", swipeHandler)
-
-    
 end --END OF SCENE CREATIONS
   
 --------------------------------------------------------------------------------  
@@ -155,8 +125,6 @@ function scene:show( event )
         -- Called when the scene is off screen and is about to move on screen
     elseif phase == "did" then
         print("scene 4:show did called")
-    local swipeClosure = function() return swipePrompt.swipeIndicator(sceneName, transitioned) end
-     timer.performWithDelay(5000, swipeClosure, 1)
      
         local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then

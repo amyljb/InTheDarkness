@@ -1,5 +1,4 @@
 local composer = require( "composer" )
-local scene = composer.newScene()
 local scene = composer.newScene( "menu" )
 local widget = require("widget")
 
@@ -39,8 +38,8 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-      -- composer.gotoScene("scenes.scene10", pageChangeOptions)
-        composer.showOverlay( "scenes.menuOverlay", overlayOptions )
+       composer.gotoScene("scenes.scene24", pageChangeOptions)
+       -- composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
 local menuBackground = display.newImage("Images/menuBkg.png", true)

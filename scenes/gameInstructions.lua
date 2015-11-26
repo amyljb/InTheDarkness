@@ -1,20 +1,10 @@
---CRAWLING UNDER BED
+--GAME INSTRUCTIONS
 local composer = require( "composer" )
-local scene = composer.newScene("scene20")
-local sceneName = "scene20"
-local sceneNumber = 20
+local widget = require( "widget" )
+local sceneName = "gameInstructions"
+local scene = composer.newScene("gameInstructions")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local nextSceneNumber = "scenes.scene21"
-local widget = require("widget")
-
---Create a scene object based on data read from data.json
-local sceneObject = BaseScene:new({
-    name = sceneName,
-    data = sceneData[sceneNumber],
-    transitions = {},
-    nextScene = nextSceneNumber
-})
 
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
@@ -22,47 +12,21 @@ local sceneObject = BaseScene:new({
 -- "scene:create()"
 function scene:create( event )
 
-local sceneGroup = self.view
-
-            --Initialize the scene
-    local sceneComponents = sceneObject:getText()
+    local sceneGroup = self.view
     
-local overlayOptions =
-{
-    effect = "fade",
-    time = 2000,
-    params =
-    {
-        var1 = sceneComponents,
-        nextScene = nextSceneNumber
-    }
-}
+--local function changePage()
+ --       print("changing pg")
+   --     composer.gotoScene( "scenes.textPage", overlayOptions )
+  --  return true
+--end
 
-local function changePage()
-        composer.gotoScene( "scenes.textPage", overlayOptions )
-    return true
+    local background = display.newImage("Images/puckInstructions.png", true)
+    background.x = display.contentWidth/2
+    background.y = display.contentHeight/2
+    
+    sceneGroup:insert(background)
+    
 end
-
-local bkg = display.newImage("Images/underbed.png", true)
-bkg.x = display.contentWidth/2
-bkg.y = display.contentHeight/2
-
-        local nextPgBtn = widget.newButton
-{
-    width = 120,
-    height = 250,
-    id ="nextPage",
-    defaultFile = "Images/nextBtn.png",
-    x = display.contentWidth*0.95,
-    y = display.contentHeight*0.85,
-    onRelease = changePage
-}
-
-sceneGroup:insert(bkg)
-sceneGroup:insert(nextPgBtn)
-
-end
-
 -- "scene:show()"
 function scene:show( event )
 
@@ -86,7 +50,6 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-       
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -96,7 +59,6 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-
 end
 
 ---------------------------------------------------------------------------------
@@ -110,8 +72,5 @@ scene:addEventListener( "destroy", scene )
 ---------------------------------------------------------------------------------
 
 return scene
-
-
-
 
 

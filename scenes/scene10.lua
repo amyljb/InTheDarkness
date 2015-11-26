@@ -1,4 +1,4 @@
---SYMPTOMS?
+--BRAIN
 local composer = require( "composer" )
 local widget = require("widget")
 local scene = composer.newScene("scene10")
@@ -7,6 +7,7 @@ local sceneNumber = 10
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene11"
+local tapIndicatorFunc = require("tapIndicatorFunc")
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -56,6 +57,11 @@ background.y = display.contentHeight/2
 local brain = display.newImage("Images/brain.png", true)
 brain.x = display.contentWidth/4
 brain.y = display.contentHeight/3.6
+
+tapIndicator = display.newImage("Images/tapButton.png", true)
+tapIndicator.x= display.contentWidth/4
+tapIndicator.y= display.contentHeight/3.6
+tapIndicator.alpha = 0
         
 function loadOverlay()
 composer.showOverlay( "scenes.brainOverlay", overlayOptions1 )
@@ -81,6 +87,8 @@ end
 sceneGroup:insert(background)   
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(brain)
+sceneGroup:insert(tapIndicator)
+
 brain:addEventListener("tap", loadOverlay)
 --event listeners
 
@@ -98,6 +106,8 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
+       local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
+        timer.performWithDelay(15000, myClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

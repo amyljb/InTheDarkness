@@ -4,6 +4,7 @@ local composer = require( "composer" )
 local scene = composer.newScene("scene6")
 local widget = require ("widget")
 local swipePrompt = require("swipePrompt")
+local tapIndicatorFunc = require("tapIndicatorFunc")
 local swipeDistance = 40
 local startTouchY = 0
 local swiping = false
@@ -38,11 +39,6 @@ local sceneObject = BaseScene:new({
     nextScene = nextSceneNumber
 })
 
---options table for next page transitions
-local pageChangeOptions = {
-    effect = "fade",
-    time = 100
-}
 
 --------------------------------------------------------------------------------
 -- "scene:create()"
@@ -56,7 +52,7 @@ local sceneGroup = self.view
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 600,
     params =
     {
         var1 = sceneComponents,
@@ -93,10 +89,15 @@ local tv = display.newImage("Images/tv.png", true)
 tv.x = display.contentWidth*0.9
 tv.y = display.contentHeight*2
 
- local instructions = display.newImage("Images/soundInstruction.png", true)
-    instructions.x = display.contentWidth/2
-    instructions.y = display.contentHeight/2
-    instructions.alpha=0
+local instructions = display.newImage("Images/soundInstruction.png", true)
+instructions.x = display.contentWidth/2
+instructions.y = display.contentHeight/2
+instructions.alpha=0
+    
+local tapIndicator = display.newImage("Images/tapButton.png", true)
+tapIndicator.x= display.contentWidth/2 
+tapIndicator.y= display.contentHeight/8
+tapIndicator.alpha = 0    
 
 local sheetInfo = require("Sprites.curtains")
 local curtainsSheet = graphics.newImageSheet( "Sprites/curtains.png", sheetInfo:getSheet() )
@@ -247,6 +248,8 @@ function swipeHandler(event)
             transition.to( tv , { time=700, y=display.contentHeight*2} )
             transition.to( toyBox , { time=1000, y=display.contentHeight*0.6} )
             transition.to( radio , { time=1000, y=display.contentHeight*2} )
+            local myTapClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
+            timer.performWithDelay(500, myTapClosure, 1)
             end
             end
         end
@@ -293,6 +296,8 @@ local function snoringSounds()
     audio.play(snoreSound, {duration=2000})
     grrSprite.y = display.contentHeight/6
     grrSprite.x = display.contentWidth/2
+    --grrSprite:setSequence( "seqOne" )
+    grrSprite.alpha = 1
     playGrr()
     --snoringSprite.alpha = 1
     --snoringSprite:play()
@@ -372,6 +377,7 @@ sceneGroup:insert(radio)
 sceneGroup:insert(snoringSprite)
 sceneGroup:insert(shhSprite)
 sceneGroup:insert(suddenlySprite)
+sceneGroup:insert(tapIndicator)
 
 --Add event listeners
 tv:addEventListener("tap", playTv)

@@ -6,6 +6,7 @@ local sceneNumber = 25
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene26"
+local widget = require("widget")
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -37,7 +38,6 @@ local overlayOptions =
     }
 }
 
-
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -47,8 +47,19 @@ local momBkg = display.newImage( "Images/momPage.png", true )
 momBkg.x=display.contentWidth/2
 momBkg.y=display.contentHeight/2
 
+    local nextPgBtn = widget.newButton
+{
+    width = 150,
+    height = 150,
+    id ="nextPage",
+    defaultFile = "Images/nextBtn.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.9,
+    onRelease = changePage
+}
+
 sceneGroup:insert(momBkg)
-momBkg:addEventListener("touch", changePage)
+sceneGroup:insert(nextPgBtn)
 end
 
 -- "scene:show()"

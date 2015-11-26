@@ -77,6 +77,10 @@ end
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
     
+    local instructions = display.newImage("Images/ghostInstructions.png", true)
+    instructions.x = display.contentWidth/2
+    instructions.y = display.contentHeight/2
+    instructions.alpha=0
     
     local myText = display.newText( "0", 1875, 150, native.systemFont, 150 )
     myText:setFillColor( 0, 0, 0 )
@@ -95,6 +99,7 @@ end
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(nextPgBtn) 
     sceneGroup:insert(myText)
+    sceneGroup:insert(instructions)
   
  local function checkTaps()
     if numTapped == 10 then
@@ -187,6 +192,21 @@ function loadLight()
 		end
 	end
 end
+
+function textDelete()
+   instructions.alpha = 0
+   --instructions:removeSelf()
+   timer.performWithDelay(2000, generateSpiders, 20)
+end   
+
+function scaleDown()
+    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2000, onComplete=textDelete } )    
+end    
+
+function playInstructions()
+    instructions.alpha = 1
+    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
+end 
    
      --remove event listeners - called in scene destroy   
     function removeEventListeners2()
@@ -216,8 +236,9 @@ function scene:show( event )
         
     elseif phase == "did" then
         physics.start()
-        timer.performWithDelay(4000, spawnGhost1, 10)
-        timer.performWithDelay(3000, spawnGhost2, 10)
+        timer.performWithDelay(4500, spawnGhost1, 10)
+        timer.performWithDelay(4000, spawnGhost2, 10)
+        timer.performWithDelay(1000, playInstructions)
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -234,12 +255,7 @@ function scene:hide( event )
 
     if event.phase == "will" then
         physics.pause()
-        -- Called when the scene is on screen and is about to move off screen
-        --
-        -- INSERT code here to pause the scene
-        -- e.g. stop timers, stop animation, unload sounds, etc.)
     elseif phase == "did" then
-        -- Called when the scene is now off screen
     
     end 
 end
@@ -252,7 +268,6 @@ function scene:destroy( event )
     print("destroying scene2") 
     transition.cancel(scaleTrans)
     removeEventListeners2()  
-    --transition.cancel(flickerTrans)
 end
 
 -------------------------------------------------------------------------------
