@@ -39,8 +39,8 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-       composer.gotoScene("scenes.scene24", pageChangeOptions)
-        --composer.showOverlay( "scenes.menuOverlay", overlayOptions )
+      -- composer.gotoScene("scenes.scene10", pageChangeOptions)
+        composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
 local menuBackground = display.newImage("Images/menuBkg.png", true)
@@ -102,8 +102,6 @@ menuBackground.y = display.contentHeight/2
 }
 
 --timer.performWithDelay(1500, loadOverlay)
-
-
 
    sceneGroup:insert(menuBackground)
    sceneGroup:insert(playFullBtn)

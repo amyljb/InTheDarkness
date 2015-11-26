@@ -52,6 +52,10 @@ local overlayOptions2 =
 local background = display.newImage("Images/page9.png", true)
 background.x = display.contentWidth/2
 background.y = display.contentHeight/2
+
+local brain = display.newImage("Images/brain.png", true)
+brain.x = display.contentWidth/4
+brain.y = display.contentHeight/3.6
         
 function loadOverlay()
 composer.showOverlay( "scenes.brainOverlay", overlayOptions1 )
@@ -63,31 +67,21 @@ end
         return true
     end
 
-local infoButton = widget.newButton
-{
-    width = 190,
-    height = 190,
-    id ="gate",
-    defaultFile = "Images/infoButton.png",
-    x = 175,
-    y = 225,
-    onRelease = loadOverlay
-}
-
      local nextPgBtn = widget.newButton
 {
     width = 120,
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1950,
-    y = display.contentHeight/2,
+    x = display.contentWidth*0.9,
+    y = display.contentHeight*0.8,
     onRelease = changePage,
 }
     
-sceneGroup:insert(background)
-sceneGroup:insert(infoButton)    
+sceneGroup:insert(background)   
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(brain)
+brain:addEventListener("tap", loadOverlay)
 --event listeners
 
   --  function removeEventListeners9()  
