@@ -15,7 +15,10 @@ local sceneNumber = 2
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local current =  composer.getSceneName( "current" )
+local previous =  composer.getSceneName( "previous" )
+local widget = require("widget")
 local nextSceneNumber = "scenes.scene3"
+local previousScene = "scenes.scene2"
 
 --options table for next page transitions
 local pageChangeOptions = {
@@ -28,7 +31,8 @@ local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
     transitions = {},
-    nextScene = nextSceneNumber
+    nextScene = nextSceneNumber,
+    previousScene = previousScene
 })
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
@@ -36,7 +40,7 @@ local sceneObject = BaseScene:new({
 -- "scene:create()"
 function scene:create( event )
 
-   local sceneGroup = self.view
+    local sceneGroup = self.view
        --    Initialize the scene
     local sceneComponents = sceneObject:getText()
     
@@ -50,18 +54,47 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
+
+local overlayOptions2 =
+{
+    effect = "fade",
+    time = 2000,
+    params =
+    {
+        var1 = sceneComponents,
+        nextScene = previousScene
+    }
+}
+
+function loadPrevious()
+    print(previous)
+    composer.gotoScene( "scenes.textPage", overlayOptions2 )
+   
+end
+
     group = display.newGroup()
   
     local snapshot = display.newSnapshot(2048, 1536)
     snapshot:translate( display.contentCenterX, display.contentCenterY )
     
     local niceHouse = display.newImage("Images/niceHouse.png", true)
-  --  niceHouse.x = display.contentWidth/2
-   -- niceHouse.y = display.contentHeight/2
     
    local backgroundOne = display.newImage("Images/page2.png", true)
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
+    
+    
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/9,
+    y = display.contentHeight*0.85,
+    onRelease = loadPrevious
+}
     
     local clouds = display.newImage("Images/clouds.png", true)
     clouds.anchorX = 0
@@ -80,7 +113,6 @@ local overlayOptions =
    local forestR = display.newImage("Images/forestR.png", true)
     forestR.x = display.contentWidth/2 
     forestR.y = display.contentHeight/2
-    
     
     local doorClosed = display.newImage("Images/door_closed.png", true)
     doorClosed.x= display.contentWidth/2 - 250
@@ -163,6 +195,7 @@ local overlayOptions =
     sceneGroup:insert(forestL)
     sceneGroup:insert(forestR)
     sceneGroup:insert(tapIndicator)
+    sceneGroup:insert(previousBtn)
    
     
          
