@@ -128,7 +128,7 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
-        timer.performWithDelay(15000, myClosure, 1)
+        timer.performWithDelay(2000, myClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -145,7 +145,9 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
-      -- Called immediately after scene goes off screen.
+       transition.cancel(scaleTrans)
+       tapIndicator:removeSelf()
+       tapIndicator = nil
      
    end
 end

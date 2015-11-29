@@ -7,9 +7,17 @@ local widget = require("widget")
 local swipeDistance = 40
 local startTouchX = 0
 local icons = {}
+local soundtrack = audio.loadSound( "Sounds/SpookyPlayground2.wav" )
+
 local pageChangeOptions = {
     effect = "fade",
     time = 1000
+}
+
+local soundOptions =
+{
+    loops = -1,
+    fadein = 2000
 }
 -- load scene1
 composer.gotoScene( "scenes.menu" )
@@ -61,6 +69,9 @@ function revealSidebar(event)
     end
     return true
 end
+
+audio.play(soundtrack, soundOptions)
+audio.setVolume( 0.2, {channel = soundtrack})
 
 local sidebarGroup = display.newGroup()
 sidebarGroup:insert(sidebar)

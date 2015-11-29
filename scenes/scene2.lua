@@ -229,7 +229,7 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
     rain.pause()
-    audio.stop()
+    audio.stop(rainSound)
    elseif ( phase == "did" ) then
        transition.cancel(scaleTrans)
        tapIndicator:removeSelf()
