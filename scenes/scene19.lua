@@ -1,13 +1,16 @@
 --BEDROOM ONE
 local composer = require( "composer" )
+local changePg = require("changePg")
+local widget = require("widget")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene19")
 local sceneName = "scene19"
 local sceneNumber = 19
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene20"
 local counter = 0
 local whooshSound = audio.loadStream("Sounds/whoosh_1.mp3")
+local previousScene = "scenes.scene18"
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -38,6 +41,9 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -51,6 +57,31 @@ scene21bkg.alpha = 0
 local darkness = display.newImage("Images/darkness.png", true)
 darkness.x = display.contentWidth/2
 darkness.y = display.contentHeight/2
+
+    local nextPgBtn = widget.newButton
+{
+    width = 150,
+    height = 150,
+    id ="nextPage",
+    defaultFile = "Images/nextBtn.png",
+    x = 1900,
+    y = display.contentHeight/2,
+    onRelease = nextClosure
+}
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
 
 --local eyesSheetInfo = require("eyeGroup1")
@@ -176,11 +207,12 @@ sceneGroup:insert(eyeSprite2)
 sceneGroup:insert(eyeSprite3)
 sceneGroup:insert(doorSprite)
 sceneGroup:insert(doorEyesSprite)
+sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 
 eyeSprite1:addEventListener("sprite", spriteListener)
 eyeSprite2:addEventListener("sprite", spriteListener)
 eyeSprite3:addEventListener("sprite", spriteListener)
-scene21bkg:addEventListener("tap", changePage)
 doorSprite:addEventListener("tap", openDoor)
 end
 

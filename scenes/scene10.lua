@@ -1,13 +1,15 @@
 --BRAIN
 local composer = require( "composer" )
 local widget = require("widget")
-local scene = composer.newScene("scene10")
-local sceneName = "scene10"
-local sceneNumber = 10
+local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene11"
 local tapIndicatorFunc = require("tapIndicatorFunc")
+local scene = composer.newScene("scene10")
+local sceneName = "scene10"
+local sceneNumber = 10
+local previousScene = "scenes.scene9"
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -50,6 +52,9 @@ local overlayOptions2 =
     }
 }
    
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
+
 local background = display.newImage("Images/page9.png", true)
 background.x = display.contentWidth/2
 background.y = display.contentHeight/2
@@ -62,6 +67,21 @@ tapIndicator = display.newImage("Images/tapButton.png", true)
 tapIndicator.x= display.contentWidth/4
 tapIndicator.y= display.contentHeight/3.6
 tapIndicator.alpha = 0
+
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
         
 function loadOverlay()
 composer.showOverlay( "scenes.brainOverlay", overlayOptions1 )
@@ -88,6 +108,7 @@ sceneGroup:insert(background)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(brain)
 sceneGroup:insert(tapIndicator)
+sceneGroup:insert(previousBtn)
 
 brain:addEventListener("tap", loadOverlay)
 --event listeners

@@ -1,14 +1,16 @@
 --IN CAVE
 local composer = require( "composer" )
 local widget = require("widget")
-local scene = composer.newScene("scene22")
+local changePg = require("changePg")
+local physics = require("physics")
 local tapIndicatorFunc = require("tapIndicatorFunc")
-local sceneName = "scene22"
-local sceneNumber = 22
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local scene = composer.newScene("scene22")
+local sceneName = "scene22"
+local sceneNumber = 22
 local nextSceneNumber = "scenes.scene23"
-local physics = require("physics")
+local previousScene = "scenes.scene21"
 local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
 local dustSprite
 local movedPage = false
@@ -42,9 +44,12 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage( event )
         movedPage = true
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     return true
 end
 
@@ -95,6 +100,21 @@ tapIndicator.alpha = 0
     y = display.contentHeight*0.9,
     onRelease = changePage
 }
+
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
 local sheetInfo = require("Sprites.dustCloud") 
 local dustCloudSheet = graphics.newImageSheet( "Sprites/dustCloud.png", sheetInfo:getSheet() )
@@ -204,6 +224,7 @@ sceneGroup:insert(dustSprite)
 sceneGroup:insert(cloudHotspot) 
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(tapIndicator)
+sceneGroup:insert(previousBtn)
 
 dustSprite:addEventListener("sprite", spriteListener)
 --freddie:addEventListener("touch", touchFreddie)

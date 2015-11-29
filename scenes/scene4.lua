@@ -1,15 +1,18 @@
 --TOOLBOX PAGE
 local sceneName = "scene4"
 local composer = require( "composer" )
-local scene = composer.newScene("scene4")
-local physics = require("physics")
-local nextSceneButton
-local sceneNumber = 4
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local nextSceneNumber = "scenes.scene5"
 local gameUI = require("gameUI")
 local easingx  = require("easingx")
+local physics = require("physics")
+local changePg = require("changePg")
+local widget = require("widget")
+local scene = composer.newScene("scene4")
+local nextSceneButton
+local sceneNumber = 4
+local nextSceneNumber = "scenes.scene5"
+local previousScene = "scenes.scene3"
 system.activate( "multitouch" )
 Random = math.random
 
@@ -55,17 +58,32 @@ local overlayOptions2 = {
    time = 400
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 --change page on button tap --ADD PERFORM WITH DELAY
-local function changePage(event)
-    if not (event.phase) then
-          composer.gotoScene( "scenes.textPage", overlayOptions )
-          return true
-    end
-    return true
+local function changePage()
+        nextClosure()
+        return true
 end
     
     physics.start()
     physics.setGravity( 0, 0 )
+    
+    
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
     local backgroundThree = display.newImage("Images/toolboxBkg.png")
     backgroundThree.x = display.contentWidth/2
@@ -234,6 +252,7 @@ end
         sceneGroup:insert(ceiling)
         sceneGroup:insert(leftWall)
         sceneGroup:insert(rightWall)
+        sceneGroup:insert(previousBtn)
 
 function textDelete()
    instructionText.alpha = 0
@@ -282,8 +301,8 @@ end
     screwdriver3:addEventListener("touch", dragBody)
     hardhat2:addEventListener("touch", dragBody)
     
-    flashlight:addEventListener("tap", foundTorch)
     flashlight:addEventListener("touch", foundTorch)
+   -- flashlight:addEventListener("touch", foundTorch)
     
     function removeEventListeners3()
         print("removeEventListeners called scene 3")  

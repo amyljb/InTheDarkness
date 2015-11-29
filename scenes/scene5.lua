@@ -1,17 +1,20 @@
 --BUTTERFLY PAGE
 local sceneName = "scene5"
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local widget = require("widget")
 local scene = composer.newScene( "scene5" )
 local numTapped = 0
 local swipeDistance = 40
 local startTouchY = 0
 local swiping = false
 local transitioned = false
-local swipePrompt = require("swipePrompt")
 local sceneNumber = 5
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene6"
+local previousScene = "scenes.scene4"
+local movedPage = false
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -39,11 +42,29 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
-    
+      
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 --set up background image    
     local backgroundFour = display.newImage("Images/stomach.png", true)
     backgroundFour.x = display.contentWidth/2
     backgroundFour.y = display.contentHeight/2
+    
+    
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
         
 --setup image sheets for butterflies    
     local sheetInfo = require("Sprites.bf2") 
@@ -66,7 +87,7 @@ local overlayOptions =
     
     local function tapCounter()
     if numTapped == 3 then
-       composer.gotoScene( "scenes.textPage", overlayOptions )
+       nextClosure()
     end
     return true
 end
@@ -105,6 +126,7 @@ end
     sceneGroup:insert(myButterflySprite)
     sceneGroup:insert(myButterflySprite2)
     sceneGroup:insert(myButterflySprite3)
+    sceneGroup:insert(previousBtn)
     
         --two handlers are attached to each butterfly sprite to handler event propagation 
         myButterflySprite:addEventListener("tap", butterflyTap)

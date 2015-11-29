@@ -1,12 +1,14 @@
 --FREDDIE COLD - bridging scene
 --change or add game
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene14")
 local sceneName = "scene14"
 local sceneNumber = 14
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene15"
+local previousScene = "scenes.scene13"
 local widget = require("widget")
 
 --Create a scene object based on data read from data.json
@@ -38,6 +40,9 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -57,15 +62,31 @@ breath.alpha = 0
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    onRelease = changePage
+    onRelease = nextClosure()
 }
 
 nextPgBtn.x = 1950
 nextPgBtn.y = display.contentHeight/2
 
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
+
 sceneGroup:insert(freddieCold)
 sceneGroup:insert(breath)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 
 function changeAlpha()
    transition.to(breath, {alpha=1, time = 5000})

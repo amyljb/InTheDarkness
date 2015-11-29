@@ -1,19 +1,19 @@
 --SOUNDS PAGE
 local sceneName = "scene5"
 local composer = require( "composer" )
-local scene = composer.newScene("scene6")
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local widget = require ("widget")
-local swipePrompt = require("swipePrompt")
 local tapIndicatorFunc = require("tapIndicatorFunc")
+local scene = composer.newScene("scene6")
 local swipeDistance = 40
 local startTouchY = 0
 local swiping = false
 local transitioned = false
-local swipePrompt = require("swipePrompt")
 local sceneNumber = 6
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene7"
+local previousScene = "scenes.scene5"
 
 local swipeDistance = 40
 local startTouchY = 0
@@ -60,11 +60,14 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage( event )
     if event.phase == "ended" then
         transitioned = true
         audio.play(lightSwitchSound)
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     end
     return true
 end
@@ -161,6 +164,20 @@ local lightButton = widget.newButton
     y = display.contentHeight/8,
     onRelease = changePage
 }
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
 local function playBox()
     print("toybox")
@@ -378,6 +395,7 @@ sceneGroup:insert(snoringSprite)
 sceneGroup:insert(shhSprite)
 sceneGroup:insert(suddenlySprite)
 sceneGroup:insert(tapIndicator)
+sceneGroup:insert(previousBtn)
 
 --Add event listeners
 tv:addEventListener("tap", playTv)

@@ -1,13 +1,15 @@
 --FREDDIE SEES GHOST
 local composer = require( "composer" )
 local widget = require("widget")
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local rubPrompt = require("rubOutPrompt")
 local scene = composer.newScene("scene15")
 local sceneName = "scene15"
 local sceneNumber = 15
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene16"
-local rubPrompt = require("rubOutPrompt")
+local previousScene = "scenes.scene14"
 local previousX = 0
 local previousY = 0
 local nextTapped = false
@@ -41,9 +43,12 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
     nextTapped = true
-    composer.gotoScene( "scenes.textPage", overlayOptions ) 
+    nextClosure() 
     return true
 end
 
@@ -58,6 +63,21 @@ local nextPgBtn = widget.newButton
     y = display.contentHeight*0.85,
     onRelease = changePage
 }
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
+
 local backImage = display.newImage( "Images/kitchen.png", display.contentCenterX, display.contentCenterY  )
 
 local snapshot = display.newSnapshot(2048, 1536)
@@ -114,6 +134,7 @@ sceneGroup:insert(backImage)
 sceneGroup:insert(snapshot)
 sceneGroup:insert(kitchenGhostSprite)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 
 snapshot:addEventListener( "touch", listener )
 

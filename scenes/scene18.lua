@@ -1,12 +1,15 @@
 --TIRED - Z'S
 --change?? bridging pg
 local composer = require( "composer" )
+local widget = require("widget")
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene18")
 local sceneName = "scene18"
 local sceneNumber = 18
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene19"
+local previousScene = "scenes.scene17"
 local myZ
 --Find device display height and width
 _H = display.contentHeight
@@ -47,6 +50,9 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage( event )
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -62,6 +68,31 @@ tiredBkg.y=display.contentHeight/2
 local leftWall = display.newRect (0, 0, 1, display.contentHeight)
 local rightWall = display.newRect (display.contentWidth, 0, 1, display.contentHeight)
 
+    local nextPgBtn = widget.newButton
+{
+    width = 150,
+    height = 150,
+    id ="nextPage",
+    defaultFile = "Images/nextBtn.png",
+    x = 1900,
+    y = display.contentHeight/2,
+    onRelease = nextClosure
+}
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
+
 --leftWall:setStrokeColor( 1, 0, 0 )
 --rightWall:setStrokeColor( 1, 0, 0 )
 
@@ -72,6 +103,8 @@ physics.addBody (rightWall, "static", { bounce = 1 } );
 sceneGroup:insert(tiredBkg)
 sceneGroup:insert(leftWall)
 sceneGroup:insert(rightWall)
+sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 
 function startZs()
 -- Create an image, 250 pixels by 250 pixels
@@ -93,7 +126,6 @@ myZ = display.newImageRect("Images/z.png", 250, 250)
         sceneGroup:insert(myZ)
 end
 
-tiredBkg:addEventListener("tap", changePage)
 end
 
 -- "scene:show()"

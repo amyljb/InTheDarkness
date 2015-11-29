@@ -1,17 +1,18 @@
 --HALLWAY PAGE 
 --CHANGE JOINT SECTION NAMES
-local sceneName = "scene3"
 local composer = require( "composer" )
 local physics = require('physics')
-local ropeParts = display.newGroup()
 local widget = require("widget")
-local scene = composer.newScene( "scene3" )
-local widget = require( "widget" )
-local nextSceneButton
-local sceneNumber = 3
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local changePg = require("changePg")
+local scene = composer.newScene( "scene3" )
+local sceneName = "scene3"
+local ropeParts = display.newGroup()
+local nextSceneButton
+local sceneNumber = 3
 local nextSceneNumber = "scenes.scene4"
+local previousScene = "scenes.scene2"
 local nextSceneButton
 local numTapped = 0
 local light = 5
@@ -63,11 +64,15 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
+
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 --change page on button tap --ADD PERFORM WITH DELAY
 local function changePage()
     print("changing pg")
     movedPage = true
-    composer.gotoScene( "scenes.textPage", overlayOptions )
+    nextClosure()
     return true
 end
 
@@ -95,11 +100,25 @@ end
     y = display.contentHeight/2,
     onRelease = changePage,
 }
+    
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
            
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(nextPgBtn) 
     sceneGroup:insert(myText)
     sceneGroup:insert(instructions)
+    sceneGroup:insert(previousBtn)
   
  local function checkTaps()
     if numTapped == 10 then
@@ -196,7 +215,6 @@ end
 function textDelete()
    instructions.alpha = 0
    --instructions:removeSelf()
-   timer.performWithDelay(2000, generateSpiders, 20)
 end   
 
 function scaleDown()

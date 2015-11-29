@@ -1,12 +1,14 @@
 --HEART
 local composer = require( "composer" )
 local widget = require( "widget" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene12")
 local sceneName = "scene12"
 local sceneNumber = 12
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene13"
+local previousScene = "scenes.scene15"
 local breathText
 local scaleNum = 0
 numTapped = 0
@@ -59,6 +61,9 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
     print("pressed next pg btn")
     composer.gotoScene("scenes.textPage", overlayOptions )     
@@ -91,8 +96,22 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
-    onRelease = changePage
+    onRelease = nextClosure()
 }
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
     
 local sheetInfo = require("Sprites.heartbeat")
 local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInfo:getSheet() )
@@ -151,6 +170,7 @@ sceneGroup:insert(myText)
 sceneGroup:insert(freddie)
 sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 end
 
 -- "scene:show()"

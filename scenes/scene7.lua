@@ -1,12 +1,14 @@
 --FEAR APPEARS
 local composer = require( "composer" )
 local widget = require( "widget" )
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local changePg = require("changePg")
 local sceneName = "scene7"
 local scene = composer.newScene("scene7")
 local sceneNumber = 7
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene8"
+local previousScene = "scenes.scene6"
 
 --    Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -37,9 +39,12 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
         print("changing pg")
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     return true
 end
 
@@ -69,9 +74,24 @@ end
     onRelease = changePage,
 }
 
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
+
     sceneGroup:insert(background)
     sceneGroup:insert(bubbleSprite)
     sceneGroup:insert(nextPgBtn)
+    sceneGroup:insert(previousBtn)
 
 function playBubble()
     bubbleSprite.alpha=1

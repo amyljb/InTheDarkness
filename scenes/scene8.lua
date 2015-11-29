@@ -1,12 +1,16 @@
 --SEARCH ROOM
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local widget = require( "widget" )
 local scene = composer.newScene("scene8")
 local sceneName = "scene8"
 local sceneNumber = 8
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene9"
+local previousScene = "scenes.scene7"
 
+--local centerX = display.contentCenterX
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
@@ -40,8 +44,11 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 function changePage( )
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     return true
 end
 
@@ -49,18 +56,30 @@ local maskGroup = display.newGroup()
 --maskGroup:translate( centerX, centerY )
 -- Image to be masked
 local image = display.newImageRect( "Images/page7.png", 2046, 1536 )
-image.x = display.contentWidth/2
-image.y = display.contentHeight/2
+--image.x = display.contentWidth/2
+--image.y = display.contentHeight/2
 --image:translate( centerX, centerY )
+
+     local nextPgBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="nextPage",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
+    onRelease = changePage,
+}
 
 local sheetInfo = require("Sprites.mouse")
         local mouseSheet = graphics.newImageSheet( "Sprites/mouse.png", sheetInfo:getSheet() )
         local sequenceData =
             {name="mouse", start = 1, time = 3000, loopCount = 0, count=19}  
             mouseSprite = display.newSprite(mouseSheet, sequenceData)
-            mouseSprite.x = display.contentWidth*0.8
-            mouseSprite.y = display.contentHeight*0.7
-            --mouseSprite:translate( centerX, centerY )
+            mouseSprite:translate( centerX, centerY )
+            mouseSprite.x = display.contentWidth/3
+            mouseSprite.y = display.contentHeight/4
             mouseSprite:play()
             
 local sheetInfo2 = require("Sprites.rocket")
@@ -68,9 +87,23 @@ local sheetInfo2 = require("Sprites.rocket")
         local sequenceData2 =
             {name="rocket", start = 1, time = 1500, loopCount = 0, count=28}  
             rocketSprite = display.newSprite(rocketSheet, sequenceData2)
-            rocketSprite.x = display.contentWidth*0.3
+            rocketSprite.x = -800
             rocketSprite.y = display.contentHeight/6--/9
             rocketSprite:play()            
+              
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180         
             
 maskGroup:insert(image)
 maskGroup:insert(mouseSprite)
@@ -79,10 +112,13 @@ maskGroup:insert(rocketSprite)
 local mask = graphics.newMask( "Images/circlemask3.png" )
 --image:setMask( mask )
 maskGroup:setMask( mask )
+maskGroup:translate( centerX, centerY )
 
 --sceneGroup:insert(mouseSprite)
 --sceneGroup:insert(image)
 sceneGroup:insert(maskGroup)
+sceneGroup:insert(previousBtn)
+sceneGroup:insert(nextPgBtn)
 
 --sceneGroup:insert(mask)
 
@@ -160,7 +196,6 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-      timer.performWithDelay( 15000, changePage)
    end
 end
 

@@ -1,5 +1,9 @@
 --UNDER BED TENTACLES
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local widget = require( "widget" )
 local scene = composer.newScene("scene9")
 local sceneName = "scene9"
 local centreX = display.contentCenterX
@@ -7,9 +11,8 @@ local centreY = display.contentCenterY
 local numTapped = 0
 local transitioned = false
 local sceneNumber = 9
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene10"
+local previousScene = "scenes.scene8"
 
 --    Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -40,9 +43,12 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function tapCounter()
     if numTapped == 5 then
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     end
 end
 
@@ -53,6 +59,20 @@ background.y = centreY
 local bed = display.newImage("Images/overheadBed.png", true)
 bed.x = display.contentWidth/2
 bed.y = display.contentHeight/2
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180   
 
 local sheetInfo = require("Sprites.tentacle")
         local tentacleSheet = graphics.newImageSheet( "Sprites/tentacle.png", sheetInfo:getSheet() )
@@ -108,6 +128,7 @@ sceneGroup:insert(tentacle2)
 sceneGroup:insert(spikedTent)
 sceneGroup:insert(tentBottomL)
 sceneGroup:insert(bed)
+sceneGroup:insert(previousBtn)
 
 local function onTouch( event )
    display.remove( event.target )

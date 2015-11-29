@@ -1,11 +1,13 @@
 --MONSTER REVEAL
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene13")
 local sceneName = "scene13"
 local sceneNumber = 13
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene14"
+local previousScene = "scenes.scene12"
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local spawnedObjects = {}
@@ -43,8 +45,11 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage( )
-        composer.gotoScene( "scenes.textPage", overlayOptions )
+        nextClosure()
     return true
 end
 
@@ -92,6 +97,20 @@ end
 
 nextPgBtn.x = 1950
 nextPgBtn.y = display.contentHeight/2
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
     local torchBtn = widget.newButton
 {
@@ -277,6 +296,7 @@ sceneGroup:insert(explosionAnim)
 sceneGroup:insert(torchLight)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(torchBtn)
+sceneGroup:insert(previousBtn)
 
 torchLight:addEventListener( "touch", torchLight )
 

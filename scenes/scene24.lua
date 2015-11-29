@@ -1,12 +1,14 @@
 --underbed monster revealed
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local widget = require("widget")
 local scene = composer.newScene("scene24")
 local sceneName = "scene24"
 local sceneNumber = 24
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene25"
-local widget = require("widget")
+local previousScene = "scenes.scene23"
 local growl = audio.loadSound( "Sounds/growl.mp3" )
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -38,6 +40,9 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
+
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
@@ -93,11 +98,25 @@ end
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    onRelease = changePage
+    onRelease = nextClosure
 }
 
 nextPgBtn.x = 1950
 nextPgBtn.y = display.contentHeight/2
+
+   local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
     local torchBtn = widget.newButton
 {
@@ -282,6 +301,7 @@ sceneGroup:insert(hotspot)
 sceneGroup:insert(explosionAnim)
 sceneGroup:insert(torchLight)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 sceneGroup:insert(torchBtn)
 sceneGroup:insert(dizzySprite)
 

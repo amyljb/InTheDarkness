@@ -1,12 +1,14 @@
 --MOM PAGE
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local widget = require("widget")
 local scene = composer.newScene("scene25")
 local sceneName = "scene25"
 local sceneNumber = 25
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene26"
-local widget = require("widget")
+local previousScene = "scenes.scene24"
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -38,6 +40,9 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
@@ -55,11 +60,25 @@ momBkg.y=display.contentHeight/2
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.9,
-    onRelease = changePage
+    onRelease = nextClosure
 }
+   local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
 
 sceneGroup:insert(momBkg)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 end
 
 -- "scene:show()"

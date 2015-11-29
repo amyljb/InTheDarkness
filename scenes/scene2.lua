@@ -2,28 +2,29 @@
 local composer = require( "composer" )
 local tapIndicatorFunc = require("tapIndicatorFunc")
 local rubPrompt = require("rubOutPrompt")
+local changePg = require("changePg")
 local scene = composer.newScene()
 local sceneName = "scene2"
 local tapIndicator
 local indTapped = false
 local xSpeed = .1
 local ySpeed = -.15
-local nextTapped = false
+local movedPage = false
 local rain = require("rain")
 local rainSound = audio.loadStream("Sounds/rain.wav")
 local sceneNumber = 2
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local current =  composer.getSceneName( "current" )
-local previous =  composer.getSceneName( "previous" )
+--local current =  composer.getSceneName( "current" )
+--local previous =  composer.getSceneName( "previous" )
 local widget = require("widget")
 local nextSceneNumber = "scenes.scene3"
-local previousScene = "scenes.scene2"
+local previousScene = "scenes.scene1"
 
 --options table for next page transitions
 local pageChangeOptions = {
     effect = "fade",
-    time = 3000
+    time = 2000
 }
 
 --    Create a scene object based on data read from data.json
@@ -54,23 +55,8 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
-
-local overlayOptions2 =
-{
-    effect = "fade",
-    time = 2000,
-    params =
-    {
-        var1 = sceneComponents,
-        nextScene = previousScene
-    }
-}
-
-function loadPrevious()
-    print(previous)
-    composer.gotoScene( "scenes.textPage", overlayOptions2 )
-   
-end
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end    
 
     group = display.newGroup()
   
@@ -91,10 +77,12 @@ end
     id ="previous",
     defaultFile = "Images/nextBtn.png",
     overFile = "Images/nextBtnOver.png",
-    x = display.contentWidth/9,
+    x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    onRelease = loadPrevious
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
 }
+previousBtn.rotation = -180
     
     local clouds = display.newImage("Images/clouds.png", true)
     clouds.anchorX = 0
@@ -168,15 +156,18 @@ end
             indTapped = true
             doorClosed:removeSelf()
             nextTapped = true
-            composer.gotoScene( "scenes.textPage", overlayOptions )
+            nextClosure()
+            --composer.gotoScene( "scenes.textPage", overlayOptions )
     end
 
    function beginAnimations()
+       if movedPage == false then
         transition.to(clouds, { time=40000, x=-3000 } )
         transition.to(forestR, { time=5000, x=display.contentWidth+150 } )
         transition.to(forestL, { time=5000, x=-230 } )
         lightningSprite:play()
         return true
+        end
    end
    
    function playRainSounds()
@@ -196,9 +187,7 @@ end
     sceneGroup:insert(forestR)
     sceneGroup:insert(tapIndicator)
     sceneGroup:insert(previousBtn)
-   
-    
-         
+           
 doorClosed:addEventListener("tap", closeDoor)
 snapshot:addEventListener( "touch", listener )
 --Runtime:addEventListener("enterFrame", screenWideEffect)
@@ -260,7 +249,6 @@ function scene:destroy( event )
 end
 
 ---------------------------------------------------------------------------------
-
 -- Listener setup
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

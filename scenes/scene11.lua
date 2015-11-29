@@ -1,26 +1,28 @@
 --RUB OUT - SWAMP PAGE
 local composer = require( "composer" )
+local changePg = require("changePg")
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
+local rubPrompt = require("rubOutPrompt")
+local particleDesigner = require( "particleDesigner" )
+local lizardsheetInfo = require("Sprites.lizardSprite")
+local widget = require("widget")
 local scene = composer.newScene("scene11")
 local sceneName = "scene11"
 local sceneNumber = 11
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
 local nextSceneNumber = "scenes.scene12"
-local rubPrompt = require("rubOutPrompt")
-local widget = require("widget")
+local previousScene = "scenes.scene10"
 local swampAmbience = audio.loadSound( "Sounds/swamp_ambience_1.mp3" )
 local previousX = 0
 local previousY = 0
 local numTouch = 0
 local tapped = false
 local soundPlaying = false
-local nextTapped = false
+local movedPage = false
 local centerX = display.contentWidth/2 --* 0.5
 local centerY = display.contentHeight/2
-local lizardsheetInfo = require("Sprites.lizardSprite")
 physics.start()
 physics.setGravity( 0, 9.8 )
-local particleDesigner = require( "particleDesigner" )
 
 local movePath = {}
 movePath[1] = { x=-100, y=200 }
@@ -63,11 +65,13 @@ local overlayOptions =
     }
 }
 
+local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
+local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
 --change page on button tap
 local function changePage()
-    print("changing pg")
-    nextTapped = true
-    composer.gotoScene( "scenes.textPage", overlayOptions )
+    movedPage = true
+    nextClosure()
     if soundPlaying == true then
         audio.stop()
     end
@@ -84,6 +88,20 @@ end
     y = display.contentHeight/2,
     onRelease = changePage
 }
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    --onRelease = loadPrevious(previousScene)
+    onRelease = previousClosure
+}
+previousBtn.rotation = -180
     
     local layer = {}
     local swampGroup = display.newGroup()
@@ -118,11 +136,12 @@ end
     monsterShadow.x = display.contentWidth/2
     monsterShadow.y = display.contentHeight/2
 
-    local frontImage = display.newImage( "Images/monsterHall.png" )
+   -- local frontImage = display.newImage( "Images/monsterHall.png" )
    -- frontImage.x = display.contentWidth/2
    -- frontImage.y = display.contentHeight/2
     
-    snapshot.canvas:insert(frontImage)
+    --snapshot.canvas:insert(frontImage)
+    snapshot.canvas:insert(swampGroup)
     snapshot:invalidate( "canvas" )
     --snapshot.canvas:insert(swampGroup)
     snapshot:invalidate( "canvas" )
@@ -159,7 +178,7 @@ end
     
     function playSwampSounds()
        -- audio.setVolume(0.0)
-       if nextTapped == false then
+       if movedPage == false then
        soundPlaying = true
         swampPlay = audio.play(swampAmbience)
         audio.fade( {channel = swampPlay, time=3000, volume=1 } )
@@ -203,13 +222,13 @@ function removeListeners()
     Runtime:removeEventListener("accelerometer", accelerometerHandler)
 end
 
-    
     sceneGroup:insert(lizardSprite)
     sceneGroup:insert(emitter)
-    sceneGroup:insert(snapshot)
     sceneGroup:insert(monsterShadow)
     sceneGroup:insert(darkness)
+    sceneGroup:insert(snapshot)
     sceneGroup:insert(nextPgBtn)
+    sceneGroup:insert(previousBtn)
     
 snapshot:addEventListener( "touch", listener ) 
 Runtime:addEventListener("accelerometer", accelerometerHandler)
