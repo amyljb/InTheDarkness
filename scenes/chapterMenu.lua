@@ -25,10 +25,10 @@ local function changePage( event )
                         else if event.target.id == "previous" then
                             composer.gotoScene( "scenes.menu", pageChangeOptions ) 
                         end
-                        end
+                    end
+                end
         end
-    end
-return true
+    return true
 end
 end
 ---------------------------------------------------------------------------------

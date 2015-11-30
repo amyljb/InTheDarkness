@@ -130,18 +130,15 @@ local sequenceData2 = {
       monsterSprite.x = display.contentWidth*0.25
       monsterSprite.y = display.contentHeight/2
       
-local sheetInfo2 = require("Sprites.crouch") 
-local crouchSheet = graphics.newImageSheet( "Sprites/crouch.png", sheetInfo2:getSheet() )
-local sequenceData3 = {
-                    {name="crouch", start = 1, time = 1000, loopCount = 1, count=2, frames = {1, 2, 3, 4}},
-                    {name="wobble", time = 300, loopCount = 3, count=4, frames = {4, 1, 5, 1}}
-                    }
+ local sheetInfo3 = require("Sprites.wobble") 
+local wobbleSheet = graphics.newImageSheet( "Sprites/wobble.png", sheetInfo3:getSheet() )
+local sequenceData3 = {name="wobble", start = 1, time = 600, loopCount = 3, count=4}
     
-local crouchSprite = display.newSprite(crouchSheet, sequenceData3)
-    crouchSprite.x = display.contentWidth*0.75
-    crouchSprite.y = display.contentHeight*0.7    
+local wobbleSprite = display.newSprite(wobbleSheet, sequenceData3)
+      wobbleSprite.x = display.contentWidth*0.8
+      wobbleSprite.y = display.contentHeight*0.6
     
-    physics.addBody(crouchSprite, "kinematic", {bounce = 0})
+    physics.addBody(wobbleSprite, "kinematic", {bounce = 0})
 
 function moveClouds()
     print("hotspot tapped")
@@ -167,8 +164,7 @@ end
 --detect collision - play dust explosion sprite
 function onCollision(event)
     if event.phase == "began" then
-    crouchSprite:setSequence("wobble")
-    crouchSprite:play()
+    wobbleSprite:play()
     print("collided!!")
     print(event.phase)
     dustBall.alpha = 0
@@ -194,12 +190,6 @@ function loadDustballs()
     end
 end
 
-function crouchDown()
-    crouchSprite:setSequence("crouch")
-    crouchSprite:play()
-    return true
-end
-
 sceneGroup:insert(caveBkg)
 sceneGroup:insert(monsterSprite)
 sceneGroup:insert(cloud1)
@@ -207,7 +197,7 @@ sceneGroup:insert(cloud2)
 sceneGroup:insert(cloud3)
 sceneGroup:insert(cloud4)
 sceneGroup:insert(cloud5)
-sceneGroup:insert(crouchSprite)
+sceneGroup:insert(wobbleSprite)
 sceneGroup:insert(dustSprite) 
 sceneGroup:insert(cloudHotspot) 
 sceneGroup:insert(nextPgBtn)
@@ -215,7 +205,6 @@ sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
 
 --freddie:addEventListener("touch", touchFreddie)
-crouchSprite:addEventListener("tap", crouchDown)
 cloudHotspot:addEventListener("tap", moveClouds)
 Runtime:addEventListener( "collision", onCollision )
 

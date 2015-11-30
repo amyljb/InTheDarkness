@@ -56,9 +56,6 @@ local maskGroup = display.newGroup()
 --maskGroup:translate( centerX, centerY )
 -- Image to be masked
 local image = display.newImageRect( "Images/page7.png", 2046, 1536 )
---image.x = display.contentWidth/2
---image.y = display.contentHeight/2
---image:translate( centerX, centerY )
 
      local nextPgBtn = widget.newButton
 {
@@ -85,10 +82,10 @@ local sheetInfo = require("Sprites.mouse")
 local sheetInfo2 = require("Sprites.rocket")
         local rocketSheet = graphics.newImageSheet( "Sprites/rocket.png", sheetInfo2:getSheet() )
         local sequenceData2 =
-            {name="rocket", start = 1, time = 1500, loopCount = 0, count=28}  
+            {name="rocket", start = 1, time = 2500, loopCount = 0, count=28}  
             rocketSprite = display.newSprite(rocketSheet, sequenceData2)
-            rocketSprite.x = -800
-            rocketSprite.y = display.contentHeight/6--/9
+            rocketSprite.x = -700
+            rocketSprite.y = -220--display.contentHeight/8--/9
             rocketSprite:play()            
               
     local previousBtn = widget.newButton
@@ -100,7 +97,6 @@ local sheetInfo2 = require("Sprites.rocket")
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180         

@@ -73,7 +73,7 @@ local function changePage()
     movedPage = true
     nextClosure()
     if soundPlaying == true then
-        audio.stop()
+        audio.stop(swampPlay)
     end
     return true
 end
@@ -183,7 +183,7 @@ previousBtn.rotation = -180
        if movedPage == false then
        soundPlaying = true
         swampPlay = audio.play(swampAmbience)
-        audio.fade( {channel = swampPlay, time=3000, volume=1 } )
+        audio.fade( {channel = swampPlay, time=3000, volume=0.7 } )
        end
     end
     --sceneGroup:insert(swampBackground)
@@ -261,9 +261,9 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
-     timer.performWithDelay(5000, rubOutClosure, 1)
+     timer.performWithDelay(3000, rubOutClosure, 1)
     --monsterFade()
-      timer.performWithDelay(4000, playSwampSounds)
+      timer.performWithDelay(2500, playSwampSounds)
       start_particles()
       lizardSprite:play()
       headSprite:play()
@@ -282,7 +282,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-       audio.fadeOut( { channel=swampAmbience, time=1000 } )
+     --  audio.fadeOut( { channel=swampAmbience, time=1000 } )
        --lizardSprite:stop()
        --audio.stop(swampAmbience)
    elseif ( phase == "did" ) then
@@ -296,7 +296,6 @@ local sceneGroup = self.view
     stop_particles()
     display.remove(particleSystem)
     particleSystem = nil
-    removeListeners()
 end
 
 ---------------------------------------------------------------------------------

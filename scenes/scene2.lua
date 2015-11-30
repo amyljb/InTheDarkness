@@ -15,8 +15,6 @@ local rainSound = audio.loadStream("Sounds/rain.wav")
 local sceneNumber = 2
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
---local current =  composer.getSceneName( "current" )
---local previous =  composer.getSceneName( "previous" )
 local widget = require("widget")
 local nextSceneNumber = "scenes.scene3"
 local previousScene = "scenes.scene1"
@@ -79,7 +77,6 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180

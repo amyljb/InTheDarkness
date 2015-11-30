@@ -27,14 +27,6 @@ local function changePage( )
     return true
 end
 
---local function goBack( )
- --   local previous =  composer.getSceneName( "previous" )
-             --if previous ~= "main" and previous then
-    --            composer.gotoScene(previous, pageChangeOptions)       -- remove previous scene from memory
-            --end
-   -- return true
---end
-
  local sidebar = display.newImage("Images/sidebar.png", true)
     sidebar.x = -200
     sidebar.y = display.contentHeight/2
@@ -63,7 +55,7 @@ function revealSidebar(event)
             transition.to( homeBtn, { time=500, x=100 } )
         end
         else if startTouchX > 0 and event.x < startTouchX + swipeDistance then
-                transition.to( sidebar, { time=500, x=-100 } )
+                transition.to( sidebar, { time=500, x=-200 } )
                 transition.to( homeBtn, { time=500, x=-100 } )
             end
     end
@@ -71,11 +63,20 @@ function revealSidebar(event)
 end
 
 audio.play(soundtrack, soundOptions)
-audio.setVolume( 0.2)
+audio.setVolume( 0.1)
 
 local sidebarGroup = display.newGroup()
 sidebarGroup:insert(sidebar)
 sidebarGroup:insert(homeBtn)
+
+
+-- Add any objects that should appear on all scenes below (e.g. tab bar, hud, etc)
+local function checkMem()
+    collectgarbage("collect")
+    local memUsage_str = string.format( "MEMORY= %.3f KB", collectgarbage( "count" ) )
+    print( memUsage_str .. " | TEXTURE= "..(system.getInfo("textureMemoryUsed")/1048576) )
+end
+timer.performWithDelay( 1000, checkMem, 0 )
 
 Runtime:addEventListener("touch", revealSidebar)
 

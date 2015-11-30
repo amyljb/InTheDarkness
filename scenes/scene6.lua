@@ -29,7 +29,6 @@ local bedSound = audio.loadSound( "Sounds/creak.mp3" )
 local tvSound = audio.loadSound( "Sounds/static_noise.mp3" )
 local toyBoxSound = audio.loadSound( "Sounds/toy_raygun.mp3" )
 local radioSound = audio.loadSound( "Sounds/radio.mp3" )
-local dumSound = audio.loadSound( "Sounds/dum.mp3" )
 
 --    Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -85,12 +84,16 @@ dad.x = display.contentWidth/6
 dad.y = display.contentHeight*2 -- /2 + 200
 
 local clock = display.newImage("Images/clock.png", true)
-clock.x = display.contentWidth/5
+clock.x = display.contentWidth/2
 clock.y = display.contentHeight*2
 
 local tv = display.newImage("Images/tv.png", true)
 tv.x = display.contentWidth*0.9
 tv.y = display.contentHeight*2
+
+local table = display.newImage("Images/table.png", true)
+table.x = display.contentWidth/2
+table.y = display.contentHeight*2
 
 local instructions = display.newImage("Images/soundInstruction.png", true)
 instructions.x = display.contentWidth/2
@@ -246,10 +249,11 @@ function swipeHandler(event)
             transition.to( curtainSprite , { time=700, y=-display.contentHeight } )
             transition.to( lightButton , { time=700, y=-display.contentHeight } )
             transition.to( dad , { time=700, y=display.contentHeight/2+200 } )
-            transition.to( clock , { time=700, y=display.contentHeight/2-450 } )
+            transition.to( clock , { time=700, y=display.contentHeight/2.5 } )
             transition.to( bed , { time=1000, y=-display.contentHeight} )
             transition.to( toyBox , { time=1000, y=-display.contentHeight} )
             transition.to( radio , { time=1000, y=display.contentHeight*0.6} )
+            transition.to( table , { time=1000, y=display.contentHeight*0.9} )
         else if event.y > startTouchY + swipeDistance then
             print("swiped up")
             transition.to( background , { time=700, y=display.contentHeight } )
@@ -261,6 +265,7 @@ function swipeHandler(event)
             transition.to( tv , { time=700, y=display.contentHeight*2} )
             transition.to( toyBox , { time=1000, y=display.contentHeight*0.6} )
             transition.to( radio , { time=1000, y=display.contentHeight*2} )
+            transition.to( table , { time=1000, y=display.contentHeight*2} )
             local myTapClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
             timer.performWithDelay(500, myTapClosure, 1)
             end
@@ -290,6 +295,7 @@ end
 
 local function playTv()
     audio.play(tvSound, {duration=2000})
+    shhSprite.alpha=1
     shhSprite.x = display.contentWidth*0.9 
     shhSprite.y =display.contentHeight/7
     shhSprite:play()
@@ -383,6 +389,7 @@ sceneGroup:insert(lightButton)
 sceneGroup:insert(dad)
 sceneGroup:insert(tv)
 sceneGroup:insert(clock)
+sceneGroup:insert(table)
 sceneGroup:insert(radio)
 sceneGroup:insert(snoringSprite)
 sceneGroup:insert(shhSprite)
@@ -412,7 +419,7 @@ function scene:show( event )
    elseif ( phase == "did" ) then
     timer.performWithDelay(1000, playInstructions)
     timer.performWithDelay(10000, playGrr )
-    timer.performWithDelay(15000, swipeInstruction )
+    timer.performWithDelay(13000, swipeInstruction )
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -427,6 +434,9 @@ function scene:hide( event )
    local phase = event.phase
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
+       transition.cancel(scaleTrans)
+       --tapIndicator:removeSelf()
+      -- tapIndicator = nil
    end
 end
 

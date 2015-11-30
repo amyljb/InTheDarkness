@@ -1,7 +1,7 @@
 --
 -- created with TexturePacker (http://www.codeandweb.com/texturepacker)
 --
--- $TexturePacker:SmartUpdate:5d1fb4cc0069f9b098e680fffa6e804c:dfa6608496d73a22aa6711bd0e7ee429:d1245b2e8cbcfd8a7dc2506f1439f842$
+-- $TexturePacker:SmartUpdate:3e8e652cac21b8b261fb0a1de503fcec:8729d902c45d354d12a4ebf89a6dff19:d1245b2e8cbcfd8a7dc2506f1439f842$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -16,39 +16,40 @@ SheetInfo.sheet =
     
         {
             -- rocket1
-            x=846,
-            y=407,
-            width=167,
-            height=399,
-
-            sourceX = 44,
-            sourceY = 256,
-            sourceWidth = 250,
-            sourceHeight = 660
-        },
-                {
-            -- rocket2
-            x=846,
-            y=407,
-            width=167,
-            height=399,
-
-            sourceX = 44,
-            sourceY = 256,
-            sourceWidth = 250,
-            sourceHeight = 660
-        },
-                {
-            -- rocket3
-            x=1015,
+            x=1353,
             y=1,
             width=167,
+            height=398,
+
+            sourceX = 37,
+            sourceY = 702,
+            sourceWidth = 250,
+            sourceHeight = 1100
+        },
+             {
+            -- rocket2
+            x=508,
+            y=519,
+            width=167,
             height=399,
 
-            sourceX = 44,
-            sourceY = 256,
+            sourceX = 37,
+            sourceY = 662,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
+        },
+       
+        {
+            -- rocket3
+            x=339,
+            y=546,
+            width=167,
+            height=399,
+
+            sourceX = 37,
+            sourceY = 602,
+            sourceWidth = 250,
+            sourceHeight = 1100
         },
         {
             -- rocket4
@@ -57,280 +58,279 @@ SheetInfo.sheet =
             width=167,
             height=399,
 
-            sourceX = 44,
-            sourceY = 256,
+            sourceX = 37,
+            sourceY = 552,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket5
-            x=677,
-            y=1,
+            x=846,
+            y=469,
             width=167,
             height=412,
 
-            sourceX = 44,
-            sourceY = 199,
+            sourceX = 39,
+            sourceY = 485,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket6
-            x=677,
-            y=1,
+            x=846,
+            y=469,
             width=167,
             height=412,
 
-            sourceX = 44,
-            sourceY = 199,
+            sourceX = 39,
+            sourceY = 439,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket7
-            x=508,
-            y=515,
+            x=1015,
+            y=1,
             width=167,
-            height=461,
+            height=462,
 
-            sourceX = 44,
-            sourceY = 199,
+            sourceX = 39,
+            sourceY = 349,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket8
-            x=508,
-            y=515,
+            x=1015,
+            y=1,
             width=167,
-            height=461,
+            height=462,
 
-            sourceX = 44,
-            sourceY = 199,
+            sourceX = 39,
+            sourceY = 297,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket9
-            x=1353,
-            y=1,
+            x=1184,
+            y=402,
             width=167,
             height=399,
 
-            sourceX = 44,
-            sourceY = 198,
+            sourceX = 39,
+            sourceY = 269,
             sourceWidth = 250,
-            sourceHeight = 660
-        },
-        {
+            sourceHeight = 1100
+        }, {
             -- rocket10
-            x=677,
-            y=415,
+            x=1015,
+            y=465,
             width=167,
-            height=408,
+            height=443,
 
             sourceX = 39,
-            sourceY = 404,
+            sourceY = 205,
             sourceWidth = 250,
-            sourceHeight = 900
+            sourceHeight = 1100
         },
         {
             -- rocket11
-            x=846,
+            x=677,
             y=1,
             width=167,
-            height=404,
+            height=501,
 
-            sourceX = 44,
-            sourceY = 176,
+            sourceX = 39,
+            sourceY = 147,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket12
-            x=170,
-            y=555,
-            width=167,
-            height=455,
-
-            sourceX = 44,
-            sourceY = 125,
-            sourceWidth = 250,
-            sourceHeight = 660
-        },
-        {
-            -- rocket13
             x=339,
             y=1,
             width=167,
-            height=540,
+            height=543,
 
             sourceX = 39,
-            sourceY = 272,
+            sourceY = 105,
             sourceWidth = 250,
-            sourceHeight = 900
+            sourceHeight = 1100
+        },
+        {
+            -- rocket13
+            x=1,
+            y=1,
+            width=167,
+            height=589,
+
+            sourceX = 39,
+            sourceY = 59,
+            sourceWidth = 250,
+            sourceHeight = 1100
         },
         {
             -- rocket14
             x=1,
             y=1,
             width=167,
-            height=571,
+            height=589,
 
             sourceX = 39,
-            sourceY = 241,
+            sourceY = 31,
             sourceWidth = 250,
-            sourceHeight = 900
+            sourceHeight = 1100
         },
         {
             -- rocket15
             x=170,
             y=1,
             width=167,
-            height=552,
+            height=584,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket16
             x=508,
             y=1,
             width=167,
-            height=512,
+            height=516,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket17
-            x=339,
-            y=543,
+            x=846,
+            y=1,
             width=167,
-            height=471,
+            height=466,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket18
-            x=1,
-            y=574,
+            x=677,
+            y=504,
             width=167,
-            height=438,
+            height=408,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket19
-            x=1015,
-            y=402,
+            x=1353,
+            y=401,
             width=167,
-            height=386,
+            height=360,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
-
+   
         {
             -- rocket20
-            x=1184,
-            y=402,
+            x=170,
+            y=587,
             width=167,
-            height=358,
+            height=306,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket21
-            x=1353,
-            y=402,
+            x=1,
+            y=592,
             width=167,
-            height=326,
+            height=250,
 
-            sourceX = 44,
+            sourceX = 39,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket22
             x=1353,
-            y=730,
-            width=167,
-            height=285,
+            y=763,
+            width=74,
+            height=182,
 
-            sourceX = 44,
+            sourceX = 86,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket23
             x=1184,
-            y=762,
-            width=167,
-            height=241,
+            y=803,
+            width=74,
+            height=132,
 
-            sourceX = 44,
+            sourceX = 86,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket24
-            x=677,
-            y=825,
+            x=1,
+            y=844,
             width=74,
-            height=166,
+            height=100,
 
-            sourceX = 90,
+            sourceX = 86,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket25
-            x=753,
-            y=825,
-            width=74,
-            height=137,
+            x=918,
+            y=883,
+            width=70,
+            height=60,
 
-            sourceX = 90,
+            sourceX = 88,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket26
-            x=829,
-            y=825,
-            width=74,
-            height=105,
+            x=77,
+            y=869,
+            width=58,
+            height=12,
 
-            sourceX = 89,
+            sourceX = 94,
             sourceY = 0,
             sourceWidth = 250,
-            sourceHeight = 660
+            sourceHeight = 1100
         },
         {
             -- rocket27
-            x=829,
-            y=932,
+            x=846,
+            y=883,
             width=70,
             height=61,
 
@@ -341,8 +341,8 @@ SheetInfo.sheet =
         },
         {
             -- rocket28
-            x=508,
-            y=978,
+            x=77,
+            y=844,
             width=58,
             height=23,
 
@@ -351,11 +351,10 @@ SheetInfo.sheet =
             sourceWidth = 250,
             sourceHeight = 660
         },
-
     },
     
     sheetContentWidth = 1521,
-    sheetContentHeight = 1016
+    sheetContentHeight = 946
 }
 
 SheetInfo.frameIndex =
