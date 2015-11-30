@@ -13,6 +13,7 @@ local centerY = display.contentCenterY
 local spawnedObjects = {}
 local widget = require("widget")
 local growl = audio.loadSound( "Sounds/growl.mp3" )
+local growlPlaying = false
 
 
 --Create a scene object based on data read from data.json
@@ -75,28 +76,23 @@ hotspot.alpha = 0
 local torchLight = display.newImage("Images/torchLight.png", true)
 torchLight.x = display.contentWidth/8
 torchLight.y = display.contentHeight*0.6
-torchLight.alpha=0
 
 local instructions = display.newImage("Images/revealInstruct.png", true)
 instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
-
-function turnOn()
-    transition.to(torchLight, {time=10, alpha=1})
-end
     
     local nextPgBtn = widget.newButton
 {
     width = 120,
     height = 250,
     id ="nextPage",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     defaultFile = "Images/nextBtn.png",
     onRelease = changePage
 }
 
-nextPgBtn.x = 1950
-nextPgBtn.y = display.contentHeight/2
 
     local previousBtn = widget.newButton
 {
@@ -111,19 +107,6 @@ nextPgBtn.y = display.contentHeight/2
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
-
-    local torchBtn = widget.newButton
-{
-    width = 200,
-    height = 200,
-    id ="torchBtn",
-    defaultFile = "Images/torchBtnOff.png",
-    overFile = "Images/torchBtnOn.png",
-    onRelease = turnOn
-}
-
-torchBtn.x = 200
-torchBtn.y = display.contentHeight*0.9
         
 -- 1st image sheet
 local sheetData1 = require("Sprites.explosion1")
@@ -158,6 +141,14 @@ explosionAnim.x = display.contentWidth/2
 explosionAnim.y = display.contentHeight/2
 explosionAnim.alpha=0
 
+local function playGrowl()
+    if growlPlaying == false then
+        audio.setVolume( 0.5 ) 
+        audio.play(growl)
+        growlPlaying = true
+    end
+end
+
 local function monsterShake(target)
 local firstTran, secondTran, thirdTran
 
@@ -177,8 +168,8 @@ end
 
 --First Transtion
 firstTran = function()
-audio.setVolume( 0.5 ) 
-audio.play(growl)
+    playGrowl()
+
 transition.to(target, {transition = inOutExpo, time = 100, rotation = 5, onComplete = secondTran})
 end
 
@@ -295,7 +286,6 @@ sceneGroup:insert(hotspot)
 sceneGroup:insert(explosionAnim)
 sceneGroup:insert(torchLight)
 sceneGroup:insert(nextPgBtn)
-sceneGroup:insert(torchBtn)
 sceneGroup:insert(previousBtn)
 
 torchLight:addEventListener( "touch", torchLight )
@@ -311,7 +301,7 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       timer.performWithDelay(4000, playInstructions)
+       timer.performWithDelay(2000, playInstructions)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

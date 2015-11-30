@@ -14,7 +14,7 @@
           "op": "/"
         },
         
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -37,7 +37,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -60,7 +60,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -83,7 +83,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -106,7 +106,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -129,7 +129,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -152,7 +152,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -175,7 +175,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -198,7 +198,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -221,7 +221,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -244,7 +244,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -267,7 +267,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -290,7 +290,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -313,7 +313,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -336,7 +336,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -359,7 +359,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -382,7 +382,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -394,7 +394,7 @@
       {
     "text": [
       {
-        "value": "When he reached the bedroom, the fear returned but Freddie was determined to face his foe and discover it's true identity. Clutching his fathers torch he made his way under the bed. ",
+        "value": "After all this adventure, Freddie was exhausted. He decided to make his way back to his bedroom. He was determined to face the monster under the bed, and discover it's true identity. ",
         "x": {
           "value": 2,
           "base": true,
@@ -405,7 +405,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -428,7 +428,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -451,7 +451,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -474,7 +474,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -486,7 +486,7 @@
       {
     "text": [
       {
-        "value": "Freddie was lost in a cloud of dust. He was in need of some help. Can you help him?",
+        "value": "Freddie was lost in a cloud of dust. It made him cough and sneeze, distracting him from the monster. He needed some help. Can you help him?",
         "x": {
           "value": 2,
           "base": true,
@@ -497,7 +497,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -509,7 +509,7 @@
       {
     "text": [
       {
-        "value": "Finally, the monster was defeated! Freddie used his torch to finally yreveal the monster's true identity. ",
+        "value": "Finally, the monster was defeated! Now all Freddie had to do was use his torch to reveal the monster's true identity. ",
         "x": {
           "value": 2,
           "base": true,
@@ -520,7 +520,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -543,7 +543,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -566,7 +566,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,
@@ -589,7 +589,7 @@
           "base": true,
           "op": "/"
         },
-        "fontSize": 72,
+        "fontSize": 80,
         "color": {
           "r": 1,
           "g": 1,

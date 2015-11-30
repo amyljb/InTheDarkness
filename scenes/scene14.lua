@@ -10,6 +10,7 @@ local sceneNumber = 14
 local nextSceneNumber = "scenes.scene15"
 local previousScene = "scenes.scene13"
 local widget = require("widget")
+local movedPage = false
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -43,11 +44,6 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
-        composer.gotoScene( "scenes.textPage", overlayOptions )
-    return true
-end
-
 freddieCold = display.newImage( "Images/freddieCold.png", true )
 freddieCold.x=display.contentWidth/2
 freddieCold.y=display.contentHeight/2
@@ -62,12 +58,12 @@ breath.alpha = 0
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    onRelease = nextClosure()
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
+    id = "next",
+    onRelease = nextClosure
 }
-
-nextPgBtn.x = 1950
-nextPgBtn.y = display.contentHeight/2
-
 
     local previousBtn = widget.newButton
 {
@@ -78,6 +74,7 @@ nextPgBtn.y = display.contentHeight/2
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
+    id = "previous",
     --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }

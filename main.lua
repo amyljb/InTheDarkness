@@ -71,7 +71,7 @@ function revealSidebar(event)
 end
 
 audio.play(soundtrack, soundOptions)
-audio.setVolume( 0.2, {channel = soundtrack})
+audio.setVolume( 0.2)
 
 local sidebarGroup = display.newGroup()
 sidebarGroup:insert(sidebar)

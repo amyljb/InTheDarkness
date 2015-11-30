@@ -29,7 +29,7 @@ local sceneObject = BaseScene:new({
 -- "scene:create()"
 function scene:create( event )
 local sceneGroup = self.view
-
+physics.start()
     --Initialize the scene
     local sceneComponents = sceneObject:getText()
     
@@ -47,7 +47,7 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage( event )
+local function changePage()
         movedPage = true
         nextClosure()
     return true
@@ -56,11 +56,6 @@ end
 local caveBkg = display.newImage( "Images/cave.png", true )
 caveBkg.x=display.contentWidth/2
 caveBkg.y=display.contentHeight/2
---
---local freddie = display.newImage("Images/freddieCave.png", true)
---freddie.x = display.contentWidth*0.75
---freddie.y = display.contentHeight - display.contentHeight/3
-        
 
 local cloud1 = display.newImage( "Images/cloud1.png", true )
 cloud1.x=display.contentWidth/3
@@ -85,7 +80,7 @@ cloud5.y=display.contentHeight/4
 local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
 cloudHotspot.alpha = 0.1
 
-local tapIndicator = display.newImage("Images/tapButton.png", true)
+tapIndicator = display.newImage("Images/tapButton.png", true)
 tapIndicator.x= display.contentWidth/4
 tapIndicator.y= display.contentHeight/2
 tapIndicator.alpha = 0
@@ -100,7 +95,6 @@ tapIndicator.alpha = 0
     y = display.contentHeight*0.9,
     onRelease = changePage
 }
-
 
     local previousBtn = widget.newButton
 {
@@ -196,14 +190,8 @@ function loadDustballs()
         dustBallGroup:insert(dustBall)
     -- When the movement is complete, it will remove itself: the onComplete event
     -- creates a function to store information about this dustball and then remove it.
-    transition.to(dustBall, {time = 2500, x= display.contentWidth, y = display.contentHeight/2-100, onComplete = function(self) self.parent:remove(self); self = nil; end})
+    transition.to(dustBall, {time = 2000, x= display.contentWidth, y = display.contentHeight/2, onComplete = function(self) self.parent:remove(self); self = nil; end})
     end
-end
-
-local function spriteListener(event)
-            if event.phase == "ended" then
-                dustSprite.alpha = 0 --hides 
-            end
 end
 
 function crouchDown()
@@ -226,11 +214,9 @@ sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
 
-dustSprite:addEventListener("sprite", spriteListener)
 --freddie:addEventListener("touch", touchFreddie)
 crouchSprite:addEventListener("tap", crouchDown)
 cloudHotspot:addEventListener("tap", moveClouds)
---Runtime:addEventListener("enterFrame", loadDustballs)
 Runtime:addEventListener( "collision", onCollision )
 
 
@@ -246,9 +232,9 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
       -- timer.performWithDelay(2000, loadDustballs, 10)
-      physics.start()
+      
       local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
-        timer.performWithDelay(15000, myClosure, 1)
+        timer.performWithDelay(1000, myClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

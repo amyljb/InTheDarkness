@@ -58,9 +58,8 @@ end
         end
     end    
      
-function rubOutPrompt.rubOutIndicator(nextTapped)
-    if nextTapped == false then
-        print(nextTapped)
+function rubOutPrompt.rubOutIndicator(movedPage)
+    if movedPage == false then
         hand = display.newImage( "Images/hand.png" , true )
         hand.x = display.contentWidth/3 --2 - 300
         hand.y = display.contentHeight/2

@@ -171,7 +171,7 @@ previousBtn.rotation = -180
    end
    
    function playRainSounds()
-        audio.play(rainSound, {loops=-1})
+        audio.play(rainSound, {loops=-1, channel = 2})
     end
         
     rain.new(group, {})    
@@ -229,8 +229,10 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
     rain.pause()
-    audio.stop(rainSound)
+    --audio.stop(rainSound)
    elseif ( phase == "did" ) then
+      -- rain.pause()
+       audio.stop(2)
        transition.cancel(scaleTrans)
        tapIndicator:removeSelf()
        tapIndicator = nil
@@ -245,7 +247,7 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
    print("destroying scene1.2")
-  
+   -- audio.stop(rainSound)
 end
 
 ---------------------------------------------------------------------------------

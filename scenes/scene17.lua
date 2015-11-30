@@ -58,18 +58,24 @@ local kitchenGhostSheet = graphics.newImageSheet( "Sprites/kitchenGhost.png", sh
         kitchenGhostSprite.x = display.contentWidth - display.contentWidth/4
         kitchenGhostSprite.y = display.contentHeight/3 
         
-local sheetInfo2 = require("Sprites.kitchenCurtain")
-local curtainSheet = graphics.newImageSheet( "Sprites/kitchenCurtain.png", sheetInfo2:getSheet() )
+local sheetInfo2 = require("Sprites.curtain1")
+local curtainSheet = graphics.newImageSheet( "Sprites/curtain1.png", sheetInfo2:getSheet() )
+local sheetInfo3 = require("Sprites.curtain2")
+local curtainSheet2 = graphics.newImageSheet( "Sprites/curtain2.png", sheetInfo3:getSheet() )
+local sheetInfo4 = require("Sprites.curtain3")
+local curtainSheet3 = graphics.newImageSheet( "Sprites/curtain3.png", sheetInfo4:getSheet() )
  
- local sequenceData2 =
-    {name="blowing", start = 1, time = 1000, loopCount = 0, count=6}  
-        curtainSprite = display.newSprite(curtainSheet, sequenceData2)
+ local sequenceData2 = {
+    {name="blowing1", sheet=curtainSheet, start = 1, time = 700, loopCount = 0, count=6},  
+    {name="blowing2", sheet=curtainSheet2, start = 1, time = 700, loopCount = 0, count=6}, 
+    {name="blowing3", sheet=curtainSheet3, start = 1, time = 600, loopCount = 0, count=5} 
+    }
     
+        curtainSprite = display.newSprite(curtainSheet, sequenceData2)
         curtainSprite.x = display.contentWidth - display.contentWidth/4
         curtainSprite.y = display.contentHeight/3 
         curtainSprite.alpha=0
                 
-        
 local hotspot = display.newCircle( display.contentWidth - display.contentWidth/4, display.contentHeight/3, 300 )
 hotspot:setFillColor( 0.5 )
 hotspot.alpha = 0 
@@ -77,20 +83,15 @@ hotspot.alpha = 0
 local torchLight = display.newImage("Images/torchLight.png", true)
 torchLight.x = display.contentWidth/8
 torchLight.y = display.contentHeight*0.6
-torchLight.alpha=0  
-
-function turnOn()
-    transition.to(torchLight, {time=10, alpha=1})
-end
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1900,
-    y = display.contentHeight/2,
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
 
@@ -107,19 +108,6 @@ end
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
-
-    local torchBtn = widget.newButton
-{
-    width = 200,
-    height = 200,
-    id ="torchBtn",
-    defaultFile = "Images/torchBtnOff.png",
-    overFile = "Images/torchBtnOn.png",
-    onRelease = turnOn
-}
-
-torchBtn.x = 200
-torchBtn.y = display.contentHeight*0.9
 
 -- 1st image sheet
 local sheetData1 = require("Sprites.explosion1")
@@ -228,12 +216,30 @@ function hasCollided( torchLight, hotspot )
     return false
 end
 
+
+function swapCurtain2()
+    curtainSprite:setSequence("blowing3")
+    curtainSprite:play()
+end
+
+function swapCurtain()
+    curtainSprite:setSequence("blowing2")
+    curtainSprite:play()
+    timer.performWithDelay(700, swapCurtain2)
+end
+
+function playCurtain()
+    curtainSprite:setSequence("blowing1")
+    curtainSprite:play()
+    timer.performWithDelay(700, swapCurtain)
+end
+
 function swapSheet4()
     explosionAnim:setSequence( "seq5" )
     explosionAnim:play()
     transition.to(explosionAnim, {time = 500, alpha = 0})
     transition.to(curtainSprite, {time = 300, alpha = 1})
-    curtainSprite:play()
+    playCurtain()
 end
 
 function swapSheet3()
@@ -262,12 +268,12 @@ function playExplode()
     
 end
 
+
 sceneGroup:insert(bkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(kitchenGhostSprite)
 sceneGroup:insert(hotspot)
 sceneGroup:insert(torchLight)
-sceneGroup:insert(torchBtn)
 sceneGroup:insert(explosionAnim)
 sceneGroup:insert(curtainSprite)
 sceneGroup:insert(previousBtn)

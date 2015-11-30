@@ -84,8 +84,8 @@ end
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1950,
-    y = display.contentHeight/2,
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
 
@@ -98,53 +98,55 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
     
     local layer = {}
-    local swampGroup = display.newGroup()
+    --local swampGroup = display.newGroup()
 --layers image for parallax
-for i =1, 4 do
-    layer[i] = display.newImage("Images/layer" .. i .. ".png", 0, 0)
-    --SET REFERENCE POINT
-    layer[i].x = centerX
-    layer[i].y = centerY
-    swampGroup:insert(layer[i])
-    sceneGroup:insert(layer[i])
-end
-
-function accelerometerHandler(event)
-    for i=1, #layer do
-        local xDamp = 0.2
-        local yDamp = 0.15
-        
-        layer[i].x = centerX + (centerX * event.yGravity * xDamp)
-        layer[i].y = centerY + (centerY * event.xGravity * yDamp)
-    end
-end
+--for i =1, 4 do
+--    layer[i] = display.newImage("Images/layer" .. i .. ".png", 0, 0)
+--    --SET REFERENCE POINT
+--    layer[i].x = centerX
+--    layer[i].y = centerY
+--    swampGroup:insert(layer[i])
+--    sceneGroup:insert(layer[i])
+--end
+--
+--function accelerometerHandler(event)
+--    for i=1, #layer do
+--        local xDamp = 0.2
+--        local yDamp = 0.15
+--        
+--        layer[i].x = centerX + (centerX * event.yGravity * xDamp)
+--        layer[i].y = centerY + (centerY * event.xGravity * yDamp)
+--    end
+--end
     
     local snapshot = display.newSnapshot(2048, 1536)
     snapshot:translate( display.contentCenterX, display.contentCenterY )
 
-    local darkness = display.newImage( "Images/darkness.png" )
-    darkness.x = display.contentWidth/2
-    darkness.y = display.contentHeight/2
+    local hall = display.newImage( "Images/monsterHall.png" )
+    hall.x = display.contentWidth/2
+    hall.y = display.contentHeight/2
     
-    local monsterShadow = display.newImage( "Images/monsterShadow.png" )
-    monsterShadow.x = display.contentWidth/2
-    monsterShadow.y = display.contentHeight/2
+--    local darkness = display.newImage( "Images/darkness.png" )
+--    darkness.x = display.contentWidth/2
+--    darkness.y = display.contentHeight/2
+--    
+--    local monsterShadow = display.newImage( "Images/monsterShadow.png" )
+--    monsterShadow.x = display.contentWidth/2
+--    monsterShadow.y = display.contentHeight/2
 
-   -- local frontImage = display.newImage( "Images/monsterHall.png" )
-   -- frontImage.x = display.contentWidth/2
-   -- frontImage.y = display.contentHeight/2
+    local swampImage = display.newImage( "Images/swamp.png" )
+    --swampImage.x = display.contentWidth/2
+    --swampImage.y = display.contentHeight/2
     
     --snapshot.canvas:insert(frontImage)
-    snapshot.canvas:insert(swampGroup)
+    snapshot.canvas:insert(swampImage)
     snapshot:invalidate( "canvas" )
     --snapshot.canvas:insert(swampGroup)
-    snapshot:invalidate( "canvas" )
 
     local previousX, previousY
     local threshold = 10
@@ -194,6 +196,17 @@ local lizardSheet = graphics.newImageSheet("Sprites/lizardSprite.png", lizardshe
     lizardSprite = display.newSprite(lizardSheet, sequenceData)
     lizardSprite.x = display.contentWidth*0.85
     lizardSprite.y = display.contentHeight*0.55
+     
+     
+    local headsheetInfo = require("Sprites.monsterHead")
+    local headSheet = graphics.newImageSheet("Sprites/monsterHead.png", headsheetInfo:getSheet())
+
+    local sequenceData2 =
+    {name="headMoving", start = 1, time = 4500, count=12}
+    
+    headSprite = display.newSprite(headSheet, sequenceData2)
+    headSprite.x = display.contentWidth/2
+    headSprite.y = display.contentHeight/2.5
         
 local emitter = particleDesigner.newEmitter( "bp_firefly_final.json" )
 emitter.x = display.contentWidth / 2
@@ -212,26 +225,29 @@ local function set_original_rate( event )
 	emitter.emissionRateInParticlesPerSeconds = original_rate
 end
 
-function monsterFade()
-    transition.to(darkness, {alpha = 0, time=6000})
-    transition.to(monsterShadow, {alpha = 0, time=9000})
-end
+--function monsterFade()
+--    transition.to(darkness, {alpha = 0, time=6000})
+--    transition.to(monsterShadow, {alpha = 0, time=9000})
+--end
+--
+--function removeListeners()
+--    snapshot:removeEventListener( "touch", listener ) 
+--    Runtime:removeEventListener("accelerometer", accelerometerHandler)
+--end
 
-function removeListeners()
-    snapshot:removeEventListener( "touch", listener ) 
-    Runtime:removeEventListener("accelerometer", accelerometerHandler)
-end
 
-    sceneGroup:insert(lizardSprite)
-    sceneGroup:insert(emitter)
-    sceneGroup:insert(monsterShadow)
-    sceneGroup:insert(darkness)
+   -- sceneGroup:insert(monsterShadow)
+   -- sceneGroup:insert(darkness)
+   sceneGroup:insert(hall)
     sceneGroup:insert(snapshot)
+    sceneGroup:insert(lizardSprite)
+    sceneGroup:insert(headSprite)
+    sceneGroup:insert(emitter)
     sceneGroup:insert(nextPgBtn)
     sceneGroup:insert(previousBtn)
     
 snapshot:addEventListener( "touch", listener ) 
-Runtime:addEventListener("accelerometer", accelerometerHandler)
+--Runtime:addEventListener("accelerometer", accelerometerHandler)
 
 
 end
@@ -244,12 +260,13 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       local rubOutClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
+       local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
      timer.performWithDelay(5000, rubOutClosure, 1)
-    monsterFade()
+    --monsterFade()
       timer.performWithDelay(4000, playSwampSounds)
       start_particles()
       lizardSprite:play()
+      headSprite:play()
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

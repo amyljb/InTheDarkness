@@ -4,10 +4,10 @@ local widget = require( "widget" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local scene = composer.newScene("scene12")
-local sceneName = "scene12"
-local sceneNumber = 12
-local nextSceneNumber = "scenes.scene13"
+local scene = composer.newScene("scene16")
+local sceneName = "scene16"
+local sceneNumber = 16
+local nextSceneNumber = "scenes.scene17"
 local previousScene = "scenes.scene15"
 local breathText
 local scaleNum = 0
@@ -64,12 +64,6 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
-    print("pressed next pg btn")
-    composer.gotoScene("scenes.textPage", overlayOptions )     
-    return true
-end
-
     local bkg = display.newImage("Images/heartBkg.png", true)
     bkg.x = display.contentWidth/2
     bkg.y = display.contentHeight/2
@@ -96,7 +90,7 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
-    onRelease = nextClosure()
+    onRelease = nextClosure
 }
 
     local previousBtn = widget.newButton

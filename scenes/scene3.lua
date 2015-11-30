@@ -50,7 +50,7 @@ local sceneObject = BaseScene:new({
 
 function scene:create( event )
     local sceneGroup = self.view
-    
+    physics.start()
     --    Initialize the scene
     local sceneComponents = sceneObject:getText()
     
@@ -253,7 +253,6 @@ function scene:show( event )
     if phase == "will" then
         
     elseif phase == "did" then
-        physics.start()
         timer.performWithDelay(4500, spawnGhost1, 10)
         timer.performWithDelay(4000, spawnGhost2, 10)
         timer.performWithDelay(1000, playInstructions)

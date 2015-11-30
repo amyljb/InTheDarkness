@@ -60,12 +60,12 @@ darkness.y = display.contentHeight/2
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1900,
-    y = display.contentHeight/2,
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = nextClosure
 }
 

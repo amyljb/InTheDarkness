@@ -150,7 +150,7 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        local swipeClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
-        timer.performWithDelay(5000, swipeClosure, 1)
+        timer.performWithDelay(1500, swipeClosure, 1)
        kitchenGhostSprite:play()
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then

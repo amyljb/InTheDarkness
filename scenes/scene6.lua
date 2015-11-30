@@ -145,15 +145,6 @@ local sequenceData4 = {
       grrSprite.x = display.contentWidth/3
       grrSprite.y = display.contentHeight
 
-local sheetInfo6 = require("Sprites.suddenlyText")
-        local suddenlySheet = graphics.newImageSheet( "Sprites/suddenlyText.png", sheetInfo6:getSheet() )
-        local sequenceData5 = 
-            {name="shh", start = 1, time = 4000, loopCount = 1, count=2}
-        suddenlySprite = display.newSprite(suddenlySheet, sequenceData5)
-        suddenlySprite.x = display.contentWidth/2
-        suddenlySprite.y =display.contentHeight/2  
-        suddenlySprite.alpha=0
-
 local lightButton = widget.newButton
 {
     width = 250,
@@ -174,7 +165,6 @@ local lightButton = widget.newButton
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
@@ -218,8 +208,13 @@ local function swapSheet()
         print("seq2")
         transition.to(grrSprite, {alpha = 0, time = 2000})
         transition.to(shhSprite, {alpha = 0, time = 2000})
-        transition.to(suddenlySprite, {alpha = 0, time = 1000})
         --timer.performWithDelay( 1000, playGrr )
+end
+
+
+local function swapSheet2()
+        grrSprite:setSequence( "seqTwo" )
+        grrSprite:play()
 end
 
 function playGrr()
@@ -228,6 +223,7 @@ function playGrr()
         print("playing grr")
         grrSprite.alpha = 1
         grrSprite:setSequence( "seqOne" )
+        audio.play(snoreSound, {duration=2000})
         grrSprite:play()
         shhSprite:play()
         timer.performWithDelay( 700, swapSheet )
@@ -313,12 +309,13 @@ local function snoringSounds()
     audio.play(snoreSound, {duration=2000})
     grrSprite.y = display.contentHeight/6
     grrSprite.x = display.contentWidth/2
-    --grrSprite:setSequence( "seqOne" )
+    grrSprite:setSequence( "seqOne" )
     grrSprite.alpha = 1
     playGrr()
     --snoringSprite.alpha = 1
     --snoringSprite:play()
-    transition.to(grrSprite, {alpha = 0, time = 2000})
+   -- transition.to(grrSprite, {alpha = 0, time = 2000})
+    timer.performWithDelay( 700, swapSheet2 )
     return true
 end
 
@@ -342,7 +339,6 @@ end
 
 local function textDelete()
    instructions.alpha = 0
-   --instructions:removeSelf()
 end   
 
 local function scaleDown()
@@ -355,14 +351,6 @@ function playInstructions()
         transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
     end
 end 
-
-function playSuddenText()
-    if swiped == false  and transitioned == false then
-    suddenlySprite.alpha=1
-    suddenlySprite:play()
-    audio.play(dumSound)
-    end
-end
 
 function removeInstructions(downInstructions)
     downInstructions.alpha=0
@@ -381,6 +369,11 @@ function swipeInstruction()
     end
 end
 
+function dadTap()
+    grrSprite:play()
+    transition.to(grrSprite, {time = 1800, alpha=0})
+end
+
 --insert scene elements into sceneGroup
 sceneGroup:insert(background)
 sceneGroup:insert(bed)
@@ -393,7 +386,6 @@ sceneGroup:insert(clock)
 sceneGroup:insert(radio)
 sceneGroup:insert(snoringSprite)
 sceneGroup:insert(shhSprite)
-sceneGroup:insert(suddenlySprite)
 sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
 
@@ -401,6 +393,7 @@ sceneGroup:insert(previousBtn)
 tv:addEventListener("tap", playTv)
 clock:addEventListener("tap", clockSounds)
 dad:addEventListener("tap", snoringSounds)
+dad:addEventListener("tap", dadTap)
 bed:addEventListener("touch", bedCreak)
 bed:addEventListener("tap", bedCreak)
 curtainSprite:addEventListener("touch", openCurtain)
@@ -418,11 +411,8 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
     timer.performWithDelay(1000, playInstructions)
-    timer.performWithDelay(15000, playSuddenText)
-    timer.performWithDelay(20000, playGrr )
-    timer.performWithDelay(25000, swipeInstruction )
-    --local swipeClosure = function() return swipePrompt.swipeIndicator(sceneName, transitioned) end
-    -- timer.performWithDelay(4000, swipeClosure, 1)
+    timer.performWithDelay(10000, playGrr )
+    timer.performWithDelay(15000, swipeInstruction )
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

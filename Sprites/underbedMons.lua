@@ -1,7 +1,7 @@
 --
 -- created with TexturePacker (http://www.codeandweb.com/texturepacker)
 --
--- $TexturePacker:SmartUpdate:a717bda99ba713655243cc251679ad0d:4d9567a6480a6660d5f0d11366c76f27:eda57eec853206e60185b6c346b23a99$
+-- $TexturePacker:SmartUpdate:9247beb40c4d71ce665171d6692df3bf:8e711b0e225344499fc7f0a1aefe58bc:eda57eec853206e60185b6c346b23a99$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -16,92 +16,92 @@ SheetInfo.sheet =
     
         {
             -- underbedMons1
-            x=4846,
-            y=2,
-            width=833,
-            height=1192,
+            x=1844,
+            y=1202,
+            width=845,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons2
-            x=3007,
-            y=2,
-            width=939,
-            height=1192,
+            x=1,
+            y=1202,
+            width=941,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons3
-            x=1026,
-            y=2,
-            width=997,
-            height=1192,
+            x=1027,
+            y=1,
+            width=999,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons4
-            x=2,
-            y=2,
-            width=1022,
-            height=1192,
+            x=1,
+            y=1,
+            width=1024,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons5
-            x=2025,
-            y=2,
-            width=980,
-            height=1192,
+            x=2028,
+            y=1,
+            width=982,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons6
-            x=3948,
-            y=2,
-            width=896,
-            height=1192,
+            x=944,
+            y=1202,
+            width=898,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
         {
             -- underbedMons7
-            x=5681,
-            y=2,
-            width=828,
-            height=1192,
+            x=2691,
+            y=1202,
+            width=845,
+            height=1199,
 
-            sourceX = 25,
-            sourceY = 2,
+            sourceX = 24,
+            sourceY = 1,
             sourceWidth = 1050,
             sourceHeight = 1200
         },
     },
     
-    sheetContentWidth = 6511,
-    sheetContentHeight = 1196
+    sheetContentWidth = 3537,
+    sheetContentHeight = 2402
 }
 
 SheetInfo.frameIndex =
