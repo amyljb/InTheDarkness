@@ -33,7 +33,7 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-       composer.gotoScene("scenes.scene8", pageChangeOptions)
+       composer.gotoScene("scenes.scene11", pageChangeOptions)
        -- composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
@@ -78,9 +78,6 @@ menuLight.y = display.contentHeight/2
     y = display.contentHeight/9,
     onRelease = loadOverlay
 }
-
---timer.performWithDelay(1500, loadOverlay)
-
     sceneGroup:insert(menuBackground)
     sceneGroup:insert(playFullBtn)
     sceneGroup:insert(chapterBtn)

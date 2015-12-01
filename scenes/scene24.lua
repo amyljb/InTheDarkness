@@ -3,13 +3,13 @@ local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local sfx = require("modules.sfx")
 local widget = require("widget")
 local scene = composer.newScene("scene24")
 local sceneName = "scene24"
 local sceneNumber = 24
 local nextSceneNumber = "scenes.scene25"
 local previousScene = "scenes.scene23"
-local growl = audio.loadSound( "Sounds/growl.mp3" )
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local growlPlaying = false
@@ -71,7 +71,6 @@ local dizzySheet = graphics.newImageSheet( "Sprites/dizzy.png", sheetInfo:getShe
 local sequenceData =
     {name="spinning", start = 1, time = 500, loopCount = 0, count=6}  
         dizzySprite = display.newSprite(dizzySheet, sequenceData)
-    
         dizzySprite.x = display.contentWidth/2
         dizzySprite.y = display.contentHeight/8
 
@@ -94,11 +93,10 @@ instructions.alpha=0
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = nextClosure
 }
-
-nextPgBtn.x = 1950
-nextPgBtn.y = display.contentHeight/2
 
    local previousBtn = widget.newButton
 {
@@ -109,7 +107,6 @@ nextPgBtn.y = display.contentHeight/2
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
@@ -150,7 +147,7 @@ explosionAnim.alpha=0
 local function playGrowl()
     if growlPlaying == false then
         audio.setVolume( 0.5 ) 
-        audio.play(growl)
+        audio.play(sfx.growl)
         growlPlaying = true
     end
 end
@@ -201,9 +198,10 @@ function torchLight:touch( event )
         self.x, self.y = x, y    -- move object based on calculations above
     elseif event.phase == "ended" then
          if hasCollided( event.target, hotspot ) then
-                    -- Pick up coin!
                     print("collided with hotspot")
                     playExplode()
+                    dizzySprite:removeSelf()
+                    dizzySprite = nil
                     hotspot:removeSelf()
                     hotspot = nil
    
@@ -267,22 +265,7 @@ end
 
     function removeEventListeners()
         print("removeEventListeners called scene 13")
-    end  
-    
-
-local function textDelete()
-   instructions.alpha = 0
-   --instructions:removeSelf()
-end   
-
-local function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2500, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    instructions.alpha = 1
-    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
-end     
+    end     
       
 sceneGroup:insert(bkg)
 sceneGroup:insert(pile)
@@ -311,9 +294,6 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -324,9 +304,6 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end

@@ -4,6 +4,8 @@ local widget = require( "widget" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local sfx = require("modules.sfx")
+local instructionFunc = require("modules.instructionFunc")
 local scene = composer.newScene("scene12")
 local sceneName = "scene12"
 local sceneNumber = 12
@@ -13,7 +15,6 @@ local breathText
 local scaleNum = 0
 local movedPage = false
 numTapped = 0
-local heartSound = audio.loadSound( "heartbeating.mp3" )
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -86,6 +87,11 @@ end
     
     local myText = display.newText( "0", 1890, 150, native.systemFont, 150 )
     myText:setFillColor( 0, 0, 0 )
+    
+    local instructions = display.newImage("Images/heartInstructions.png", true)
+    instructions.x = display.contentWidth/2
+    instructions.y = display.contentHeight/2
+    instructions.alpha=0
     
 
     local nextPgBtn = widget.newButton
@@ -165,6 +171,20 @@ function slowBeat()
     end
 end
 
+local function textDelete()
+   instructions.alpha = 0
+   --instructions:removeSelf()
+end   
+
+local function scaleDown()
+    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2500, onComplete=textDelete } )    
+end    
+
+function playInstructions()
+    instructions.alpha = 1
+    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
+end 
+
 sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
@@ -183,8 +203,11 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
       beatSprite:play()
-      audio.play(heartSound)
-     timer.performWithDelay(2000, generateButton, 20)
+      audio.play(sfx.heartSound)
+     timer.performWithDelay(3500, generateButton, 20)
+     --timer.performWithDelay(2000, playInstructions)
+     local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

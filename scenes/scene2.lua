@@ -1,7 +1,8 @@
 --HOUSE IMAGE
 local composer = require( "composer" )
-local tapIndicatorFunc = require("tapIndicatorFunc")
-local rubPrompt = require("rubOutPrompt")
+local tapIndicatorFunc = require("modules.tapIndicatorFunc")
+local rubPrompt = require("modules.rubOutPrompt")
+local sfx = require("modules.sfx")
 local changePg = require("changePg")
 local scene = composer.newScene()
 local sceneName = "scene2"
@@ -10,8 +11,7 @@ local indTapped = false
 local xSpeed = .1
 local ySpeed = -.15
 local movedPage = false
-local rain = require("rain")
-local rainSound = audio.loadStream("Sounds/rain.wav")
+local rain = require("modules.rain")
 local sceneNumber = 2
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
@@ -168,7 +168,7 @@ previousBtn.rotation = -180
    end
    
    function playRainSounds()
-        audio.play(rainSound, {loops=-1, channel = 2})
+        audio.play(sfx.rainSound, {loops=-1, channel = 2})
     end
         
     rain.new(group, {})    

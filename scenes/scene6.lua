@@ -5,7 +5,9 @@ local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local widget = require ("widget")
-local tapIndicatorFunc = require("tapIndicatorFunc")
+local sfx = require("modules.sfx")
+local tapIndicatorFunc = require("modules.tapIndicatorFunc")
+local instructionFunc = require("modules.instructionFunc")
 local scene = composer.newScene("scene6")
 local swipeDistance = 40
 local startTouchY = 0
@@ -21,14 +23,14 @@ local curtainOpen = false
 local transitioned = false
 local swiped = false
 
-local snoreSound = audio.loadSound( "Sounds/male_snoring.mp3" )
-local clockSound = audio.loadSound( "Sounds/clock.wav" )
-local windSound = audio.loadSound( "Sounds/windSound.mp3" )
-local lightSwitchSound = audio.loadSound( "Sounds/switch-1.wav" )
-local bedSound = audio.loadSound( "Sounds/creak.mp3" )
-local tvSound = audio.loadSound( "Sounds/static_noise.mp3" )
-local toyBoxSound = audio.loadSound( "Sounds/toy_raygun.mp3" )
-local radioSound = audio.loadSound( "Sounds/radio.mp3" )
+--local snoreSound = audio.loadSound( "Sounds/male_snoring.mp3" )
+--local clockSound = audio.loadSound( "Sounds/clock.wav" )
+--local windSound = audio.loadSound( "Sounds/windSound.mp3" )
+--local lightSwitchSound = audio.loadSound( "Sounds/switch-1.wav" )
+--local bedSound = audio.loadSound( "Sounds/creak.mp3" )
+--local tvSound = audio.loadSound( "Sounds/static_noise.mp3" )
+--local toyBoxSound = audio.loadSound( "Sounds/toy_raygun.mp3" )
+--local radioSound = audio.loadSound( "Sounds/radio.mp3" )
 
 --    Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -65,7 +67,7 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
 local function changePage( event )
     if event.phase == "ended" then
         transitioned = true
-        audio.play(lightSwitchSound)
+        audio.play(sfx.lightSwitchSound)
         nextClosure()
     end
     return true
@@ -95,7 +97,7 @@ local table = display.newImage("Images/table.png", true)
 table.x = display.contentWidth/2
 table.y = display.contentHeight*2
 
-local instructions = display.newImage("Images/soundInstruction.png", true)
+instructions = display.newImage("Images/soundInstruction.png", true)
 instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
@@ -174,11 +176,11 @@ previousBtn.rotation = -180
 
 local function playBox()
     print("toybox")
-    audio.play(toyBoxSound, {duration=2000})
+    audio.play(sfx.toyBoxSound, {duration=2000})
 end
 
 local function playRadio()
-    audio.play(radioSound, {duration=2000})
+    audio.play(sfx.radioSound, {duration=2000})
 end
 
 local  toyBox = widget.newButton
@@ -279,7 +281,7 @@ function openCurtain(event)
         curtainSprite:play()
         curtainSprite:removeEventListener("touch", openCurtain)
         curtainOpen = true
-        audio.play(windSound, {duration=6000})
+        audio.play(sfx.windSound, {duration=6000})
         end
         return true
 end
@@ -294,7 +296,7 @@ local function removeShh()
 end
 
 local function playTv()
-    audio.play(tvSound, {duration=2000})
+    audio.play(sfx.tvSound, {duration=2000})
     shhSprite.alpha=1
     shhSprite.x = display.contentWidth*0.9 
     shhSprite.y =display.contentHeight/7
@@ -312,7 +314,7 @@ end
 --play snoring sound and snoring sprite
 local function snoringSounds()
     print("playing snore")
-    audio.play(snoreSound, {duration=2000})
+    audio.play(sfx.snoreSound, {duration=2000})
     grrSprite.y = display.contentHeight/6
     grrSprite.x = display.contentWidth/2
     grrSprite:setSequence( "seqOne" )
@@ -328,7 +330,7 @@ end
 --play clock sounds
 local function clockSounds()
     print("playing clock")
-    audio.play(clockSound, {duration=2000})
+    audio.play(sfx.clockSound, {duration=2000})
     return true
 end
 
@@ -339,24 +341,9 @@ end
 local function bedCreak(event)
     if not ( event.phase ) then
         transition.to(bed, {time =200, rotation = 5, onComplete = rotateBack})
-         audio.play(bedSound)
+         audio.play(sfx.bedSound)
     end  
 end
-
-local function textDelete()
-   instructions.alpha = 0
-end   
-
-local function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2500, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    if swiped == false and  transitioned == false then
-        instructions.alpha = 1
-        transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
-    end
-end 
 
 function removeInstructions(downInstructions)
     downInstructions.alpha=0
@@ -417,9 +404,11 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-    timer.performWithDelay(1000, playInstructions)
+    --timer.performWithDelay(1000, playInstructions)
     timer.performWithDelay(10000, playGrr )
     timer.performWithDelay(13000, swipeInstruction )
+    local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

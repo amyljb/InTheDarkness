@@ -3,6 +3,7 @@ local sceneName = "scene4"
 local composer = require( "composer" )
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local instructionFunc = require("modules.instructionFunc")
 local gameUI = require("gameUI")
 local easingx  = require("easingx")
 local physics = require("physics")
@@ -331,7 +332,9 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-        timer.performWithDelay(1000,textPlay)
+       -- timer.performWithDelay(1000,textPlay)
+        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
     end 
 end
 

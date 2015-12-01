@@ -3,7 +3,8 @@ local composer = require( "composer" )
 local widget = require("widget")
 local changePg = require("changePg")
 local physics = require("physics")
-local tapIndicatorFunc = require("tapIndicatorFunc")
+local tapIndicatorFunc = require("modules.tapIndicatorFunc")
+local sfx = require("modules.sfx")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local scene = composer.newScene("scene22")
@@ -11,7 +12,7 @@ local sceneName = "scene22"
 local sceneNumber = 22
 local nextSceneNumber = "scenes.scene23"
 local previousScene = "scenes.scene21"
-local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
+--local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
 local dustSprite
 local movedPage = false
 
@@ -170,7 +171,7 @@ function onCollision(event)
     dustBall.alpha = 0
     dustSprite.alpha = 1
     dustSprite:play()
-    audio.play(sneeze)
+    audio.play(sfx.sneeze)
     end
 end
 

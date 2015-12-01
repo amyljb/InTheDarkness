@@ -2,9 +2,10 @@
 local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
+local sfx = require("modules.sfx")
+local instructionFunc = require("modules.instructionFunc")
 local BaseScene = require "BaseScene"
 local widget = require("widget")
-local rubPrompt = require("rubOutPrompt")
 local scene = composer.newScene("scene21")
 local sceneName = "scene21"
 local sceneNumber = 21
@@ -70,7 +71,7 @@ local bkg = display.newImage("Images/spiderweb.png", true)
 bkg.x = display.contentWidth/2
 bkg.y = display.contentHeight/2
 
-local instructions = display.newImage("Images/spiderInstructions.png", true)
+instructions = display.newImage("Images/spiderInstructions.png", true)
 instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
@@ -151,6 +152,7 @@ function spiderTap(event)
     myText.text = numTapped
     checkTaps()
     event.target:removeSelf()
+    audio.play(sfx.squish)
     local splat = display.newImage("Images/splat.png", true)
     splat.x = event.target.x
     splat.y = event.target.y
@@ -174,7 +176,9 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       timer.performWithDelay(1000, playInstructions)
+       local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
+       --timer.performWithDelay(1000, playInstructions)
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

@@ -1,8 +1,7 @@
---CHANGE IMAGE OF FREDDIE AS HAIR GETS WET, GETS SADDER
+--
 local sceneName = "scene1"
 local composer = require( "composer" )
 local scene = composer.newScene( "scene1" )
-local swipePrompt = require("swipePrompt")
 local widget = require( "widget" )
 local transitioned = false
 local nextSceneButton

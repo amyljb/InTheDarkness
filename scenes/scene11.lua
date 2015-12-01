@@ -3,7 +3,8 @@ local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
-local rubPrompt = require("rubOutPrompt")
+local sfx = require("modules.sfx")
+local rubPrompt = require("modules.rubOutPrompt")
 local particleDesigner = require( "particleDesigner" )
 local lizardsheetInfo = require("Sprites.lizardSprite")
 local widget = require("widget")
@@ -12,7 +13,6 @@ local sceneName = "scene11"
 local sceneNumber = 11
 local nextSceneNumber = "scenes.scene12"
 local previousScene = "scenes.scene10"
-local swampAmbience = audio.loadSound( "Sounds/swamp_ambience_1.mp3" )
 local previousX = 0
 local previousY = 0
 local numTouch = 0
@@ -73,7 +73,7 @@ local function changePage()
     movedPage = true
     nextClosure()
     if soundPlaying == true then
-        audio.stop(swampPlay)
+        audio.stop(sfx.swampPlay)
     end
     return true
 end
@@ -103,26 +103,6 @@ end
 previousBtn.rotation = -180
     
     local layer = {}
-    --local swampGroup = display.newGroup()
---layers image for parallax
---for i =1, 4 do
---    layer[i] = display.newImage("Images/layer" .. i .. ".png", 0, 0)
---    --SET REFERENCE POINT
---    layer[i].x = centerX
---    layer[i].y = centerY
---    swampGroup:insert(layer[i])
---    sceneGroup:insert(layer[i])
---end
---
---function accelerometerHandler(event)
---    for i=1, #layer do
---        local xDamp = 0.2
---        local yDamp = 0.15
---        
---        layer[i].x = centerX + (centerX * event.yGravity * xDamp)
---        layer[i].y = centerY + (centerY * event.xGravity * yDamp)
---    end
---end
     
     local snapshot = display.newSnapshot(2048, 1536)
     snapshot:translate( display.contentCenterX, display.contentCenterY )
@@ -130,23 +110,11 @@ previousBtn.rotation = -180
     local hall = display.newImage( "Images/monsterHall.png" )
     hall.x = display.contentWidth/2
     hall.y = display.contentHeight/2
-    
---    local darkness = display.newImage( "Images/darkness.png" )
---    darkness.x = display.contentWidth/2
---    darkness.y = display.contentHeight/2
---    
---    local monsterShadow = display.newImage( "Images/monsterShadow.png" )
---    monsterShadow.x = display.contentWidth/2
---    monsterShadow.y = display.contentHeight/2
 
     local swampImage = display.newImage( "Images/swamp.png" )
-    --swampImage.x = display.contentWidth/2
-    --swampImage.y = display.contentHeight/2
-    
-    --snapshot.canvas:insert(frontImage)
+
     snapshot.canvas:insert(swampImage)
     snapshot:invalidate( "canvas" )
-    --snapshot.canvas:insert(swampGroup)
 
     local previousX, previousY
     local threshold = 10
@@ -182,11 +150,10 @@ previousBtn.rotation = -180
        -- audio.setVolume(0.0)
        if movedPage == false then
        soundPlaying = true
-        swampPlay = audio.play(swampAmbience)
+        swampPlay = audio.play(sfx.swampAmbience)
         audio.fade( {channel = swampPlay, time=3000, volume=0.7 } )
        end
     end
-    --sceneGroup:insert(swampBackground)
 
 local lizardSheet = graphics.newImageSheet("Sprites/lizardSprite.png", lizardsheetInfo:getSheet())
 
@@ -225,19 +192,10 @@ local function set_original_rate( event )
 	emitter.emissionRateInParticlesPerSeconds = original_rate
 end
 
---function monsterFade()
---    transition.to(darkness, {alpha = 0, time=6000})
---    transition.to(monsterShadow, {alpha = 0, time=9000})
---end
---
---function removeListeners()
---    snapshot:removeEventListener( "touch", listener ) 
---    Runtime:removeEventListener("accelerometer", accelerometerHandler)
---end
+local function removeLizard()
+    lizardSprite.alpha=0
+end
 
-
-   -- sceneGroup:insert(monsterShadow)
-   -- sceneGroup:insert(darkness)
    sceneGroup:insert(hall)
     sceneGroup:insert(snapshot)
     sceneGroup:insert(lizardSprite)
@@ -247,7 +205,7 @@ end
     sceneGroup:insert(previousBtn)
     
 snapshot:addEventListener( "touch", listener ) 
---Runtime:addEventListener("accelerometer", accelerometerHandler)
+snapshot:addEventListener( "tap", removeLizard ) 
 
 
 end
@@ -261,17 +219,15 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
-     timer.performWithDelay(3000, rubOutClosure, 1)
-    --monsterFade()
-      timer.performWithDelay(2500, playSwampSounds)
-      start_particles()
-      lizardSprite:play()
-      headSprite:play()
+        timer.performWithDelay(3000, rubOutClosure, 1)
+        timer.performWithDelay(2500, playSwampSounds)
+        start_particles()
+        lizardSprite:play()
+        headSprite:play()
        local previous =  composer.getSceneName( "previous" )
-             if previous ~= "main" and previous then
+            if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-     --  timer.performWithDelay(20000, changePage10)
    end
 end
 
@@ -282,6 +238,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
+       physics.pause()
      --  audio.fadeOut( { channel=swampAmbience, time=1000 } )
        --lizardSprite:stop()
        --audio.stop(swampAmbience)

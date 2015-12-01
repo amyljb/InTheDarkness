@@ -4,7 +4,9 @@ local scene = composer.newScene("scene23")
 local widget = require("widget")
 local changePg = require("changePg")
 local sceneData = require("loadData")
+local sfx = require("modules.sfx")
 local BaseScene = require "BaseScene"
+local instructionFunc = require("modules.instructionFunc")
 local sceneName = "scene23"
 local sceneNumber = 23
 local nextSceneNumber = "scenes.scene24"
@@ -56,7 +58,7 @@ local overlayOptions2 =
 }
 
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
-local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
 
 local function changePage()
     movedPage = true
@@ -71,19 +73,19 @@ dustBkg.y=display.contentHeight/2
 local myText = display.newText( "0", 1885, 150, native.systemFont, 150 )
 myText:setFillColor( 0, 0, 0 )
 
-local instructions = display.newImage("Images/dustInstructions.png", true)
+    instructions = display.newImage("Images/dustInstructions.png", true)
     instructions.x = display.contentWidth/2
     instructions.y = display.contentHeight/2
     instructions.alpha=0
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
-    y = display.contentHeight*0.9,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
   
@@ -130,6 +132,7 @@ function splatDustball(dustBall)
         splat.x = dustBall.x
         splat.y = dustBall.y
         sceneGroup:insert(splat) 
+        --audio.play(sfx.splat)
         return splat 
     end
 end
@@ -181,7 +184,9 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       timer.performWithDelay(1000, playInstructions)
+       --timer.performWithDelay(1000, playInstructions)
+       local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

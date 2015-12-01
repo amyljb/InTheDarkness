@@ -3,6 +3,8 @@ local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local instructionFunc = require("modules.instructionFunc")
+local sfx = require("modules.sfx")
 local scene = composer.newScene("scene13")
 local sceneName = "scene13"
 local sceneNumber = 13
@@ -12,7 +14,7 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local spawnedObjects = {}
 local widget = require("widget")
-local growl = audio.loadSound( "Sounds/growl.mp3" )
+--local growl = audio.loadSound( "Sounds/growl.mp3" )
 local growlPlaying = false
 
 
@@ -144,7 +146,7 @@ explosionAnim.alpha=0
 local function playGrowl()
     if growlPlaying == false then
         audio.setVolume( 0.5 ) 
-        audio.play(growl)
+        audio.play(sfx.growl)
         growlPlaying = true
     end
 end
@@ -301,7 +303,9 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       timer.performWithDelay(2000, playInstructions)
+       local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
+      -- timer.performWithDelay(2000, playInstructions)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

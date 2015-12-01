@@ -4,12 +4,13 @@ local changePg = require("changePg")
 local widget = require("widget")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
+local sfx = require("modules.sfx")
 local scene = composer.newScene("scene19")
 local sceneName = "scene19"
 local sceneNumber = 19
 local nextSceneNumber = "scenes.scene20"
 local counter = 0
-local whooshSound = audio.loadStream("Sounds/whoosh_1.mp3")
+--local whooshSound = audio.loadStream("Sounds/whoosh_1.mp3")
 local previousScene = "scenes.scene18"
 
 --Create a scene object based on data read from data.json
@@ -184,7 +185,7 @@ end
 function hideEyes()
     doorEyesSprite.alpha=0
     transition.to(doorSprite, {xScale = 6, yScale = 6, time = 2500, onComplete = changeImage})
-    audio.play(whooshSound, {loops=1, duration =2000})
+    audio.play(sfx.whooshSound, {loops=1, duration =2000})
 end
 
 function playDoorEyes()

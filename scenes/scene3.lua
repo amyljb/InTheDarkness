@@ -6,6 +6,7 @@ local widget = require("widget")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
 local changePg = require("changePg")
+local instructionFunc = require("modules.instructionFunc")
 local scene = composer.newScene( "scene3" )
 local sceneName = "scene3"
 local ropeParts = display.newGroup()
@@ -82,7 +83,7 @@ end
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
     
-    local instructions = display.newImage("Images/ghostInstructions.png", true)
+    instructions = display.newImage("Images/ghostInstructions.png", true)
     instructions.x = display.contentWidth/2
     instructions.y = display.contentHeight/2
     instructions.alpha=0
@@ -211,20 +212,6 @@ function loadLight()
 		end
 	end
 end
-
-function textDelete()
-   instructions.alpha = 0
-   --instructions:removeSelf()
-end   
-
-function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2000, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    instructions.alpha = 1
-    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
-end 
    
      --remove event listeners - called in scene destroy   
     function removeEventListeners2()
@@ -253,9 +240,11 @@ function scene:show( event )
     if phase == "will" then
         
     elseif phase == "did" then
+        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+        timer.performWithDelay(1000, instructionsClosure, 1)
         timer.performWithDelay(4500, spawnGhost1, 10)
         timer.performWithDelay(4000, spawnGhost2, 10)
-        timer.performWithDelay(1000, playInstructions)
+       -- timer.performWithDelay(1000, playInstructions)
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
