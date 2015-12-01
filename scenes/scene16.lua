@@ -12,6 +12,7 @@ local nextSceneNumber = "scenes.scene17"
 local previousScene = "scenes.scene15"
 local breathText
 local scaleNum = 0
+local movedPage = false
 numTapped = 0
 --local heartSound = audio.loadSound( "heartbeating.mp3" )
 
@@ -65,6 +66,17 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+local function changePage(event)
+    if event.target.id == "next" then
+        movedPage = true
+        nextClosure()
+        else if event.target.id == "previous" then
+         movedPage = true
+         previousClosure()
+        end
+    end
+end
+
     local bkg = display.newImage("Images/heartBkg.png", true)
     bkg.x = display.contentWidth/2
     bkg.y = display.contentHeight/2
@@ -75,8 +87,13 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
     redBkg.alpha = 0
     
     local freddie = display.newImage("Images/freddieHalf.png", true)
-    freddie.x = display.contentWidth*0.65
+    freddie.x = display.contentWidth/2
     freddie.y = display.contentHeight/2
+    
+    local happier = display.newImage("Images/happier.png", true)
+    happier.x = display.contentWidth/2
+    happier.y = display.contentHeight/2
+    happier.alpha=0
     
     local myText = display.newText( "0", 1890, 150, native.systemFont, 150 )
     myText:setFillColor( 0, 0, 0 )
@@ -91,12 +108,12 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
 {
     width = 120,
     height = 250,
-    id ="nextPage",
+    id ="next",
     defaultFile = "Images/nextBtn.png",
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
-    onRelease = nextClosure
+    onRelease = changePage
 }
 
     local previousBtn = widget.newButton
@@ -108,8 +125,7 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
     
@@ -133,7 +149,7 @@ function removeButton(button)
 end
 
 function generateButton()
-    if numTapped < 4 then
+    if numTapped < 4 and movedPage == false then
        local button = display.newImage("Images/heartBtn.png", true)
         button.x=display.contentWidth/2
         button.y=display.contentHeight*0.8
@@ -161,6 +177,8 @@ function slowBeat()
     end
     if numTapped == 4 then
         composer.showOverlay( "scenes.badgeOverlay", overlayOptions2 )
+        happier.alpha = 1
+        freddie.alpha = 0
     end
 end
 
@@ -182,6 +200,7 @@ sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
 sceneGroup:insert(freddie)
+sceneGroup:insert(happier)
 sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
