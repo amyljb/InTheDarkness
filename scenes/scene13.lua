@@ -79,7 +79,7 @@ local torchLight = display.newImage("Images/torchLight.png", true)
 torchLight.x = display.contentWidth/8
 torchLight.y = display.contentHeight*0.6
 
-local instructions = display.newImage("Images/revealInstruct.png", true)
+instructions = display.newImage("Images/revealInstruct.png", true)
 instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0

@@ -149,7 +149,7 @@ function removeButton(button)
 end
 
 function generateButton()
-    if numTapped < 4 and movedPage == false then
+    if numTapped < 3 and movedPage == false then
        local button = display.newImage("Images/heartBtn.png", true)
         button.x=display.contentWidth/2
         button.y=display.contentHeight*0.8
@@ -174,8 +174,6 @@ function slowBeat()
     if numTapped == 3 then
         beatSprite:setSequence("beatingSlow")
         beatSprite:play()
-    end
-    if numTapped == 4 then
         composer.showOverlay( "scenes.badgeOverlay", overlayOptions2 )
         happier.alpha = 1
         freddie.alpha = 0

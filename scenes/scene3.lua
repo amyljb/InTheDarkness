@@ -69,12 +69,16 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---change page on button tap --ADD PERFORM WITH DELAY
-local function changePage()
-    print("changing pg")
+--change page on button tap
+local function changePage(event)
     movedPage = true
-    nextClosure()
+    if event.target.id == "nextPage" then
+      nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
     local spawnTable = {}
@@ -99,7 +103,7 @@ end
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
-    onRelease = changePage,
+    onRelease = changePage
 }
     
     local previousBtn = widget.newButton
@@ -111,7 +115,7 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 

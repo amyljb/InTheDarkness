@@ -66,10 +66,15 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
+local function changePage(event)
     movedPage = true
-    nextClosure()    
+    if event.target.id == "nextPage" then
+      nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
     local bkg = display.newImage("Images/heartBkg.png", true)
@@ -85,10 +90,15 @@ end
     freddie.x = display.contentWidth/2
     freddie.y = display.contentHeight/2
     
+    local happier = display.newImage("Images/happier.png", true)
+    happier.x = display.contentWidth/2
+    happier.y = display.contentHeight/2
+    happier.alpha=0
+    
     local myText = display.newText( "0", 1890, 150, native.systemFont, 150 )
     myText:setFillColor( 0, 0, 0 )
     
-    local instructions = display.newImage("Images/heartInstructions.png", true)
+    instructions = display.newImage("Images/heartInstructions.png", true)
     instructions.x = display.contentWidth/2
     instructions.y = display.contentHeight/2
     instructions.alpha=0
@@ -115,7 +125,7 @@ end
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
     --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
     
@@ -139,7 +149,7 @@ function removeButton(button)
 end
 
 function generateButton()
-    if numTapped < 4 then
+    if numTapped < 3 and movedPage == false then
        local button = display.newImage("Images/heartBtn.png", true)
         button.x=display.contentWidth/2
         button.y=display.contentHeight*0.8
@@ -164,9 +174,9 @@ function slowBeat()
     if numTapped == 3 then
         beatSprite:setSequence("beatingSlow")
         beatSprite:play()
-    end
-    if numTapped == 4 then
         composer.showOverlay( "scenes.badgeOverlay", overlayOptions2 )
+        happier.alpha = 1
+        freddie.alpha = 0
     end
 end
 
@@ -188,6 +198,7 @@ sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
 sceneGroup:insert(freddie)
+sceneGroup:insert(happier)
 sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
 end

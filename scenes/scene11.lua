@@ -221,6 +221,7 @@ end
 
 local function removeLizard()
     lizardSprite.alpha=0
+    lizardSprite:removeSelf()
 end
 
    sceneGroup:insert(hall)
@@ -237,7 +238,7 @@ end
     sceneGroup:insert(previousBtn)
     
 snapshot:addEventListener( "touch", listener ) 
-snapshot:addEventListener( "tap", removeLizard ) 
+lizardSprite:addEventListener( "tap", removeLizard ) 
 
 
 end

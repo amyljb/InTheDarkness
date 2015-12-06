@@ -11,7 +11,7 @@ local sceneName = "scene21"
 local sceneNumber = 21
 local nextSceneNumber = "scenes.scene22"
 local previousScene = "scenes.scene20"
-local nextTapped = false
+local movedPage = false
 local numTapped = 0
 Random = math.random
 
@@ -61,10 +61,15 @@ local overlayOptions2 =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
 
-local function changePage( )
-    nextTapped = true
-    nextClosure()
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "nextPage" then
+      nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
 local bkg = display.newImage("Images/spiderweb.png", true)
@@ -101,7 +106,7 @@ myText:setFillColor( 0, 0, 0 )
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
     --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 
@@ -125,7 +130,7 @@ function playInstructions()
 end 
 
 function generateSpiders()
-    if  nextTapped == false and numTapped < 10 then        
+    if movedPage == false and numTapped < 10 then        
         local sheetInfo = require("Sprites.spiderNew")
         local spiderSheet = graphics.newImageSheet( "Sprites/spiderNew.png", sheetInfo:getSheet() )
         local sequenceData =

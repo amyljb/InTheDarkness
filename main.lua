@@ -1,4 +1,4 @@
-require "CiderDebugger";-- hide the status bar
+-- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 
 -- require the composer library

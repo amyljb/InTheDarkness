@@ -50,9 +50,9 @@ freddieBed.x=display.contentWidth/2
 freddieBed.y=display.contentHeight/2
 
 local torch = display.newImage( "Images/flashlight.png", true )
-torch.x=display.contentWidth/2 + 350
-torch.y=display.contentHeight*0.55
-torch.rotation = 155
+torch.x=display.contentWidth*0.75
+torch.y=display.contentHeight*0.6
+torch.rotation = 120
 
 local blackOut = display.newImage( "Images/blackOut.png", true )
 blackOut.x=display.contentWidth/2
@@ -73,7 +73,6 @@ endText.alpha=0
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180

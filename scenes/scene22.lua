@@ -94,12 +94,12 @@ tapIndicator.alpha = 0
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
-    y = display.contentHeight*0.9,
+    y = display.contentHeight*0.85,
     onRelease = changePage
 }
 

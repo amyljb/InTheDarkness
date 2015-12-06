@@ -1,3 +1,5 @@
+--119 : ATTEMPT TO COMPARE NIL WITH NUMBER???
+
 local composer = require( "composer" )
 local scene = composer.newScene("brainOverlay")
 local physics = require("physics")
@@ -114,14 +116,14 @@ local function dragBody( event )
 end
 
 
-function moveEnemy(e)
+local function moveEnemy(e)
 	-- Move Enemy
 	if(thought.y < display.contentHeight * 0.5) and exitPressed == false then
 		transition.to(enemy, {time = 700, x = thought.x})
 	end
 end
 
-function update()
+local function update()
 	-- Score
 	if(thought.y < -100) and exitPressed == false then
 		score.text = tostring(tonumber(score.text) + 1)
@@ -143,13 +145,13 @@ function update()
         end
 end
 
-function textDelete()
+local function textDelete()
    instructions.alpha = 0
    --instructions:removeSelf()
     moveTimer = timer.performWithDelay(100, moveEnemy, 0)
 end   
 
-function scaleDown()
+local function scaleDown()
     transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2000, onComplete=textDelete } )    
 end    
 
