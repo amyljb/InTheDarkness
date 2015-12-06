@@ -50,14 +50,52 @@ local function changePage()
     return true
 end
 
-local scene21bkg = display.newImage("Images/scaryRoom.png", true)
+local scene21bkg = display.newImage("Images/eyesReveal.png", true)
 scene21bkg.x = display.contentWidth/2
 scene21bkg.y = display.contentHeight/2
 scene21bkg.alpha = 0
 
 local darkness = display.newImage("Images/darkness.png", true)
-darkness.x = display.contentWidth/2
-darkness.y = display.contentHeight/2
+ darkness.x = display.contentWidth/2
+ darkness.y = display.contentHeight/2
+
+local snapshot = display.newSnapshot(2048, 1536)
+snapshot:translate( display.contentCenterX, display.contentCenterY )
+snapshot.alpha=0
+
+local roomEyes = display.newImage("Images/roomEyes.png", true)
+snapshot.canvas:insert(roomEyes)
+snapshot:invalidate( "canvas" )
+
+   local previousX, previousY
+    local threshold = 10
+    local thresholdSq = threshold*threshold
+
+    local function draw( x, y )
+	local o = display.newImage( "Images/brush.png", x, y )
+	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
+
+	snapshot.canvas:insert( o )
+	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
+    end
+
+    local function listener( event )
+        local x,y = event.x - snapshot.x, event.y - snapshot.y  
+	if ( event.phase == "began" ) then
+		previousX = x
+                previousY = y
+		draw( x, y )
+	elseif ( event.phase == "moved" ) then
+		local dx = x - previousX
+		local dy = y - previousY
+		local deltaSq = dx*dx + dy*dy
+		if ( deltaSq > thresholdSq ) then
+			draw( x, y )
+			previousX,previousY = x,y
+                       
+		end
+	end
+    end
 
     local nextPgBtn = widget.newButton
 {
@@ -111,7 +149,7 @@ local function spriteListener(event)
     counter = counter + 1
     if event.phase == "ended" then 
         thisSprite:removeSelf()
-        transition.to(darkness, {alpha=0, time = 3000})
+        transition.to(snapshot, {alpha=0, time = 3000})
         transition.to(scene21bkg, {alpha=1, time = 3000})   
     end
 end
@@ -178,6 +216,8 @@ end
 function changeImage()
     doorEyesSprite:removeSelf()
     doorSprite:removeSelf()
+    snapshot.alpha=1
+    snapshot:addEventListener( "touch", listener )  
     transition.to(darkness, {alpha = 0, time = 1000})
     transition.to(scene21bkg, {alpha = 1, time = 1000})
 end
@@ -202,6 +242,7 @@ function openDoor()
 end
 
 sceneGroup:insert(scene21bkg)
+sceneGroup:insert(snapshot)
 sceneGroup:insert(darkness)
 sceneGroup:insert(eyeSprite1)
 sceneGroup:insert(eyeSprite2)
@@ -215,6 +256,7 @@ eyeSprite1:addEventListener("sprite", spriteListener)
 eyeSprite2:addEventListener("sprite", spriteListener)
 eyeSprite3:addEventListener("sprite", spriteListener)
 doorSprite:addEventListener("tap", openDoor)
+
 end
 
 -- "scene:show()"

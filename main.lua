@@ -69,14 +69,14 @@ local sidebarGroup = display.newGroup()
 sidebarGroup:insert(sidebar)
 sidebarGroup:insert(homeBtn)
 
-
--- Add any objects that should appear on all scenes below (e.g. tab bar, hud, etc)
-local function checkMem()
-    collectgarbage("collect")
-    local memUsage_str = string.format( "MEMORY= %.3f KB", collectgarbage( "count" ) )
-    print( memUsage_str .. " | TEXTURE= "..(system.getInfo("textureMemoryUsed")/1048576) )
-end
-timer.performWithDelay( 1000, checkMem, 0 )
+--
+---- Add any objects that should appear on all scenes below (e.g. tab bar, hud, etc)
+--local function checkMem()
+--    collectgarbage("collect")
+--    local memUsage_str = string.format( "MEMORY= %.3f KB", collectgarbage( "count" ) )
+--    print( memUsage_str .. " | TEXTURE= "..(system.getInfo("textureMemoryUsed")/1048576) )
+--end
+--timer.performWithDelay( 1000, checkMem, 0 )
 
 Runtime:addEventListener("touch", revealSidebar)
 

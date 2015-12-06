@@ -17,6 +17,7 @@ sfx.whooshSound = audio.loadStream("Sounds/whoosh_1.mp3")
 sfx.sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
 sfx.squish = audio.loadSound( "Sounds/squish.mp3" )
 sfx.splat = audio.loadSound( "Sounds/splat.mp3" )
+sfx.ping = audio.loadSound( "Sounds/ping.mp3" )
 
 return sfx
 

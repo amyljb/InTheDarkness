@@ -1,15 +1,14 @@
---
+
 local sceneName = "scene1"
 local composer = require( "composer" )
+local sceneData = require("loadData")
+local BaseScene = require "BaseScene"
 local scene = composer.newScene( "scene1" )
+local sfx = require("modules.sfx")
 local widget = require( "widget" )
-local transitioned = false
 local nextSceneButton
 local sceneName = "textScene"
 local sceneNumber = 1
-local sceneData = require("loadData")
-local BaseScene = require "BaseScene"
-local current =  composer.getSceneName( "current" )
 local nextSceneNumber = "scenes.scene2"
 local nextSceneButton
 local scene = composer.newScene(sceneName)
@@ -38,7 +37,6 @@ local sceneObject = BaseScene:new({
     transitions = {},
     nextScene = nextSceneNumber
 })
-
 
 -------------------------------------------------------------------------------
 --CREATE SCENE
@@ -90,7 +88,10 @@ nextPgBtn.y = display.contentHeight*0.85
 local pageText = display.newText( textOptions )
 pageText:setFillColor( 1, 1, 1 )
 pageText.alpha=0
---insert display objects into sceneGroup
+
+local function textFunc()
+         pageText.text = "Freddie is the kind of boy that gets scared very easily.\n Sometimes, he gets so frightened that he imagines things that aren't really there."
+end 
 
 function loadText()
     transition.to(pageText, {alpha =1, time = 100})
@@ -99,13 +100,10 @@ end
 
 function loadFreddie()
     transition.to(freddie, {alpha =1, time = 10})
-end
+    audio.play(sfx.ping)
+end  
 
-function textFunc()
-         pageText.text = "Freddie is the kind of boy that gets scared very easily.\n Sometimes, he gets so frightened that he imagines things that aren't really there."
-    end   
-    
-
+    --insert display objects into sceneGroup
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(freddie)
     sceneGroup:insert(pageText)

@@ -97,8 +97,8 @@ end
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
-    x = 1950,
-    y = display.contentHeight/2,
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
     onRelease = changePage,
 }
     
@@ -114,12 +114,23 @@ end
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
+
+ local blinkingInfo = require("Sprites.blinking")
+        local blinkingSheet = graphics.newImageSheet( "Sprites/blinking.png", blinkingInfo:getSheet() )
+        local sequenceDataBlink =
+            {name="blinkingFreddie", start = 1, time = 6000, loopCount = 0, count=26}  
+    
+        blinking = display.newSprite(blinkingSheet, sequenceDataBlink)
+        blinking.x =display.contentWidth/2
+        blinking.y = display.contentHeight*0.7
+       
            
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(nextPgBtn) 
     sceneGroup:insert(myText)
-    sceneGroup:insert(instructions)
     sceneGroup:insert(previousBtn)
+    sceneGroup:insert(blinking)
+    sceneGroup:insert(instructions)
   
  local function checkTaps()
     if numTapped == 10 then
@@ -244,6 +255,7 @@ function scene:show( event )
         timer.performWithDelay(1000, instructionsClosure, 1)
         timer.performWithDelay(4500, spawnGhost1, 10)
         timer.performWithDelay(4000, spawnGhost2, 10)
+        blinking:play()
        -- timer.performWithDelay(1000, playInstructions)
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then

@@ -1,4 +1,4 @@
---FEAR APPEARS
+--negative thoughts
 local composer = require( "composer" )
 local widget = require( "widget" )
 local sceneData = require("loadData")
@@ -124,8 +124,8 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-            timer.performWithDelay(2000, playBubble)
-            timer.performWithDelay(3000, bobFunction)
+            timer.performWithDelay(1000, playBubble)
+            timer.performWithDelay(2000, bobFunction)
    end
 end
 

@@ -222,10 +222,10 @@ previousBtn.rotation = -180
     hardhat2.linearDamping = 0.8
     hardhat2.angularDamping = 1
     
-    local instructionText = display.newImage("Images/findTorchText.png")
-    instructionText.x = display.contentWidth/2
-    instructionText.y = display.contentHeight/2 
-    instructionText.alpha = 0
+    instructions = display.newImage("Images/findTorchText.png")
+    instructions.x = display.contentWidth/2
+    instructions.y = display.contentHeight/2 
+    instructions.alpha = 0
      
         sceneGroup:insert(backgroundThree)
         sceneGroup:insert(flashlight)
@@ -248,23 +248,23 @@ previousBtn.rotation = -180
         sceneGroup:insert(gloves2)
         sceneGroup:insert(hardhat2)
         sceneGroup:insert(screwdriver3)      
-        sceneGroup:insert(instructionText)
+        sceneGroup:insert(instructions)
         sceneGroup:insert(floor)
         sceneGroup:insert(ceiling)
         sceneGroup:insert(leftWall)
         sceneGroup:insert(rightWall)
         sceneGroup:insert(previousBtn)
 
-function textDelete()
-   instructionText.alpha = 0
-end   
-function scaleDown()
-    transition.scaleTo( instructionText, { xScale=1.0, yScale=1.0, time=1000, onComplete=textDelete } )    
-end    
-function textPlay()
-    instructionText.alpha = 1
-    transition.scaleTo( instructionText, { xScale=1.1, yScale=1.1, time=1000, onComplete=scaleDown}) 
-end  
+--function textDelete()
+--   instructionText.alpha = 0
+--end   
+--function scaleDown()
+--    transition.scaleTo( instructionText, { xScale=1.0, yScale=1.0, time=1000, onComplete=textDelete } )    
+--end    
+--function textPlay()
+--    instructionText.alpha = 1
+--    transition.scaleTo( instructionText, { xScale=1.1, yScale=1.1, time=1000, onComplete=scaleDown}) 
+--end  
 
     
     local function dragBody( event )

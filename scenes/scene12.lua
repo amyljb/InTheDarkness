@@ -82,7 +82,7 @@ end
     redBkg.alpha = 0
     
     local freddie = display.newImage("Images/freddieHalf.png", true)
-    freddie.x = display.contentWidth*0.65
+    freddie.x = display.contentWidth/2
     freddie.y = display.contentHeight/2
     
     local myText = display.newText( "0", 1890, 150, native.systemFont, 150 )
@@ -93,7 +93,6 @@ end
     instructions.y = display.contentHeight/2
     instructions.alpha=0
     
-
     local nextPgBtn = widget.newButton
 {
     width = 120,

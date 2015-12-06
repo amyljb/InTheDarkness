@@ -1,7 +1,7 @@
 --HOUSE IMAGE
 local composer = require( "composer" )
 local tapIndicatorFunc = require("modules.tapIndicatorFunc")
-local rubPrompt = require("modules.rubOutPrompt")
+--local rubPrompt = require("modules.rubOutPrompt")
 local sfx = require("modules.sfx")
 local changePg = require("changePg")
 local scene = composer.newScene()
@@ -58,15 +58,16 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
 
     group = display.newGroup()
   
-    local snapshot = display.newSnapshot(2048, 1536)
-    snapshot:translate( display.contentCenterX, display.contentCenterY )
+   -- local snapshot = display.newSnapshot(2048, 1536)
+   -- snapshot:translate( display.contentCenterX, display.contentCenterY )
     
     local niceHouse = display.newImage("Images/niceHouse.png", true)
+    niceHouse.x = display.contentWidth/2
+    niceHouse.y = display.contentHeight/2
     
    local backgroundOne = display.newImage("Images/page2.png", true)
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
-    
     
     local previousBtn = widget.newButton
 {
@@ -117,52 +118,62 @@ previousBtn.rotation = -180
     lightningSprite.x = display.contentWidth/2
     lightningSprite.y = display.contentHeight/4
 
-    snapshot.canvas:insert(niceHouse)
-    snapshot:invalidate( "canvas" )
+--    snapshot.canvas:insert(niceHouse)
+--    snapshot:invalidate( "canvas" )
+--
+--    local previousX, previousY
+--    local threshold = 10
+--    local thresholdSq = threshold*threshold
+--
+--    local function draw( x, y )
+--	local o = display.newImage( "Images/brush.png", x, y )
+--	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
+--
+--	snapshot.canvas:insert( o )
+--	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
+--    end
+--
+--    local function listener( event )
+--        local x,y = event.x - snapshot.x, event.y - snapshot.y  
+--	if ( event.phase == "began" ) then
+--		previousX = x
+--                previousY = y
+--		draw( x, y )
+--	elseif ( event.phase == "moved" ) then
+--		local dx = x - previousX
+--		local dy = y - previousY
+--		local deltaSq = dx*dx + dy*dy
+--		if ( deltaSq > thresholdSq ) then
+--			draw( x, y )
+--			previousX,previousY = x,y          
+--		end
+--	end
+--    end
+--     
 
-    local previousX, previousY
-    local threshold = 10
-    local thresholdSq = threshold*threshold
 
-    local function draw( x, y )
-	local o = display.newImage( "Images/brush.png", x, y )
-	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
-
-	snapshot.canvas:insert( o )
-	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
-    end
-
-    local function listener( event )
-        local x,y = event.x - snapshot.x, event.y - snapshot.y  
-	if ( event.phase == "began" ) then
-		previousX = x
-                previousY = y
-		draw( x, y )
-	elseif ( event.phase == "moved" ) then
-		local dx = x - previousX
-		local dy = y - previousY
-		local deltaSq = dx*dx + dy*dy
-		if ( deltaSq > thresholdSq ) then
-			draw( x, y )
-			previousX,previousY = x,y          
-		end
-	end
-    end
-       
-    function closeDoor()
+local function closeDoor()
             indTapped = true
             doorClosed:removeSelf()
-            nextTapped = true
+            movedPage = true
             nextClosure()
             --composer.gotoScene( "scenes.textPage", overlayOptions )
     end
 
-   function beginAnimations()
-       if movedPage == false then
+local function beginAnimations()
+    if movedPage == false then
+        transition.to(niceHouse, {alpha=0, time=1500})
         transition.to(clouds, { time=40000, x=-3000 } )
+        lightningSprite:play()
+        return true
+        end
+end
+
+   function animateForest()
+       if movedPage == false then
         transition.to(forestR, { time=5000, x=display.contentWidth+150 } )
         transition.to(forestL, { time=5000, x=-230 } )
-        lightningSprite:play()
+        timer.performWithDelay(6000, beginAnimations)
         return true
         end
    end
@@ -178,7 +189,7 @@ previousBtn.rotation = -180
     sceneGroup:insert(house)
     sceneGroup:insert(doorClosed)
     sceneGroup:insert(lightningSprite)
-    sceneGroup:insert(snapshot)
+    sceneGroup:insert(niceHouse)
     sceneGroup:insert(group)
     sceneGroup:insert(forestL)
     sceneGroup:insert(forestR)
@@ -186,7 +197,7 @@ previousBtn.rotation = -180
     sceneGroup:insert(previousBtn)
            
 doorClosed:addEventListener("tap", closeDoor)
-snapshot:addEventListener( "touch", listener )
+--snapshot:addEventListener( "touch", listener )
 --Runtime:addEventListener("enterFrame", screenWideEffect)
 end
 
@@ -207,12 +218,13 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-       timer.performWithDelay(800, beginAnimations)
-       timer.performWithDelay(500, playRainSounds)
+       -- timer.performWithDelay(500, imageFade)
+        timer.performWithDelay(1000, animateForest)
+        timer.performWithDelay(500, playRainSounds)
        local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
-     timer.performWithDelay(15000, myClosure, 1)
-     local rubOutClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
-     timer.performWithDelay(10000, rubOutClosure, 1)
+     timer.performWithDelay(8000, myClosure, 1)
+     --local rubOutClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
+     --timer.performWithDelay(10000, rubOutClosure, 1)
    end
 end
 

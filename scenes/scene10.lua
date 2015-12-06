@@ -146,8 +146,8 @@ function scene:hide( event )
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
        transition.cancel(scaleTrans)
-       tapIndicator:removeSelf()
-       tapIndicator = nil
+   --    tapIndicator:removeSelf()
+    --   tapIndicator = nil
      
    end
 end

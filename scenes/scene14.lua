@@ -11,6 +11,9 @@ local nextSceneNumber = "scenes.scene15"
 local previousScene = "scenes.scene13"
 local widget = require("widget")
 local movedPage = false
+local previousX, previousY
+local threshold = 10
+local thresholdSq = threshold*threshold
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -47,10 +50,14 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
 freddieCold = display.newImage( "Images/freddieCold.png", true )
 freddieCold.x=display.contentWidth/2
 freddieCold.y=display.contentHeight/2
+
 local breath = display.newImage( "Images/breath.png" )
-breath.x=display.contentWidth/2
-breath.y=display.contentHeight/2
-breath.alpha = 0
+
+local snapshot = display.newSnapshot(2048, 1536)
+snapshot:translate( display.contentWidth/2, display.contentHeight/2 )
+snapshot.alpha=0
+snapshot.canvas:insert(breath)
+snapshot:invalidate( "canvas" )
     
     local nextPgBtn = widget.newButton
 {
@@ -75,19 +82,47 @@ breath.alpha = 0
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
     id = "previous",
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
 
+    local function draw( x, y )
+	local o = display.newImage( "Images/brush.png", x, y )
+	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
+
+	snapshot.canvas:insert( o )
+	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
+    end
+
+    local function listener( event )
+        print("listening")
+        local x,y = event.x - snapshot.x, event.y - snapshot.y  
+	if ( event.phase == "began" ) then
+		previousX = x
+                previousY = y
+		draw( x, y )
+	elseif ( event.phase == "moved" ) then
+		local dx = x - previousX
+		local dy = y - previousY
+		local deltaSq = dx*dx + dy*dy
+		if ( deltaSq > thresholdSq ) then
+			draw( x, y )
+			previousX,previousY = x,y
+                       
+		end
+	end
+    end
+
+function changeAlpha()
+   transition.to(snapshot, {alpha=1, time = 4500})
+end
+
 sceneGroup:insert(freddieCold)
-sceneGroup:insert(breath)
+sceneGroup:insert(snapshot)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
-function changeAlpha()
-   transition.to(breath, {alpha=1, time = 5000})
-end
+snapshot:addEventListener( "touch", listener ) 
 
 end
 

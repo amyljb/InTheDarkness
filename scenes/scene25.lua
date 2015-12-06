@@ -54,12 +54,12 @@ momBkg.y=display.contentHeight/2
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
-    height = 150,
+    width = 120,
+    height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
-    y = display.contentHeight*0.9,
+    y = display.contentHeight*0.85,
     onRelease = nextClosure
 }
    local previousBtn = widget.newButton
@@ -71,7 +71,6 @@ momBkg.y=display.contentHeight/2
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180

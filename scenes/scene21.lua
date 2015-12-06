@@ -176,9 +176,9 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
-        timer.performWithDelay(1000, instructionsClosure, 1)
-       --timer.performWithDelay(1000, playInstructions)
+     --  local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+     --   timer.performWithDelay(1000, instructionsClosure, 1)
+       timer.performWithDelay(1000, playInstructions)
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

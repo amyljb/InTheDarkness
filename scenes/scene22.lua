@@ -15,6 +15,7 @@ local previousScene = "scenes.scene21"
 --local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
 local dustSprite
 local movedPage = false
+local collided = false
 
 
 --Create a scene object based on data read from data.json
@@ -80,6 +81,11 @@ cloud5.y=display.contentHeight/4
 
 local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
 cloudHotspot.alpha = 0.1
+
+local ohNoText = display.newImage( "Images/ohNoText.png", true )
+ohNoText.x=display.contentWidth/2
+ohNoText.y=display.contentHeight/2
+ohNoText.alpha=0
 
 tapIndicator = display.newImage("Images/tapButton.png", true)
 tapIndicator.x= display.contentWidth/4
@@ -150,7 +156,7 @@ function moveClouds()
     transition.to( cloud5, {time=3000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )
     cloudHotspot:removeSelf()
     monsterSprite:play()
-    timer.performWithDelay(3000, reverseSequence, 5)
+    timer.performWithDelay(2000, reverseSequence, 5)
 end
 
 function reverseSequence()
@@ -164,7 +170,8 @@ end
 
 --detect collision - play dust explosion sprite
 function onCollision(event)
-    if event.phase == "began" then
+    if event.phase == "began" and movedPage == false then
+    collided = true
     wobbleSprite:play()
     print("collided!!")
     print(event.phase)
@@ -191,6 +198,18 @@ function loadDustballs()
     end
 end
 
+local function removeText()
+    ohNoText.alpha = 0
+    ohNoText:removeSelf()
+end
+
+function loadText()
+    if collided == true then
+    ohNoText.alpha=1
+    timer.performWithDelay(2000, removeText)
+    end
+end
+
 sceneGroup:insert(caveBkg)
 sceneGroup:insert(monsterSprite)
 sceneGroup:insert(cloud1)
@@ -201,6 +220,7 @@ sceneGroup:insert(cloud5)
 sceneGroup:insert(wobbleSprite)
 sceneGroup:insert(dustSprite) 
 sceneGroup:insert(cloudHotspot) 
+sceneGroup:insert(ohNoText) 
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
@@ -221,7 +241,7 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-      -- timer.performWithDelay(2000, loadDustballs, 10)
+       timer.performWithDelay(10000, loadText)
       
       local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
         timer.performWithDelay(1000, myClosure, 1)

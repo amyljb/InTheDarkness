@@ -102,7 +102,6 @@ end
 }
 previousBtn.rotation = -180
     
-    local layer = {}
     
     local snapshot = display.newSnapshot(2048, 1536)
     snapshot:translate( display.contentCenterX, display.contentCenterY )
@@ -110,6 +109,26 @@ previousBtn.rotation = -180
     local hall = display.newImage( "Images/monsterHall.png" )
     hall.x = display.contentWidth/2
     hall.y = display.contentHeight/2
+    
+    local mist1 = display.newImage( "Images/mist1.png", true )
+    mist1.x=display.contentWidth/2
+    mist1.y=display.contentHeight/4
+
+    local mist2 = display.newImage( "Images/mist2.png", true )
+    mist2.x=display.contentWidth/2
+    mist2.y=display.contentHeight/2
+
+    local mist3 = display.newImage( "Images/mist3.png", true )
+    mist3.x=display.contentWidth*0.6
+    mist3.y=display.contentHeight*0.6
+
+    local mist4 = display.newImage( "Images/mist4.png", true )
+    mist4.x=display.contentWidth/4
+    mist4.y=display.contentHeight*0.8
+
+    local mist5 = display.newImage( "Images/mist5.png", true )
+    mist5.x=display.contentWidth/3
+    mist5.y=display.contentHeight/9
 
     local swampImage = display.newImage( "Images/swamp.png" )
 
@@ -145,6 +164,14 @@ previousBtn.rotation = -180
 		end
 	end
     end
+    
+    function moveMist()
+    transition.to( mist1, {time=4000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( mist2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( mist3, {time=5000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( mist4, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( mist5, {time=3000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )
+end
     
     function playSwampSounds()
        -- audio.setVolume(0.0)
@@ -201,6 +228,11 @@ end
     sceneGroup:insert(lizardSprite)
     sceneGroup:insert(headSprite)
     sceneGroup:insert(emitter)
+    sceneGroup:insert(mist1)
+    sceneGroup:insert(mist2)
+    sceneGroup:insert(mist3)
+    sceneGroup:insert(mist4)
+    sceneGroup:insert(mist5)
     sceneGroup:insert(nextPgBtn)
     sceneGroup:insert(previousBtn)
     
@@ -221,6 +253,7 @@ function scene:show( event )
        local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
         timer.performWithDelay(3000, rubOutClosure, 1)
         timer.performWithDelay(2500, playSwampSounds)
+        timer.performWithDelay(700, moveMist)
         start_particles()
         lizardSprite:play()
         headSprite:play()
