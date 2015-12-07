@@ -1,7 +1,6 @@
 --HOUSE IMAGE
 local composer = require( "composer" )
 local tapIndicatorFunc = require("modules.tapIndicatorFunc")
---local rubPrompt = require("modules.rubOutPrompt")
 local sfx = require("modules.sfx")
 local changePg = require("changePg")
 local scene = composer.newScene()
@@ -57,9 +56,6 @@ local previousClosure = function() return changePg.loadPrevious( previousScene, 
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end    
 
     group = display.newGroup()
-  
-   -- local snapshot = display.newSnapshot(2048, 1536)
-   -- snapshot:translate( display.contentCenterX, display.contentCenterY )
     
     local niceHouse = display.newImage("Images/niceHouse.png", true)
     niceHouse.x = display.contentWidth/2
@@ -117,40 +113,6 @@ previousBtn.rotation = -180
     lightningSprite = display.newSprite(lightningSheet, sequenceData)
     lightningSprite.x = display.contentWidth/2
     lightningSprite.y = display.contentHeight/4
-
---    snapshot.canvas:insert(niceHouse)
---    snapshot:invalidate( "canvas" )
---
---    local previousX, previousY
---    local threshold = 10
---    local thresholdSq = threshold*threshold
---
---    local function draw( x, y )
---	local o = display.newImage( "Images/brush.png", x, y )
---	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
---
---	snapshot.canvas:insert( o )
---	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
---    end
---
---    local function listener( event )
---        local x,y = event.x - snapshot.x, event.y - snapshot.y  
---	if ( event.phase == "began" ) then
---		previousX = x
---                previousY = y
---		draw( x, y )
---	elseif ( event.phase == "moved" ) then
---		local dx = x - previousX
---		local dy = y - previousY
---		local deltaSq = dx*dx + dy*dy
---		if ( deltaSq > thresholdSq ) then
---			draw( x, y )
---			previousX,previousY = x,y          
---		end
---	end
---    end
---     
-
 
 local function closeDoor()
             indTapped = true
@@ -218,13 +180,10 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-       -- timer.performWithDelay(500, imageFade)
         timer.performWithDelay(1000, animateForest)
         timer.performWithDelay(500, playRainSounds)
        local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
      timer.performWithDelay(8000, myClosure, 1)
-     --local rubOutClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
-     --timer.performWithDelay(10000, rubOutClosure, 1)
    end
 end
 
@@ -238,9 +197,7 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
     rain.pause()
-    --audio.stop(rainSound)
    elseif ( phase == "did" ) then
-      -- rain.pause()
        audio.stop(2)
        transition.cancel(scaleTrans)
        tapIndicator:removeSelf()
@@ -256,7 +213,6 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
    print("destroying scene1.2")
-   -- audio.stop(rainSound)
 end
 
 ---------------------------------------------------------------------------------

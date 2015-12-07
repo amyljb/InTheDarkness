@@ -33,7 +33,7 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-       composer.gotoScene("scenes.scene21", pageChangeOptions)
+       composer.gotoScene("scenes.scene22", pageChangeOptions)
        -- composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 

@@ -11,6 +11,12 @@ settings = {
 	
 	iphone = {
 		plist = {
+                     CFBundleIconFiles = {
+                "Icon-152.png",
+                "Icon-76.png",   
+                "Icon-72.png"
+            },
+            {
 			UIStatusBarHidden = true,
 			UIPrerenderedIcon = true, -- set to false for "shine" overlay
 			--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
@@ -44,5 +50,5 @@ settings = {
 
 	]]--
 }
-
+}
 

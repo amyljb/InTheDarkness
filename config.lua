@@ -3,8 +3,8 @@
    {
       content =
       {
-         width = display.pixelWidth,
-         height = display.pixelHeight,
+         width = display.contentWidth,
+         height = display.contentHeight,
          scale = "letterbox",
          fps= 60,
          xAlign = "center",

@@ -49,10 +49,15 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
-        movedPage = true
-        nextClosure()
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "nextPage" then
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
 local caveBkg = display.newImage( "Images/cave.png", true )
@@ -112,8 +117,7 @@ tapIndicator.alpha = 0
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 
@@ -148,15 +152,17 @@ local wobbleSprite = display.newSprite(wobbleSheet, sequenceData3)
     physics.addBody(wobbleSprite, "kinematic", {bounce = 0})
 
 function moveClouds()
+    if movedPage == false then
     print("hotspot tapped")
     transition.to( cloud1, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( cloud2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( cloud2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil;  end} )  
     transition.to( cloud3, {time=5000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( cloud4, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( cloud5, {time=3000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )
     cloudHotspot:removeSelf()
     monsterSprite:play()
     timer.performWithDelay(2000, reverseSequence, 5)
+    end
 end
 
 function reverseSequence()

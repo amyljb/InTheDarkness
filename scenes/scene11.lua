@@ -1,4 +1,5 @@
 --RUB OUT - SWAMP PAGE
+
 local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
@@ -68,14 +69,18 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---change page on button tap
-local function changePage()
+local function changePage(event)
     movedPage = true
-    nextClosure()
     if soundPlaying == true then
         audio.stop(sfx.swampPlay)
     end
+    if event.target.id == "nextPage" then
+      nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
     
     local nextPgBtn = widget.newButton
@@ -98,7 +103,7 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
     
@@ -166,11 +171,13 @@ previousBtn.rotation = -180
     end
     
     function moveMist()
+    if movedPage == false then
     transition.to( mist1, {time=4000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( mist2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( mist3, {time=5000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( mist4, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
     transition.to( mist5, {time=3000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )
+end
 end
     
     function playSwampSounds()

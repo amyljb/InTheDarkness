@@ -16,6 +16,7 @@ local spawnedObjects = {}
 local widget = require("widget")
 --local growl = audio.loadSound( "Sounds/growl.mp3" )
 local growlPlaying = false
+local movedPage = false
 
 
 --Create a scene object based on data read from data.json
@@ -51,9 +52,15 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage( )
-        nextClosure()
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "nextPage" then
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
 local radiusMax = math.sqrt( centerX*centerX + centerY*centerY )
@@ -105,8 +112,7 @@ instructions.alpha=0
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
         

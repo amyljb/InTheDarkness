@@ -1,5 +1,4 @@
 --FREDDIE COLD - bridging scene
---change or add game
 local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
@@ -14,6 +13,7 @@ local movedPage = false
 local previousX, previousY
 local threshold = 10
 local thresholdSq = threshold*threshold
+local movedPage = false
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -46,6 +46,19 @@ local overlayOptions =
 
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
+
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "nextPage" then
+        print("next page")
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+        print("previous")
+    end
+    return true
+    end
+end
 
 freddieCold = display.newImage( "Images/freddieCold.png", true )
 freddieCold.x=display.contentWidth/2
@@ -82,7 +95,7 @@ snapshot:invalidate( "canvas" )
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
     id = "previous",
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 

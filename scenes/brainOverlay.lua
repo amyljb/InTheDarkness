@@ -25,11 +25,12 @@ local pageChangeOptions = {
 function exitOverlay()
     -- By some method (a "resume" button, for example), hide the overlay
     exitPressed = true
-    timer.cancel(moveTimer)
         composer.hideOverlay( "fade", 200 )
         --composer.removeScene("brainOverlay")
         composer.gotoScene( "scenes.scene10")
-        
+        if moveTimer then
+          timer.cancel(moveTimer)  
+        end
 end
 
 
@@ -118,30 +119,37 @@ end
 
 local function moveEnemy(e)
 	-- Move Enemy
-	if(thought.y < display.contentHeight * 0.5) and exitPressed == false then
+        if exitPressed==false then
+	if(thought.y < display.contentHeight * 0.5) then
 		transition.to(enemy, {time = 700, x = thought.x})
 	end
+        end
 end
 
 local function update()
 	-- Score
-	if(thought.y < -100) and exitPressed == false then
+        if exitPressed==false then
+           if(thought.y < -100) then
 		score.text = tostring(tonumber(score.text) + 1)
-                end
+            end 
+        end
+	
 	
 	-- Reset Puck position
-	
-	if(thought.y < -100) and exitPressed == false then
+	if exitPressed==false then
+	if(thought.y < -100) then
 		thought.x = display.contentCenterX
 		thought.y = display.contentCenterY
 		thought.isAwake = false
-	end
+	end 
+        end
 	
 	-- Keep puck inside play area
-	
-	if(puck.y < -100) and exitPressed == false then
+	if exitPressed==false then
+	if(puck.y < -100) then
             puck.x = display.contentWidth/2
             puck.y = display.contentHeight*0.7
+        end
         end
 end
 

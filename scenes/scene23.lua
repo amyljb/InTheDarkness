@@ -60,10 +60,15 @@ local overlayOptions2 =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
 
-local function changePage()
+local function changePage(event)
     movedPage = true
-    nextClosure()
+    if event.target.id == "nextPage" then
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
 local dustBkg = display.newImage( "Images/dustBkg.png", true )
@@ -98,8 +103,7 @@ myText:setFillColor( 0, 0, 0 )
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 
@@ -202,6 +206,7 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
+       transition.cancel(scaleTrans)
       -- Called immediately after scene goes off screen.
    end
 end

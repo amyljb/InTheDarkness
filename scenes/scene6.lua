@@ -22,15 +22,7 @@ local startTouchY = 0
 local curtainOpen = false
 local transitioned = false
 local swiped = false
-
---local snoreSound = audio.loadSound( "Sounds/male_snoring.mp3" )
---local clockSound = audio.loadSound( "Sounds/clock.wav" )
---local windSound = audio.loadSound( "Sounds/windSound.mp3" )
---local lightSwitchSound = audio.loadSound( "Sounds/switch-1.wav" )
---local bedSound = audio.loadSound( "Sounds/creak.mp3" )
---local tvSound = audio.loadSound( "Sounds/static_noise.mp3" )
---local toyBoxSound = audio.loadSound( "Sounds/toy_raygun.mp3" )
---local radioSound = audio.loadSound( "Sounds/radio.mp3" )
+local movedPage = false
 
 --    Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -64,13 +56,25 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage( event )
-    if event.phase == "ended" then
-        transitioned = true
+--local function changePage( event )
+--    if event.phase == "ended" then
+--        transitioned = true
+--        audio.play(sfx.lightSwitchSound)
+--        nextClosure()
+--    end
+--    return true
+--end
+
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "light" then
         audio.play(sfx.lightSwitchSound)
-        nextClosure()
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
     end
     return true
+    end
 end
 
 local background = display.newImage("Images/pg5NEW.png", true)
@@ -154,7 +158,7 @@ local lightButton = widget.newButton
 {
     width = 250,
     height = 350,
-    id = "clock",
+    id = "light",
     defaultFile = "Images/overhead_light.png",
     x =display.contentWidth/2,
     y = display.contentHeight/8,
@@ -170,7 +174,7 @@ local lightButton = widget.newButton
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 
@@ -223,12 +227,12 @@ local function swapSheet2()
 end
 
 function playGrr()
-    if transitioned == false then
+    if movedPage == false then
     if swiped == false then
         print("playing grr")
         grrSprite.alpha = 1
         grrSprite:setSequence( "seqOne" )
-        audio.play(snoreSound, {duration=2000})
+        audio.play(sfx.snoreSound, {duration=2000})
         grrSprite:play()
         shhSprite:play()
         timer.performWithDelay( 700, swapSheet )
@@ -407,7 +411,7 @@ function scene:show( event )
     --timer.performWithDelay(1000, playInstructions)
     timer.performWithDelay(10000, playGrr )
     timer.performWithDelay(13000, swipeInstruction )
-    local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+    local instructionsClosure = function() return instructionFunc.playInstructions(instructions, movedPage) end
         timer.performWithDelay(1000, instructionsClosure, 1)
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
@@ -424,8 +428,7 @@ function scene:hide( event )
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
        transition.cancel(scaleTrans)
-       --tapIndicator:removeSelf()
-      -- tapIndicator = nil
+
    end
 end
 

@@ -46,10 +46,15 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
-    nextTapped = true
-    nextClosure() 
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "nextPage" then
+        nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
     return true
+    end
 end
 
 local nextPgBtn = widget.newButton
@@ -74,7 +79,7 @@ local nextPgBtn = widget.newButton
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
     --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 
