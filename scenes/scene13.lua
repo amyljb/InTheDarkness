@@ -243,19 +243,19 @@ function swapSheet4()
     transition.to(coatRack, {time = 300, alpha = 1})
 end
 
-function swapSheet3()
+local function swapSheet3()
     explosionAnim:setSequence( "seq4" )
     explosionAnim:play()
     timer.performWithDelay( 100, swapSheet4 )
 end
 
-function swapSheet2()
+local function swapSheet2()
     explosionAnim:setSequence( "seq3" )
     explosionAnim:play()
     timer.performWithDelay( 100, swapSheet3 )
 end
 
-function swapSheet()
+local function swapSheet()
     explosionAnim:setSequence( "seq2" )
     explosionAnim:play()
     timer.performWithDelay( 100, swapSheet2 )

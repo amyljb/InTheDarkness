@@ -201,8 +201,10 @@ function loadDustballs()
 end
 
 local function removeText()
+    if ohNoText then
     ohNoText.alpha = 0
     ohNoText:removeSelf()
+    end
 end
 
 function loadText()

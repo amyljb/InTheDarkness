@@ -56,15 +56,6 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---local function changePage( event )
---    if event.phase == "ended" then
---        transitioned = true
---        audio.play(sfx.lightSwitchSound)
---        nextClosure()
---    end
---    return true
---end
-
 local function changePage(event)
     movedPage = true
     if event.target.id == "light" then
@@ -242,7 +233,7 @@ end
 end
 
 --swipe handler
-function swipeHandler(event)
+local function swipeHandler(event)
         if event.phase == "began" then
         startTouchY = event.y
        swiped = true
@@ -280,7 +271,7 @@ function swipeHandler(event)
         return true
     end
 
-function openCurtain(event)
+local function openCurtain(event)
     if not ( event.phase ) and curtainOpen == false then
         curtainSprite:play()
         curtainSprite:removeEventListener("touch", openCurtain)
@@ -349,14 +340,14 @@ local function bedCreak(event)
     end  
 end
 
-function removeInstructions(downInstructions)
+local function removeInstructions(downInstructions)
     downInstructions.alpha=0
     downInstructions:removeSelf()
     downInstructions = nil
 end
 
 function swipeInstruction()
-    if swiped == false and transitioned == false then
+    if swiped == false and transitioned == false and movedPage == false then
     local downInstructions = display.newImage("Images/downInstruct.png", true)
     downInstructions.x = display.contentWidth/2
     downInstructions.y = display.contentHeight/2
@@ -366,7 +357,7 @@ function swipeInstruction()
     end
 end
 
-function dadTap()
+local function dadTap()
     grrSprite:play()
     transition.to(grrSprite, {time = 1800, alpha=0})
 end

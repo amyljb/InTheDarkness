@@ -4,7 +4,7 @@ local widget = require("widget")
 
 local pageChangeOptions = {
     effect = "fade",
-    time = 1000
+    time = 500
 }
 
 -- Options table for the overlay scene "overlay.lua"
