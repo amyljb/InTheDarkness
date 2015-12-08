@@ -96,6 +96,7 @@ function fadeOut(event)
         transition.to(freddieBed, {alpha=0, time=2000})
         transition.to(torch, {alpha=0, time=2000})
         transition.to(blackOut, {alpha=1, time=2000, onComplete=endTextDisplay})
+        audio.fadeOut( {time=5000 } )
         end
     end
 torch:addEventListener("touch", fadeOut)

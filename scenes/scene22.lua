@@ -3,7 +3,6 @@ local composer = require( "composer" )
 local widget = require("widget")
 local changePg = require("changePg")
 local physics = require("physics")
-local tapIndicatorFunc = require("modules.tapIndicatorFunc")
 local sfx = require("modules.sfx")
 local sceneData = require("loadData")
 local BaseScene = require "BaseScene"
@@ -12,8 +11,6 @@ local sceneName = "scene22"
 local sceneNumber = 22
 local nextSceneNumber = "scenes.scene23"
 local previousScene = "scenes.scene21"
---local sneeze = audio.loadSound( "Sounds/sneezing.mp3" )
-local dustSprite
 local movedPage = false
 local collided = false
 
@@ -38,7 +35,7 @@ physics.start()
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -84,8 +81,8 @@ local cloud5 = display.newImage( "Images/cloud5.png", true )
 cloud5.x=display.contentWidth/4
 cloud5.y=display.contentHeight/4
 
-local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
-cloudHotspot.alpha = 0.1
+--local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
+--cloudHotspot.alpha = 0.1
 
 local ohNoText = display.newImage( "Images/ohNoText.png", true )
 ohNoText.x=display.contentWidth/2
@@ -154,12 +151,11 @@ local wobbleSprite = display.newSprite(wobbleSheet, sequenceData3)
 function moveClouds()
     if movedPage == false then
     print("hotspot tapped")
-    transition.to( cloud1, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( cloud2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil;  end} )  
-    transition.to( cloud3, {time=5000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( cloud4, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( cloud5, {time=3000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )
-    cloudHotspot:removeSelf()
+    transition.to( cloud1, {time=4000, x =-display.contentWidth} )  
+    transition.to( cloud2, {time=4000, x =-display.contentWidth} )  
+    transition.to( cloud3, {time=5000, x =display.contentWidth*1.5} )  
+    transition.to( cloud4, {time=4000, x =-display.contentWidth} )  
+    transition.to( cloud5, {time=3000, x =display.contentWidth*1.5} )
     monsterSprite:play()
     timer.performWithDelay(2000, reverseSequence, 5)
     end
@@ -225,14 +221,14 @@ sceneGroup:insert(cloud4)
 sceneGroup:insert(cloud5)
 sceneGroup:insert(wobbleSprite)
 sceneGroup:insert(dustSprite) 
-sceneGroup:insert(cloudHotspot) 
+--sceneGroup:insert(cloudHotspot) 
 sceneGroup:insert(ohNoText) 
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
 
 --freddie:addEventListener("touch", touchFreddie)
-cloudHotspot:addEventListener("tap", moveClouds)
+--cloudHotspot:addEventListener("tap", moveClouds)
 Runtime:addEventListener( "collision", onCollision )
 
 
@@ -248,9 +244,7 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        timer.performWithDelay(10000, loadText)
-      
-      local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
-        timer.performWithDelay(1000, myClosure, 1)
+       timer.performWithDelay(1500, moveClouds)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -266,6 +260,9 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
+       transition.cancel(scaleTrans)
+       tapIndicator:removeSelf()
+       tapIndicator = nil
       -- Called immediately after scene goes off screen.
    end
 end

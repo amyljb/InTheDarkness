@@ -55,7 +55,7 @@ function scene:create( event )
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,

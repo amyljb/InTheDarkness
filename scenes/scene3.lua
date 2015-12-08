@@ -101,6 +101,7 @@ end
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
     onRelease = changePage
@@ -257,8 +258,8 @@ function scene:show( event )
     elseif phase == "did" then
         local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)
-        timer.performWithDelay(4500, spawnGhost1, 10)
-        timer.performWithDelay(4000, spawnGhost2, 10)
+        timer.performWithDelay(2000, spawnGhost1, 15)
+        timer.performWithDelay(2000, spawnGhost2, 15)
         blinking:play()
        -- timer.performWithDelay(1000, playInstructions)
          local previous =  composer.getSceneName( "previous" )

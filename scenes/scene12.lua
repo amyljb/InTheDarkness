@@ -55,7 +55,7 @@ function scene:create( event )
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -124,7 +124,6 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = changePage
 }
 previousBtn.rotation = -180
@@ -201,6 +200,7 @@ sceneGroup:insert(freddie)
 sceneGroup:insert(happier)
 sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
 end
 
 -- "scene:show()"

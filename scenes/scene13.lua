@@ -41,7 +41,7 @@ local sceneGroup = self.view
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -58,6 +58,7 @@ local function changePage(event)
         nextClosure()  
     else if event.target.id == "previous" then
         previousClosure()
+         print("previous scene was: " .. previousScene)
     end
     return true
     end
@@ -101,7 +102,6 @@ instructions.alpha=0
     defaultFile = "Images/nextBtn.png",
     onRelease = changePage
 }
-
 
     local previousBtn = widget.newButton
 {
@@ -270,22 +270,7 @@ end
 
     function removeEventListeners()
         print("removeEventListeners called scene 13")
-    end  
-    
-
-local function textDelete()
-   instructions.alpha = 0
-   --instructions:removeSelf()
-end   
-
-local function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2500, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    instructions.alpha = 1
-    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
-end     
+    end     
       
 sceneGroup:insert(bkg)
 sceneGroup:insert(coatRack)
@@ -311,7 +296,6 @@ function scene:show( event )
    elseif ( phase == "did" ) then
        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)
-      -- timer.performWithDelay(2000, playInstructions)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

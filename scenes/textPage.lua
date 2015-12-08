@@ -15,7 +15,7 @@ local previous =  composer.getSceneName( "previous" )
 
 local options = {
     effect = "crossFade",
-    time = 3000
+    time = 1500
 }
 
 -------------------------------------------------------------------------------

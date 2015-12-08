@@ -26,7 +26,7 @@ local sceneObject = BaseScene:new({
 --options table for next page transitions
 local pageChangeOptions = {
     effect = "crossFade",
-    time = 3000
+    time = 1500
 }
 
 -- Options table for the overlay scene "badgeOverlay.lua"
@@ -86,7 +86,7 @@ myText:setFillColor( 0, 0, 0 )
 
     local nextPgBtn = widget.newButton
 {
-    width = 150,
+    width = 120,
     height = 250,
     id ="nextPage",
     defaultFile = "Images/nextBtn.png",
@@ -105,19 +105,14 @@ myText:setFillColor( 0, 0, 0 )
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = changePage
 }
 previousBtn.rotation = -180
-
-function loadOverlay()
-composer.showOverlay( "scenes.spiderOverlay", overlayOptions )
-end
   
 function textDelete()
    instructions.alpha = 0
    --instructions:removeSelf()
-   timer.performWithDelay(2000, generateSpiders, 20)
+   timer.performWithDelay(1500, generateSpiders, 25)
 end   
 
 function scaleDown()

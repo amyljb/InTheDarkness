@@ -21,7 +21,7 @@ local previousScene = "scenes.scene1"
 --options table for next page transitions
 local pageChangeOptions = {
     effect = "fade",
-    time = 2000
+    time = 1500
 }
 
 --    Create a scene object based on data read from data.json
@@ -45,7 +45,7 @@ function scene:create( event )
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -54,6 +54,17 @@ local overlayOptions =
 }
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end    
+
+local function changePage(event)
+    movedPage = true
+    if event.target.id == "door" then
+      nextClosure()  
+    else if event.target.id == "previous" then
+        previousClosure()
+    end
+    return true
+    end
+end
 
     group = display.newGroup()
     
@@ -74,7 +85,7 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
     
@@ -99,6 +110,7 @@ previousBtn.rotation = -180
     local doorClosed = display.newImage("Images/door_closed.png", true)
     doorClosed.x= display.contentWidth/2 - 250
     doorClosed.y= display.contentHeight/2 + 125
+    doorClosed.id = "door"
     
     tapIndicator = display.newImage("Images/tapButton.png", true)
     tapIndicator.x= display.contentWidth/2 - 250
@@ -117,7 +129,7 @@ previousBtn.rotation = -180
 local function closeDoor()
             indTapped = true
             doorClosed:removeSelf()
-            movedPage = true
+            --changePage()
             nextClosure()
             --composer.gotoScene( "scenes.textPage", overlayOptions )
     end

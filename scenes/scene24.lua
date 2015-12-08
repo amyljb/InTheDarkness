@@ -34,7 +34,7 @@ local sceneGroup = self.view
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,

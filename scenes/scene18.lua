@@ -42,7 +42,7 @@ local sceneGroup = self.view
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -52,10 +52,20 @@ local overlayOptions =
 
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
-
-local function changePage( event )
-        composer.gotoScene( "scenes.textPage", overlayOptions )
-    return true
+--
+--local function changePage( event )
+--        composer.gotoScene( "scenes.textPage", overlayOptions )
+--    return true
+--end
+local function changePage(event)
+    if event.target.id == "nextPage" then
+        movedPage = true
+        nextClosure()
+        else if event.target.id == "previous" then
+         movedPage = true
+         previousClosure()
+        end
+    end
 end
 
 -- 1. Start the physics engine
@@ -76,7 +86,7 @@ local rightWall = display.newRect (display.contentWidth, 0, 1, display.contentHe
     defaultFile = "Images/nextBtn.png",
     x = display.contentWidth*0.95,
     y = display.contentHeight*0.85,
-    onRelease = nextClosure
+    onRelease = changePage
 }
 
     local previousBtn = widget.newButton
@@ -88,8 +98,7 @@ local rightWall = display.newRect (display.contentWidth, 0, 1, display.contentHe
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
-    onRelease = previousClosure
+    onRelease = changePage
 }
 previousBtn.rotation = -180
 

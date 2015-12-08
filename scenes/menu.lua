@@ -33,8 +33,8 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-       composer.gotoScene("scenes.scene22", pageChangeOptions)
-       -- composer.showOverlay( "scenes.menuOverlay", overlayOptions )
+     --  composer.gotoScene("scenes.scene26", pageChangeOptions)
+      composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
 local menuBackground = display.newImage("Images/menuBkg.png", true)

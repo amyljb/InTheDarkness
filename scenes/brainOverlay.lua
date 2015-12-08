@@ -19,7 +19,14 @@ Random = math.random
 --options table for next page transitions
 local pageChangeOptions = {
     effect = "crossFade",
-    time = 3000
+    time = 2000
+}
+
+-- Options table for the overlay scene "badgeOverlay.lua"
+local overlayOptions = {
+   isModal = true,
+   effect = "crossFade",
+   time = 400
 }
 
 function exitOverlay()
@@ -32,7 +39,6 @@ function exitOverlay()
           timer.cancel(moveTimer)  
         end
 end
-
 
 -- "scene:create()"
 function scene:create( event )
@@ -110,6 +116,7 @@ physics.setGravity(0, 4)
 
 	thought.y = display.contentHeight/2
         physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1.5, radius=125})
+        
 
 local function dragBody( event )
 	gameUI.dragBody( event, { maxForce=10000, frequency=10, dampingRatio=0.2, center=true } )

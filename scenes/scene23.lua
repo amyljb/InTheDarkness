@@ -27,7 +27,7 @@ local sceneObject = BaseScene:new({
 --options table for next page transitions
 local pageChangeOptions = {
     effect = "crossFade",
-    time = 3000
+    time = 1500
 }
 
 -- Options table for the overlay scene "badgeOverlay.lua"
@@ -49,7 +49,7 @@ local sceneGroup = self.view
 local overlayOptions2 =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -107,30 +107,14 @@ myText:setFillColor( 0, 0, 0 )
 }
 previousBtn.rotation = -180
 
-function textDelete()
-   instructions.alpha = 0
-   instructions:removeSelf()
-   timer.performWithDelay(2000, generateDustballs, 15)
-end   
-
-function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2000, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    instructions.alpha = 1
-    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
-end 
-
 local sheetInfo = require("Sprites.dustExplosion")
 local explosionSheet = graphics.newImageSheet( "Sprites/dustExplosion.png", sheetInfo:getSheet() )
  local sequenceData = 
     {name="explode", start = 1, time = 1000, loopCount = 1, count=12}
     explosionSprite = display.newSprite(explosionSheet, sequenceData)
 
-function splatDustball(dustBall)
+local function splatDustball(dustBall)
     if movedPage == false then
-        print("splat")
         dustBall.alpha=0
         local splat = display.newImage("Images/splat2.png", true)
         splat.x = dustBall.x
@@ -141,18 +125,19 @@ function splatDustball(dustBall)
     end
 end
 
-function checkTaps()
+local function checkTaps()
     if numTapped == 10 then
         print("loading overlay")
         composer.showOverlay( "scenes.badgeOverlay", overlayOptions )
     end
 end
 
-function removeDustball(event)
+local function removeDustball(event)
     explosionSprite.x = event.target.x
     explosionSprite.y = event.target.y
     sceneGroup:insert(explosionSprite)
     explosionSprite:play()
+    audio.play(sfx.explode)
     numTapped = numTapped + 1
     myText.text = numTapped
     checkTaps()
@@ -161,7 +146,7 @@ function removeDustball(event)
     return explosionSprite
 end
 
-function generateDustballs()
+local function generateDustballs()
       if movedPage == false and numTapped < 10 then
         dustBall = display.newImage("Images/fuzzBall.png")
         dustBall.x =  Random(100, display.contentWidth-200)
@@ -171,6 +156,10 @@ function generateDustballs()
         transition.to(dustBall, {time = 1000, xScale=2.5, yScale = 2.5, onComplete = function(dustBall) splatDustball(dustBall) end})
         return dustBall
     end
+end
+
+function startGame()
+     timer.performWithDelay(1500, generateDustballs, 25)
 end
 
 sceneGroup:insert(dustBkg)
@@ -190,7 +179,8 @@ function scene:show( event )
    elseif ( phase == "did" ) then
        --timer.performWithDelay(1000, playInstructions)
        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
-        timer.performWithDelay(1000, instructionsClosure, 1)
+        timer.performWithDelay(1000, instructionsClosure, 1)      
+        timer.performWithDelay(5500, startGame)
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

@@ -8,7 +8,7 @@ local swipeDistance = 40
 local startTouchX = 0
 local icons = {}
 local soundtrack = audio.loadSound( "Sounds/SpookyPlayground2.wav" )
-
+local movedPage = false
 local pageChangeOptions = {
     effect = "fade",
     time = 1000
@@ -23,6 +23,9 @@ local soundOptions =
 composer.gotoScene( "scenes.menu" )
 
 local function changePage( )
+        movedPage = true
+        transition.to( sidebar, { time=500, x=-200 } )
+        transition.to( homeBtn, { time=500, x=-100 } )
         composer.gotoScene( "scenes.menu", pageChangeOptions )
     return true
 end

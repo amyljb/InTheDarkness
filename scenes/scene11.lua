@@ -1,5 +1,4 @@
 --RUB OUT - SWAMP PAGE
-
 local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
@@ -44,7 +43,7 @@ local sceneObject = BaseScene:new({
 --options table for next page transitions
 local options = {
     effect = "crossFade",
-    time = 2000
+    time = 1500
 }
 
 -- "scene:create()"
@@ -58,7 +57,7 @@ function scene:create( event )
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -69,11 +68,9 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage(event)
+    local function changePage(event)
     movedPage = true
-    if soundPlaying == true then
-        audio.stop(sfx.swampPlay)
-    end
+    audio.stop(swampPlay)   
     if event.target.id == "nextPage" then
       nextClosure()  
     else if event.target.id == "previous" then
@@ -82,6 +79,7 @@ local function changePage(event)
     return true
     end
 end
+
     
     local nextPgBtn = widget.newButton
 {
@@ -172,11 +170,12 @@ previousBtn.rotation = -180
     
     function moveMist()
     if movedPage == false then
-    transition.to( mist1, {time=4000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( mist2, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( mist3, {time=5000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( mist4, {time=4000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
-    transition.to( mist5, {time=3000, x =-display.contentWidth, onComplete= function(self) self.parent:remove(self); self = nil; end} )
+    transition.to( mist1, {time=4000, x =display.contentWidth*1.5} ) 
+   -- transition.to( mist1, {time=4000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
+    transition.to( mist2, {time=4000, x =-display.contentWidth} )  
+    transition.to( mist3, {time=5000, x =display.contentWidth*1.5} )  
+    transition.to( mist4, {time=4000, x =-display.contentWidth} )  
+    transition.to( mist5, {time=3000, x =-display.contentWidth} )
 end
 end
     

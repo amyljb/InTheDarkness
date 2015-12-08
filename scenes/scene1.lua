@@ -13,12 +13,6 @@ local nextSceneNumber = "scenes.scene2"
 local nextSceneButton
 local scene = composer.newScene(sceneName)
 
---options table for next page transitions
-local options = {
-    effect = "slideLeft",
-    time = 2000
-}
-
 local textOptions = {
    text = "This is Freddie.",
    x = display.contentWidth/2,
@@ -49,7 +43,7 @@ function scene:create( event )
 local overlayOptions =
 {
     effect = "fade",
-    time = 2000,
+    time = 1500,
     params =
     {
         var1 = sceneComponents,
@@ -67,8 +61,6 @@ freddie.y = display.contentHeight/2
 freddie.alpha=0
 
 function loadOverlay()
-    print("loading overlay")
-   --composer.showOverlay("scenes.textPage", overlayOptions )
    composer.gotoScene("scenes.textPage", overlayOptions )
 end
 
@@ -124,6 +116,10 @@ function scene:show( event )
     elseif phase == "did" then
         timer.performWithDelay(1000, loadText)
         timer.performWithDelay(2000, loadFreddie)
+         local previous =  composer.getSceneName( "previous" )
+             if previous ~= "main" and previous then
+                composer.removeScene(previous, false)       -- remove previous scene from memory
+            end
     end
 end
 
