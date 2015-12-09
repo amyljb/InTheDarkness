@@ -1,3 +1,5 @@
+--TRYING TO CREATE A BASE SCENE TO USE THROUGHOUT APP
+--COULDN'T MANAGE IT IN TIME FOR SUBMISSION - LIMITED IT TO TEXT DATA
 require 'lua_objects'
 local BaseTransition = require "BaseTransition"
 
@@ -30,17 +32,17 @@ function BaseScene:setBackground(value)
     self.background = value
 end
 
-function BaseScene.__getters:getBackground()
-    return self.background
-end
+--function BaseScene.__getters:getBackground()
+--    return self.background
+--end
 
-function BaseScene.__getters:transitions()
-    return self.transitions
-end
+--function BaseScene.__getters:transitions()
+--    return self.transitions
+--end
 
-function BaseScene.__getters:getForegroundImages()
-    return self.data.images.background
-end
+--function BaseScene.__getters:getForegroundImages()
+--    return self.data.images.background
+--end
 
 function BaseScene.__getters:getNextScene()
     return self.nextScene
@@ -50,22 +52,9 @@ function BaseScene.__getters:setNextScene(value)
     self.nextScene = value
 end
 
---function BaseScene:getById(id)
---
---    return data.images.background
---end
-
-
-function createTransition(image, transition)
-
-    return BaseTransition:new({
-        image = image,
-        time = transition.time,
-        x = getXCoordinates(transition.x),
-        listeners = transition.listeners
-    })
-end
-
+--takes X coordinates from json and works out multiplication/division
+--if coord is base=true then x = display.contentWidth
+--if value then that value is used (otherwise a specific X coordinate may be used and then there is no need for math)
 function getXCoordinates(coordData)
     local x = 0
 
@@ -79,12 +68,16 @@ function getXCoordinates(coordData)
         local op = coordData.op;
         local value = coordData.value;
 
+--if op = /, x is divided by value
         if (op == "/") then
             x = x / value;
+--if op = *, x is multiplied by value
         elseif (op == "*") then
             x = x * value
+--if op = -, value is subtracted from x
         elseif (op == "-") then
             x = x - value
+--if op = +, x is added to value           
         elseif (op == "+") then
             x = x + value
         end
@@ -93,6 +86,9 @@ function getXCoordinates(coordData)
     return x
 end
 
+--takes Y coordinates from json and works out multiplication/division
+--if coord is base then y = display.contentHeight
+--if value then that value is used as y coordinates
 function getYCoordinates(coordData)
     local y = 0
 
@@ -105,7 +101,6 @@ function getYCoordinates(coordData)
     if (coordData.op and coordData.value) then
         local op = coordData.op;
         local value = coordData.value;
-
         if (op == "/") then
             y = y / value;
         elseif (op == "*") then
@@ -120,36 +115,32 @@ function getYCoordinates(coordData)
     return y
 end
 
-function BaseScene:init()
-
-    local sceneComponents = {}
-
-    local transitions = self.transitions
-    local data = self.data
-
-    --    Load text
-    if (data.text) then
-        local textData = data.text
-
-        for i = 1, #textData do
-            local x = getXCoordinates(textData[i].x)
-            local y = getYCoordinates(textData[i].y)
-
-            local text = display.newText(textData[i].value, x, y, native.systemFont, textData[i].fontSize)
-            text:setFillColor(textData[i].color.r, textData[i].color.g, textData[i].color.b)
-
-            table.insert(sceneComponents, text)
-
-
-            if textData[i].transition then
-                local transition = createTransition(text, textData[i].transition)
-                table.insert(transitions, transition)
-            end
-        end
-    end
-
-    return sceneComponents
-end
+--THIS FUNCTION WAS USED WHEN EACH PAGE LOADED TEXT, NOW THE DATA IS JUST FETCHED NOT ADDED TO TEXT OBJECT UNTIL TEXTPAGE.LUA
+--function BaseScene:init()
+--
+--    local sceneComponents = {}
+--
+--   -- local transitions = self.transitions
+--    local data = self.data
+--
+--    --    Load text
+--    if (data.text) then
+--        local textData = data.text
+--
+--        for i = 1, #textData do
+--            local x = getXCoordinates(textData[i].x)
+--            local y = getYCoordinates(textData[i].y)
+--
+--            local text = display.newText(textData[i].value, x, y, native.systemFont, textData[i].fontSize)
+--            text:setFillColor(textData[i].color.r, textData[i].color.g, textData[i].color.b)
+--
+--            table.insert(sceneComponents, text)
+--
+--        end
+--    end
+--
+--    return sceneComponents
+--end
 
 function BaseScene:getText()
     local data = self.data

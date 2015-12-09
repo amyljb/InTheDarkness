@@ -30,7 +30,6 @@ local options = {
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -59,19 +58,20 @@ local overlayOptions2 = {
    time = 400
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---change page on button tap --ADD PERFORM WITH DELAY
+--change page on button tap
 local function changePage()
         nextClosure()
         return true
 end
-    
+    --start physics and set gravity
     physics.start()
     physics.setGravity( 0, 0 )
     
-    
+    --setup buttons
     local previousBtn = widget.newButton
 {
     width = 120,
@@ -81,11 +81,11 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
-
+ 
+ --setup page images
     local backgroundThree = display.newImage("Images/toolboxBkg.png")
     backgroundThree.x = display.contentWidth/2
     backgroundThree.y = display.contentHeight/2
@@ -151,6 +151,7 @@ previousBtn.rotation = -180
     screwdriver3.x = Random(50, display.contentWidth-100)
     screwdriver3.y = display.contentHeight/3
     
+    --create static walls as boundaries for objects
     local leftWall = display.newRect( 0, display.contentHeight/2, 5, display.contentHeight )
     physics.addBody(leftWall, "static", {friction=0, bounce=0.9 })
     local rightWall = display.newRect( display.contentWidth, display.contentHeight/2, 5, display.contentHeight )
@@ -160,8 +161,10 @@ previousBtn.rotation = -180
     local floor = display.newRect( display.contentWidth/2, display.contentHeight, display.contentWidth, 5)
     physics.addBody(floor, "static", {friction=0, bounce=0.9 })
     
+    --properties for tools
     toolMaterial = { density=0.3, friction=0.6, radius=66.0 }
     
+    --add physics to tools
     physics.addBody (drill, "dynamic", toolMaterial )
     physics.addBody (pliers, "dynamic", toolMaterial )
     physics.addBody (screws, "dynamic", toolMaterial )
@@ -181,6 +184,7 @@ previousBtn.rotation = -180
     physics.addBody (gloves2, "dynamic", toolMaterial )
     physics.addBody (screwdriver3, "dynamic", toolMaterial )
     physics.addBody (hardhat2, "dynamic", toolMaterial )
+    --apply angular/linear damping 
     drill.linearDamping = 0.8
     drill.angularDamping = 1
     pliers.linearDamping = 0.8
@@ -227,6 +231,7 @@ previousBtn.rotation = -180
     instructions.y = display.contentHeight/2 
     instructions.alpha = 0
      
+    --insert display objects into sceneGroup  
         sceneGroup:insert(backgroundThree)
         sceneGroup:insert(flashlight)
         sceneGroup:insert(drill)
@@ -254,19 +259,8 @@ previousBtn.rotation = -180
         sceneGroup:insert(leftWall)
         sceneGroup:insert(rightWall)
         sceneGroup:insert(previousBtn)
-
---function textDelete()
---   instructionText.alpha = 0
---end   
---function scaleDown()
---    transition.scaleTo( instructionText, { xScale=1.0, yScale=1.0, time=1000, onComplete=textDelete } )    
---end    
---function textPlay()
---    instructionText.alpha = 1
---    transition.scaleTo( instructionText, { xScale=1.1, yScale=1.1, time=1000, onComplete=scaleDown}) 
---end  
-
-    
+  
+  --adds drag to each objects using corona's gameUI
     local function dragBody( event )
 	return gameUI.dragBody( event )
     end    
@@ -277,11 +271,7 @@ previousBtn.rotation = -180
         timer.performWithDelay(2500, changePage)
 end
 
---CAUSES LOADS OF PROBLEMS - FIRES NEXT SCENE TWICE???/
---function torchAnimate()
-  -- transition.scaleTo( flashlight, { xScale=2, yScale=2, rotation =720, time=700, onComplete=changePage}) 
---end
-     
+--add event listeners to all tools
     drill:addEventListener("touch", dragBody)
     pliers:addEventListener("touch", dragBody)
     screws:addEventListener("touch", dragBody)
@@ -303,8 +293,8 @@ end
     hardhat2:addEventListener("touch", dragBody)
     
     flashlight:addEventListener("touch", foundTorch)
-   -- flashlight:addEventListener("touch", foundTorch)
     
+    --function to remove event listeners
     function removeEventListeners3()
         print("removeEventListeners called scene 3")  
         drill:removeEventListener("touch", dragBody)
@@ -332,7 +322,7 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-       -- timer.performWithDelay(1000,textPlay)
+            
         local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)
     end 

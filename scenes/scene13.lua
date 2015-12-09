@@ -14,7 +14,6 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local spawnedObjects = {}
 local widget = require("widget")
---local growl = audio.loadSound( "Sounds/growl.mp3" )
 local growlPlaying = false
 local movedPage = false
 
@@ -23,7 +22,6 @@ local movedPage = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -49,9 +47,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -66,6 +66,7 @@ end
 
 local radiusMax = math.sqrt( centerX*centerX + centerY*centerY )
 
+--setup images
 local bkg = display.newImage("Images/hallReveal.png", true)
 bkg.x= display.contentWidth/2
 bkg.y= display.contentHeight/2
@@ -92,6 +93,7 @@ instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
     
+--setup buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -116,6 +118,7 @@ instructions.alpha=0
 }
 previousBtn.rotation = -180
         
+--setup image sheets        
 -- 1st image sheet
 local sheetData1 = require("Sprites.explosion1")
 local explosion1 = graphics.newImageSheet( "Sprites/explosion1.png", sheetData1:getSheet() )
@@ -149,6 +152,7 @@ explosionAnim.x = display.contentWidth/2
 explosionAnim.y = display.contentHeight/2
 explosionAnim.alpha=0
 
+--play growl sound
 local function playGrowl()
     if growlPlaying == false then
         audio.setVolume( 0.5 ) 
@@ -160,6 +164,7 @@ end
 local function monsterShake(target)
 local firstTran, secondTran, thirdTran
 
+--shake monster function
 --Third Transition
 thirdTran = function()
         if target.shakeType == "Loop" then
@@ -185,7 +190,7 @@ end
 firstTran()
 end 
 
--- touch listener function
+-- touch listener function to moved torchlight
 function torchLight:touch( event )
     if event.phase == "began" then
 	
@@ -203,10 +208,10 @@ function torchLight:touch( event )
         
         self.x, self.y = x, y    -- move object based on calculations above
     elseif event.phase == "ended" then
+        --checks for collision between light and monster
          if hasCollided( event.target, hotspot ) then
-                    -- Pick up coin!
-                    print("collided with hotspot")
                     playExplode()
+                    --remove hotspot to prevent more collisions
                     hotspot:removeSelf()
                     hotspot = nil
    
@@ -236,6 +241,7 @@ function hasCollided( torchLight, hotspot )
     return false
 end
 
+--setup explosion sprite
 function swapSheet4()
     explosionAnim:setSequence( "seq5" )
     explosionAnim:play()
@@ -261,17 +267,15 @@ local function swapSheet()
     timer.performWithDelay( 100, swapSheet2 )
 end
 
+--play explosion on collision with monster
 function playExplode()
     explosionAnim.alpha=1
     monster:removeSelf()
     explosionAnim:play()
     timer.performWithDelay( 100, swapSheet )
-end
-
-    function removeEventListeners()
-        print("removeEventListeners called scene 13")
-    end     
+end   
       
+--insert display objects into sceneGroup      
 sceneGroup:insert(bkg)
 sceneGroup:insert(coatRack)
 sceneGroup:insert(monster)
@@ -281,6 +285,7 @@ sceneGroup:insert(torchLight)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
+--add event listeners
 torchLight:addEventListener( "touch", torchLight )
 
 end
@@ -311,8 +316,6 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
       -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -322,10 +325,6 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-    removeEventListeners()
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

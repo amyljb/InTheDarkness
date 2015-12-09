@@ -14,16 +14,15 @@ local breathText
 local scaleNum = 0
 local movedPage = false
 numTapped = 0
---local heartSound = audio.loadSound( "heartbeating.mp3" )
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
+--text options
 local options = {
    text = "Tap the button when it appears to help slow Freddie's heart!",
    x = display.contentWidth*0.75,
@@ -52,6 +51,7 @@ function scene:create( event )
          --Initialize the scene
     local sceneComponents = sceneObject:getText()
     
+--options for textPage.lua
 local overlayOptions =
 {
     effect = "fade",
@@ -63,9 +63,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     if event.target.id == "next" then
         movedPage = true
@@ -77,6 +79,7 @@ local function changePage(event)
     end
 end
 
+    --image setup
     local bkg = display.newImage("Images/heartBkg.png", true)
     bkg.x = display.contentWidth/2
     bkg.y = display.contentHeight/2
@@ -103,7 +106,7 @@ end
     instructions.y = display.contentHeight/2
     instructions.alpha=0
     
-
+    --button setup
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -128,7 +131,8 @@ end
     onRelease = changePage
 }
 previousBtn.rotation = -180
-    
+
+--sprite sheet setup
 local sheetInfo = require("Sprites.heartbeat")
 local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInfo:getSheet() )
  
@@ -141,7 +145,7 @@ local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInf
         beatSprite.x = display.contentWidth/2
         beatSprite.y = display.contentHeight*0.8 
          
-
+--------------------------------------------------------------------------------
 function removeButton(button)
     button:removeSelf()
     transition.to(bkg, {time = 500, alpha = 1})
@@ -193,7 +197,9 @@ function playInstructions()
     instructions.alpha = 1
     transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
 end 
-
+--------------------------------------------------------------------------------
+ 
+--insert display objects into sceneGroup 
 sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
@@ -203,7 +209,7 @@ sceneGroup:insert(beatSprite)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 end
-
+--------------------------------------------------------------------------------
 -- "scene:show()"
 function scene:show( event )
 
@@ -223,7 +229,7 @@ function scene:show( event )
             end
    end
 end
-
+--------------------------------------------------------------------------------
 -- "scene:hide()"
 function scene:hide( event )
 

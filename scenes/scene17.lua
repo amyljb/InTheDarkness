@@ -14,7 +14,6 @@ local previousScene = "scenes.scene16"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
@@ -26,6 +25,7 @@ local sceneGroup = self.view
          --Initialize the scene
     local sceneComponents = sceneObject:getText()
     
+--options for textPage.lua
 local overlayOptions =
 {
     effect = "fade",
@@ -37,6 +37,7 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
@@ -45,10 +46,12 @@ local function changePage()
     return true
 end
 
+--page setup
 local bkg = display.newImage("Images/kitchen.png", true)
 bkg.x= display.contentWidth/2
 bkg.y= display.contentHeight/2
 
+--sprite sheet setup
 local sheetInfo = require("Sprites.kitchenGhost")
 local kitchenGhostSheet = graphics.newImageSheet( "Sprites/kitchenGhost.png", sheetInfo:getSheet() )
  
@@ -76,6 +79,7 @@ local curtainSheet3 = graphics.newImageSheet( "Sprites/curtain3.png", sheetInfo4
         curtainSprite.y = display.contentHeight/3 
         curtainSprite.alpha=0
                 
+--create hidden hotspot
 local hotspot = display.newCircle( display.contentWidth - display.contentWidth/4, display.contentHeight/3, 300 )
 hotspot:setFillColor( 0.5 )
 hotspot.alpha = 0 
@@ -84,6 +88,7 @@ local torchLight = display.newImage("Images/torchLight.png", true)
 torchLight.x = display.contentWidth/8
 torchLight.y = display.contentHeight*0.6
 
+--button setup
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -142,6 +147,8 @@ explosionAnim.x = display.contentWidth - display.contentWidth/4
 explosionAnim.y = display.contentHeight/3
 explosionAnim.alpha=0
 
+-------------------------------------------------------------------------------
+--shake function
 local function ghostShake(kitchenGhostSprite)
     local firstTran, secondTran, thirdTran
 --Third Transition
@@ -216,7 +223,7 @@ function hasCollided( torchLight, hotspot )
     return false
 end
 
-
+--play and swap curtain sprite
 function swapCurtain2()
     curtainSprite:setSequence("blowing3")
     curtainSprite:play()
@@ -260,6 +267,7 @@ function swapSheet()
     timer.performWithDelay( 100, swapSheet2 )
 end
 
+--play explosion on collision
 function playExplode()
     explosionAnim.alpha=1
     kitchenGhostSprite:removeSelf()
@@ -267,8 +275,8 @@ function playExplode()
     timer.performWithDelay( 100, swapSheet )
     
 end
-
-
+--------------------------------------------------------------------------------
+--insert display objects into sceneGroup 
 sceneGroup:insert(bkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(kitchenGhostSprite)
@@ -278,6 +286,7 @@ sceneGroup:insert(explosionAnim)
 sceneGroup:insert(curtainSprite)
 sceneGroup:insert(previousBtn)
 
+--add event listeners
 torchLight:addEventListener( "touch", torchLight )
 end
 
@@ -291,13 +300,12 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        kitchenGhostSprite:play()
+       
+       -- remove previous scene from memory
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -308,9 +316,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
+
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -321,9 +327,6 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
 
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

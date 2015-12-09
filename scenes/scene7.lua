@@ -14,7 +14,6 @@ local previousScene = "scenes.scene6"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
@@ -39,6 +38,7 @@ local overlayOptions =
     }
 }
 
+ --closures that pass params to changePg module  
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
@@ -47,11 +47,12 @@ local function changePage()
         nextClosure()
     return true
 end
-
+    --setup images
     local background = display.newImage("Images/page6.png", true)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
     
+    --setup sprite sheet
     local sheetInfo = require("Sprites.thoughtBubble")
     local bubbleSheet1 = graphics.newImageSheet( "Sprites/thoughtBubble.png", sheetInfo:getSheet() )
     local sequenceData =
@@ -62,6 +63,7 @@ end
     bubbleSprite.y = display.contentHeight/4
     bubbleSprite.alpha=0
     
+    --setup buttons
      local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -83,21 +85,16 @@ end
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
 
-    sceneGroup:insert(background)
-    sceneGroup:insert(bubbleSprite)
-    sceneGroup:insert(nextPgBtn)
-    sceneGroup:insert(previousBtn)
-
+--play sprite
 function playBubble()
     bubbleSprite.alpha=1
     bubbleSprite:play()
 end
-
+--bob sprite
 function bobAgain()
    bobTrans= transition.to(bubbleSprite, {time = 500, y = display.contentHeight/4, onComplete = bobFunction})
 end
@@ -105,11 +102,12 @@ end
 function bobFunction()
      bobTrans = transition.to(bubbleSprite, {time = 500, y = (display.contentHeight/4)-10, onComplete = bobAgain})
 end
-
-    function removeEventListeners6()
-        print("removeEventListeners called scene 6")
-    end
     
+ --insert scene elements into sceneGroup
+    sceneGroup:insert(background)
+    sceneGroup:insert(bubbleSprite)
+    sceneGroup:insert(nextPgBtn)
+    sceneGroup:insert(previousBtn)   
 end
 -- "scene:show()"
 function scene:show( event )
@@ -147,7 +145,6 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-   removeEventListeners6()
 end
 
 ---------------------------------------------------------------------------------

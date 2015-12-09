@@ -26,10 +26,12 @@ function scene:create( event )
 
    local sceneGroup = self.view
 
+--setup background image
    local badge = display.newImage("Images/badge.png", true)
     badge.x = display.contentWidth/2
     badge.y = display.contentHeight/2
     
+--setup sprite sheet
     local sheetInfo = require("Sprites.littleMonster")
         local monsterSheet = graphics.newImageSheet( "Sprites/littleMonster.png", sheetInfo:getSheet() )
         local sequenceData =
@@ -39,6 +41,7 @@ function scene:create( event )
             monsterSprite.y = display.contentHeight/2.3
             monsterSprite:play()
     
+    --exit button
     local exitButton = widget.newButton
 {
     width = 150,
@@ -50,6 +53,7 @@ function scene:create( event )
     onRelease = exitOverlay
 }
 
+--add to scene group
 sceneGroup:insert(badge)
 sceneGroup:insert(exitButton)
 sceneGroup:insert(monsterSprite)

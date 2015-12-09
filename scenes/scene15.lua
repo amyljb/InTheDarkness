@@ -18,7 +18,6 @@ local nextTapped = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -43,9 +42,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -57,6 +58,7 @@ local function changePage(event)
     end
 end
 
+--setup buttons
 local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -83,18 +85,16 @@ local nextPgBtn = widget.newButton
 }
 previousBtn.rotation = -180
 
+--setup images and snapshot
 local backImage = display.newImage( "Images/kitchen.png", display.contentCenterX, display.contentCenterY  )
 
 local snapshot = display.newSnapshot(2048, 1536)
 snapshot:translate( display.contentCenterX, display.contentCenterY )
-
 local kitchenBkg = display.newImage( "Images/dungeon.png", true )
---kitchenBkg.x=display.contentWidth/2
---kitchenBkg.y=display.contentHeight/2
-
 snapshot.canvas:insert(kitchenBkg)
 snapshot:invalidate( "canvas" )
 
+--setup ghost sprite
 local sheetInfo = require("Sprites.kitchenGhost")
 local kitchenGhostSheet = graphics.newImageSheet( "Sprites/kitchenGhost.png", sheetInfo:getSheet() )
  
@@ -135,12 +135,14 @@ local function listener( event )
 	end
 end
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(backImage)
 sceneGroup:insert(snapshot)
 sceneGroup:insert(kitchenGhostSprite)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
+--add event listeners
 snapshot:addEventListener( "touch", listener )
 
 end

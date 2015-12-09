@@ -20,7 +20,6 @@ numTapped = 0
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -63,9 +62,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -77,6 +78,7 @@ local function changePage(event)
     end
 end
 
+--set up images 
     local bkg = display.newImage("Images/heartBkg.png", true)
     bkg.x = display.contentWidth/2
     bkg.y = display.contentHeight/2
@@ -103,6 +105,7 @@ end
     instructions.y = display.contentHeight/2
     instructions.alpha=0
     
+--setup page buttons  
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -128,6 +131,7 @@ end
 }
 previousBtn.rotation = -180
     
+--setup sprite sheets    
 local sheetInfo = require("Sprites.heartbeat")
 local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInfo:getSheet() )
  
@@ -140,29 +144,34 @@ local heartbeatSheet = graphics.newImageSheet( "Sprites/heartbeat.png", sheetInf
         beatSprite.x = display.contentWidth/2
         beatSprite.y = display.contentHeight*0.8 
          
-
+--remove button
 function removeButton(button)
     button:removeSelf()
     transition.to(bkg, {time = 500, alpha = 1})
     transition.to(redBkg, {time = 500, alpha = 0})
 end
 
+--generate button and remove button
 function generateButton()
     if numTapped < 3 and movedPage == false then
+        --setup button
        local button = display.newImage("Images/heartBtn.png", true)
         button.x=display.contentWidth/2
         button.y=display.contentHeight*0.8
         button:addEventListener("tap", slowBeat)
         button.alpha = 0.1
+        --change background colour
         transition.to(bkg, {time = 500, alpha = 0})
         transition.to(redBkg, {time = 500, alpha = 1})
         sceneGroup:insert(button)
+        --add closure to remove button
         local myClosure = function() return removeButton( button ) end
         timer.performWithDelay( 1000, myClosure, 1 )
         return button  
     end
 end
 
+--slow heartbeat sprite based on number of taps to button
 function slowBeat()
    numTapped = numTapped + 1
    myText.text = numTapped
@@ -179,20 +188,7 @@ function slowBeat()
     end
 end
 
-local function textDelete()
-   instructions.alpha = 0
-   --instructions:removeSelf()
-end   
-
-local function scaleDown()
-    transition.scaleTo( instructions, { xScale=1.0, yScale=1.0, time=2500, onComplete=textDelete } )    
-end    
-
-function playInstructions()
-    instructions.alpha = 1
-    transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2500, onComplete=scaleDown}) 
-end 
-
+--insert display objects into sceneGroup
 sceneGroup:insert(redBkg)
 sceneGroup:insert(bkg)
 sceneGroup:insert(myText)
@@ -214,13 +210,15 @@ function scene:show( event )
    elseif ( phase == "did" ) then
       beatSprite:play()
       audio.play(sfx.heartSound)
-     timer.performWithDelay(3500, generateButton, 20)
-     --timer.performWithDelay(2000, playInstructions)
-     local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
+      --generate button on timer 20 times
+      timer.performWithDelay(3500, generateButton, 20)
+     --closure passes instructions to instructionFunc.lua, plays instructions
+        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)
-       local previous =  composer.getSceneName( "previous" )
+         -- remove previous scene from memory
+         local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)      
             end
    end
 end

@@ -1,3 +1,4 @@
+--plays swipe instructions
 local promptTable = {}
      
 function promptTable.swipeIndicator(sceneName, transitioned)

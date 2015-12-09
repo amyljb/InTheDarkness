@@ -1,3 +1,4 @@
+--takes instructions from scene, displays and then removes them
 local instructions = {}
 
 function textDelete(instructions)

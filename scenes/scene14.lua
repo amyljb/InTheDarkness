@@ -1,4 +1,4 @@
---FREDDIE COLD - bridging scene
+--FREDDIE FEELING COLD - bridging scene
 local composer = require( "composer" )
 local changePg = require("changePg")
 local sceneData = require("loadData")
@@ -19,7 +19,6 @@ local movedPage = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -60,6 +59,7 @@ local function changePage(event)
     end
 end
 
+--setup images
 freddieCold = display.newImage( "Images/freddieCold.png", true )
 freddieCold.x=display.contentWidth/2
 freddieCold.y=display.contentHeight/2
@@ -72,6 +72,7 @@ snapshot.alpha=0
 snapshot.canvas:insert(breath)
 snapshot:invalidate( "canvas" )
     
+--setup buttons    
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -99,6 +100,7 @@ snapshot:invalidate( "canvas" )
 }
 previousBtn.rotation = -180
 
+--setup brush and draw
     local function draw( x, y )
 	local o = display.newImage( "Images/brush.png", x, y )
 	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
@@ -107,6 +109,7 @@ previousBtn.rotation = -180
 	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
     end
 
+--touch listener to rub out
     local function listener( event )
         print("listening")
         local x,y = event.x - snapshot.x, event.y - snapshot.y  
@@ -126,15 +129,18 @@ previousBtn.rotation = -180
 	end
     end
 
+--icing breath appears
 function changeAlpha()
    transition.to(snapshot, {alpha=1, time = 4500})
 end
 
+--insert display objects into sceneGroup  
 sceneGroup:insert(freddieCold)
 sceneGroup:insert(snapshot)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
+--add event listeners
 snapshot:addEventListener( "touch", listener ) 
 
 end

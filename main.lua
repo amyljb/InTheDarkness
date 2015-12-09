@@ -1,7 +1,5 @@
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
-
--- require the composer library
 local composer = require "composer"
 local widget = require("widget")
 local swipeDistance = 40
@@ -9,6 +7,7 @@ local startTouchX = 0
 local icons = {}
 local soundtrack = audio.loadSound( "Sounds/SpookyPlayground2.wav" )
 local movedPage = false
+
 local pageChangeOptions = {
     effect = "fade",
     time = 1000

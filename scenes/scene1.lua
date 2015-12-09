@@ -1,4 +1,6 @@
+--SCENE ONE
 
+--setup scene variables
 local sceneName = "scene1"
 local composer = require( "composer" )
 local sceneData = require("loadData")
@@ -28,7 +30,6 @@ local textOptions = {
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -40,17 +41,23 @@ function scene:create( event )
     --    Initialize the scene
     local sceneComponents = sceneObject:getText()
     
+--options for loading next scene    
 local overlayOptions =
 {
     effect = "fade",
     time = 1500,
     params =
     {
+    --params passed to textPage scene
         var1 = sceneComponents,
         nextScene = nextSceneNumber
     }
 }
-    
+local function loadOverlay()
+   composer.gotoScene("scenes.textPage", overlayOptions )
+end
+
+--image setup    
 backgroundOne = display.newImage("Images/darkness.png", true) 
 backgroundOne.x = display.contentWidth/2
 backgroundOne.y = display.contentHeight/2 -- - 770
@@ -60,10 +67,7 @@ freddie.x = display.contentWidth/2
 freddie.y = display.contentHeight/2 
 freddie.alpha=0
 
-function loadOverlay()
-   composer.gotoScene("scenes.textPage", overlayOptions )
-end
-
+--button setup
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -73,7 +77,6 @@ end
     overFile = "Images/nextBtnOver.png",
     onRelease = loadOverlay
 }
-
 nextPgBtn.x = display.contentWidth*0.95
 nextPgBtn.y = display.contentHeight*0.85
 
@@ -85,11 +88,13 @@ local function textFunc()
          pageText.text = "Freddie is the kind of boy that gets scared very easily.\n Sometimes, he gets so frightened that he imagines things that aren't really there."
 end 
 
+--load text
 function loadText()
     transition.to(pageText, {alpha =1, time = 100})
     timer.performWithDelay(4000, textFunc)
 end
 
+--load image of freddie
 function loadFreddie()
     transition.to(freddie, {alpha =1, time = 10})
     audio.play(sfx.ping)
@@ -114,11 +119,13 @@ function scene:show( event )
     if phase == "will" then
         -- Called when the scene is off screen and is about to move on screen
     elseif phase == "did" then
+        --timed functions
         timer.performWithDelay(1000, loadText)
         timer.performWithDelay(2000, loadFreddie)
+         -- remove previous scene from memory
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)      
             end
     end
 end

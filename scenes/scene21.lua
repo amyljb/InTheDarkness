@@ -19,7 +19,6 @@ Random = math.random
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -58,9 +57,11 @@ local overlayOptions2 =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -72,6 +73,7 @@ local function changePage(event)
     end
 end
 
+--setup background images
 local bkg = display.newImage("Images/spiderweb.png", true)
 bkg.x = display.contentWidth/2
 bkg.y = display.contentHeight/2
@@ -81,9 +83,11 @@ instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
     
+--setup page text
 local myText = display.newText( "0", 1875, 150, native.systemFont, 150 )
 myText:setFillColor( 0, 0, 0 )
 
+--setup buttons    
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -109,6 +113,7 @@ myText:setFillColor( 0, 0, 0 )
 }
 previousBtn.rotation = -180
   
+--functions to show and remove game instructions  
 function textDelete()
    instructions.alpha = 0
    --instructions:removeSelf()
@@ -124,6 +129,7 @@ function playInstructions()
     transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
 end 
 
+--function to generate spider sprites
 function generateSpiders()
     if movedPage == false and numTapped < 10 then        
         local sheetInfo = require("Sprites.spiderNew")
@@ -140,13 +146,14 @@ function generateSpiders()
             return spiderSprite
     end
 end
-
+--function to check number of spider taps, shows well done overlay on 10
 function checkTaps()
     if numTapped == 10 then
         composer.showOverlay( "scenes.badgeOverlay", overlayOptions )
     end
 end
 
+--function to deal with spider tap, removes spider, replaces with splat image, plays audio
 function spiderTap(event)
     numTapped = numTapped + 1
     myText.text = numTapped
@@ -159,6 +166,7 @@ function spiderTap(event)
     sceneGroup:insert(splat)
 end
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(bkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(myText)

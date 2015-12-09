@@ -7,13 +7,13 @@ local pageChangeOptions = {
     time = 1000
 }
 
--- Options table for the overlay scene "overlay.lua"
+-- Options table for the overlay scene "menuOverlay.lua"
 local overlayOptions = {
    isModal = true,
    effect = "crossFade",
    time = 400
 }
-
+--change page based on button id
 local function changePage( event )
     if event.phase == "ended" then
         if event.target.id == "playFull" then
@@ -33,10 +33,10 @@ function scene:create( event )
    local sceneGroup = self.view
    
    local function loadOverlay()
-     --  composer.gotoScene("scenes.scene26", pageChangeOptions)
       composer.showOverlay( "scenes.menuOverlay", overlayOptions )
     end
 
+--image setup
 local menuBackground = display.newImage("Images/menuBkg.png", true)
 menuBackground.x = display.contentWidth/2
 menuBackground.y = display.contentHeight/2
@@ -45,7 +45,7 @@ local menuLight = display.newImage("Images/menuLight.png", true)
 menuLight.x = display.contentWidth/2
 menuLight.y = display.contentHeight/2
     
-
+--button setup
    local playFullBtn = widget.newButton
 {
     width = 1500,
@@ -78,6 +78,8 @@ menuLight.y = display.contentHeight/2
     y = display.contentHeight/9,
     onRelease = loadOverlay
 }
+
+--insert elements into scene group
     sceneGroup:insert(menuBackground)
     sceneGroup:insert(playFullBtn)
     sceneGroup:insert(chapterBtn)
@@ -92,7 +94,6 @@ function scene:show( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
@@ -109,7 +110,6 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
-      -- Called immediately after scene goes off screen.
    end
 end
 

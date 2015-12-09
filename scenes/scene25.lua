@@ -14,7 +14,6 @@ local previousScene = "scenes.scene24"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -40,6 +39,7 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
@@ -48,10 +48,12 @@ local function changePage()
     return true
 end
 
+--setup background image
 local momBkg = display.newImage( "Images/momPage.png", true )
 momBkg.x=display.contentWidth/2
 momBkg.y=display.contentHeight/2
 
+--setup page buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -75,6 +77,7 @@ momBkg.y=display.contentHeight/2
 }
 previousBtn.rotation = -180
 
+--insert display objects into sceneGroup
 sceneGroup:insert(momBkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
@@ -93,9 +96,6 @@ function scene:show( event )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -106,9 +106,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
+
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -119,9 +117,6 @@ function scene:destroy( event )
 
    local sceneGroup = self.view
 
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
 end
 
 ---------------------------------------------------------------------------------

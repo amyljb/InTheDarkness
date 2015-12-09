@@ -14,7 +14,6 @@ local previousScene = "scenes.scene19"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
@@ -39,19 +38,23 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--change page function
 local function changePage()
         composer.gotoScene( "scenes.textPage", overlayOptions )
     return true
 end
 
+--setup background image
 local bkg = display.newImage("Images/underbed.png", true)
 bkg.x = display.contentWidth/2
 bkg.y = display.contentHeight/2
 
-        local nextPgBtn = widget.newButton
+--setup buttons
+    local nextPgBtn = widget.newButton
 {
     width = 120,
     height = 250,
@@ -71,11 +74,11 @@ bkg.y = display.contentHeight/2
     overFile = "Images/nextBtnOver.png",
     x = display.contentWidth/14,
     y = display.contentHeight*0.85,
-    --onRelease = loadPrevious(previousScene)
     onRelease = previousClosure
 }
 previousBtn.rotation = -180
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(bkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)

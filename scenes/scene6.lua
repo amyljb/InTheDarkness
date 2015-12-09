@@ -28,7 +28,6 @@ local movedPage = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -53,9 +52,11 @@ local overlayOptions =
     }
 }
 
+ --closures that pass params to changePg module   
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--change page on button tap depending on id
 local function changePage(event)
     movedPage = true
     if event.target.id == "light" then
@@ -68,6 +69,7 @@ local function changePage(event)
     end
 end
 
+--setup images
 local background = display.newImage("Images/pg5NEW.png", true)
 background.x = display.contentWidth/2
 background.y = display.contentHeight
@@ -102,9 +104,11 @@ tapIndicator.x= display.contentWidth/2
 tapIndicator.y= display.contentHeight/8
 tapIndicator.alpha = 0    
 
+--setup spritesheets
 local sheetInfo = require("Sprites.curtains")
 local curtainsSheet = graphics.newImageSheet( "Sprites/curtains.png", sheetInfo:getSheet() )
 
+--CURTAINS
 local sequenceData =
     {name="curtainsOpen", start = 1, time = 800, loopCount = 1, count=8}  
         curtainSprite = display.newSprite(curtainsSheet, sequenceData)
@@ -112,6 +116,7 @@ local sequenceData =
         curtainSprite.x = display.contentWidth/2 + 550
         curtainSprite.y = display.contentHeight/2 - 500
 
+--SNORING
  local sheetInfo2 = require("Sprites.snoring")
  local snoringSheet = graphics.newImageSheet( "Sprites/snoring.png", sheetInfo2:getSheet() )
  
@@ -123,6 +128,7 @@ local sequenceData =
         snoringSprite.y = display.contentHeight/3 
         snoringSprite.alpha = 0
         
+ --SHH NOISE
 local sheetInfo3 = require("Sprites.shh")
         local shhSheet1 = graphics.newImageSheet( "Sprites/shh.png", sheetInfo3:getSheet() )
         local sequenceData3 = 
@@ -131,6 +137,7 @@ local sheetInfo3 = require("Sprites.shh")
         shhSprite.x = display.contentWidth*0.8 
         shhSprite.y =display.contentHeight-250   
         
+--GRRR NOISE
 local sheetInfo4 = require("Sprites.grr1") 
 local grrSheet1 = graphics.newImageSheet( "Sprites/grr1.png", sheetInfo4:getSheet() )
 local sheetInfo5 = require("Sprites.grr2") 
@@ -145,6 +152,7 @@ local sequenceData4 = {
       grrSprite.x = display.contentWidth/3
       grrSprite.y = display.contentHeight
 
+--setup buttons
 local lightButton = widget.newButton
 {
     width = 250,
@@ -178,6 +186,7 @@ local function playRadio()
     audio.play(sfx.radioSound, {duration=2000})
 end
 
+--setup buttons
 local  toyBox = widget.newButton
 {
     width = 650,
@@ -232,7 +241,7 @@ function playGrr()
 end
 end
 
---swipe handler
+--swipe handler to swipe down and up page
 local function swipeHandler(event)
         if event.phase == "began" then
         startTouchY = event.y
@@ -271,6 +280,7 @@ local function swipeHandler(event)
         return true
     end
 
+--opens curtain and plays curtain sound
 local function openCurtain(event)
     if not ( event.phase ) and curtainOpen == false then
         curtainSprite:play()
@@ -315,9 +325,6 @@ local function snoringSounds()
     grrSprite:setSequence( "seqOne" )
     grrSprite.alpha = 1
     playGrr()
-    --snoringSprite.alpha = 1
-    --snoringSprite:play()
-   -- transition.to(grrSprite, {alpha = 0, time = 2000})
     timer.performWithDelay( 700, swapSheet2 )
     return true
 end
@@ -333,6 +340,7 @@ local function rotateBack()
     transition.to(bed, {time =200, rotation = 0})
 end
 
+--play bed creak
 local function bedCreak(event)
     if not ( event.phase ) then
         transition.to(bed, {time =200, rotation = 5, onComplete = rotateBack})
@@ -346,6 +354,7 @@ local function removeInstructions(downInstructions)
     downInstructions = nil
 end
 
+--play instructions to swipe down
 function swipeInstruction()
     if swiped == false and transitioned == false and movedPage == false then
     local downInstructions = display.newImage("Images/downInstruct.png", true)
@@ -399,14 +408,15 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-    --timer.performWithDelay(1000, playInstructions)
     timer.performWithDelay(10000, playGrr )
     timer.performWithDelay(13000, swipeInstruction )
+    --closure to play instructions
     local instructionsClosure = function() return instructionFunc.playInstructions(instructions, movedPage) end
         timer.performWithDelay(1000, instructionsClosure, 1)
+        -- remove previous scene from memory
        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
    end
 end

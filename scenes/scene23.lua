@@ -20,7 +20,6 @@ Random = math.random
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -57,9 +56,11 @@ local overlayOptions2 =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions2, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -71,6 +72,7 @@ local function changePage(event)
     end
 end
 
+--set page images
 local dustBkg = display.newImage( "Images/dustBkg.png", true )
 dustBkg.x=display.contentWidth/2
 dustBkg.y=display.contentHeight/2
@@ -83,6 +85,7 @@ myText:setFillColor( 0, 0, 0 )
     instructions.y = display.contentHeight/2
     instructions.alpha=0
 
+--setup page buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -107,12 +110,14 @@ myText:setFillColor( 0, 0, 0 )
 }
 previousBtn.rotation = -180
 
+--setup dustball explosion sprite
 local sheetInfo = require("Sprites.dustExplosion")
 local explosionSheet = graphics.newImageSheet( "Sprites/dustExplosion.png", sheetInfo:getSheet() )
  local sequenceData = 
     {name="explode", start = 1, time = 1000, loopCount = 1, count=12}
     explosionSprite = display.newSprite(explosionSheet, sequenceData)
 
+--if dustball has not been clicked, the image will be replaced with a splat image
 local function splatDustball(dustBall)
     if movedPage == false then
         dustBall.alpha=0
@@ -120,11 +125,11 @@ local function splatDustball(dustBall)
         splat.x = dustBall.x
         splat.y = dustBall.y
         sceneGroup:insert(splat) 
-        --audio.play(sfx.splat)
         return splat 
     end
 end
 
+--checks number of dustball taps, loads congrats overlay
 local function checkTaps()
     if numTapped == 10 then
         print("loading overlay")
@@ -132,6 +137,7 @@ local function checkTaps()
     end
 end
 
+--removes dustball on click, plays explosion sprite, plays audio, checks taps
 local function removeDustball(event)
     explosionSprite.x = event.target.x
     explosionSprite.y = event.target.y
@@ -148,11 +154,13 @@ end
 
 local function generateDustballs()
       if movedPage == false and numTapped < 10 then
+          --creates dustballs
         dustBall = display.newImage("Images/fuzzBall.png")
         dustBall.x =  Random(100, display.contentWidth-200)
         dustBall.y = Random(100, display.contentHeight-200)
         sceneGroup:insert(dustBall)
         dustBall:addEventListener("tap", removeDustball)
+        --scales ball to make it look like it is moving towards player
         transition.to(dustBall, {time = 1000, xScale=2.5, yScale = 2.5, onComplete = function(dustBall) splatDustball(dustBall) end})
         return dustBall
     end
@@ -162,6 +170,7 @@ function startGame()
      timer.performWithDelay(1500, generateDustballs, 25)
 end
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(dustBkg)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(myText)
@@ -177,13 +186,13 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       --timer.performWithDelay(1000, playInstructions)
        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)      
         timer.performWithDelay(5500, startGame)
+        -- remove previous scene from memory
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
    end
 end

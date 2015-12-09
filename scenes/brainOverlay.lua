@@ -30,10 +30,9 @@ local overlayOptions = {
 }
 
 function exitOverlay()
-    -- By some method (a "resume" button, for example), hide the overlay
+    --  hide the overlay
     exitPressed = true
         composer.hideOverlay( "fade", 200 )
-        --composer.removeScene("brainOverlay")
         composer.gotoScene( "scenes.scene10")
         if moveTimer then
           timer.cancel(moveTimer)  
@@ -50,6 +49,7 @@ physics.start()
 --  Set gravity 
 physics.setGravity(0, 4)
 
+--setup images
    local background = display.newImage("Images/brainBkg.png", true)
     background.x = display.contentWidth/2
     background.y = display.contentHeight/2
@@ -59,6 +59,7 @@ physics.setGravity(0, 4)
     instructions.y = display.contentHeight/2
     instructions.alpha=0
     
+    --create puck
     local puck = display.newImage("Images/puck_green.png", true)
     puck.x = display.contentWidth/4
     puck.y = display.contentHeight*0.7
@@ -68,9 +69,11 @@ physics.setGravity(0, 4)
     enemy.y = display.contentHeight/9
     physics.addBody(enemy, 'static', {radius = 25})
     
+    --setup score text
     local score = display.newText(score, 1875, 150, 'Courier-Bold', 150)
     score:setTextColor(0, 0, 0)
     
+    --setup static walls
     local topWall1 = display.newRect( 300, 10, 600, 10)
     physics.addBody(topWall1, "static", {friction=0, bounce=0.9 })
     
@@ -84,12 +87,7 @@ physics.setGravity(0, 4)
     local floor = display.newRect( display.contentWidth/2, display.contentHeight, display.contentWidth, 10 )
     physics.addBody(floor, "static", {friction=0, bounce=0.9 })
     
-   -- physics.addBody( puck, { density=0.3, friction=0.6, radius=66.0 } )
-   -- puck.linearDamping = 0.4
-   -- puck.angularDamping = 0.6
-    
-   -- toolMaterial = { density=0.3, friction=0.6, radius=66.0 }
-    
+    --add physics to puck
     physics.addBody (puck, "dynamic", { friction=0.6, bounce = 0.4} )
     puck.isFixedRotation = true
     puck.linearDamping = 0.8
@@ -108,6 +106,7 @@ physics.setGravity(0, 4)
     onRelease = exitOverlay
 }
 
+--create enemy
 --       -- Create an image, 250 pixels by 250 pixels
        local thought = display.newImage("Images/badThought.png", true)
 
@@ -117,10 +116,9 @@ physics.setGravity(0, 4)
 	thought.y = display.contentHeight/2
         physics.addBody(thought, "dynamic", {density=0.5, friction=1.0, bounce=1.5, radius=125})
         
-
+--use gameUI to add drag to puck
 local function dragBody( event )
 	gameUI.dragBody( event, { maxForce=10000, frequency=10, dampingRatio=0.2, center=true } )
-       -- return gameUI.dragBody( event )
 end
 
 
@@ -175,6 +173,7 @@ function playInstructions()
     transition.scaleTo( instructions, { xScale=1.1, yScale=1.1, time=2000, onComplete=scaleDown}) 
 end 
 
+--add elements to scene group
 sceneGroup:insert(background)
 sceneGroup:insert(exitButton)
 sceneGroup:insert(puck)
@@ -188,6 +187,7 @@ sceneGroup:insert(thought)
 sceneGroup:insert(score)
 sceneGroup:insert(instructions)
  
+ --add event listeners
 puck:addEventListener("touch", dragBody)
 Runtime:addEventListener('enterFrame', update)
 
@@ -204,7 +204,6 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
        timer.performWithDelay(700, playInstructions)
-    --timer.performWithDelay(1500, generateThoughts, totalThoughts)
    
    end
 end

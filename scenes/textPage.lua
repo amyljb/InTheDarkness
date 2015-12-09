@@ -1,4 +1,4 @@
---FIND THE BEST WAY TO FIND NEXT PAGE - GO ONE TEXT SCENE - SCENE ONE - NEXT BUTTON LOADS OVERLAY - NEXT BUTTON ON OVERLAY LOADS NEXT SCENE
+--THIS SCENE ACTS AS A TEMPLATE FOR THE TEXT SCENES
 
 local composer = require("composer")
 local nextSceneButton
@@ -11,7 +11,7 @@ local current =  composer.getSceneName( "current" )
 local nextSceneButton
 local scene = composer.newScene(sceneName)
 local previous =  composer.getSceneName( "previous" )
---local nextSceneNumber = sceneObject.nextScene
+
 
 local options = {
     effect = "crossFade",
@@ -22,16 +22,13 @@ local options = {
 --CREATE SCENE
 function scene:create( event )
     local sceneGroup = self.view
-    
+    --gets params set from previous scene, text data and scene number 
     local params = event.params.var1
     local nextScene = event.params.nextScene
-    print("next:"..nextScene)
-    print("current:"..current)
-    print("previous:"..previous)
     
 function exitOverlay()
+    --goes to next scene
     composer.gotoScene( nextScene, options )
-    --composer.hideOverlay( "fade", 200 )
     composer.removeScene("textPage")
 end
 
@@ -40,10 +37,12 @@ function loadPrevious()
     composer.removeScene("textPage")
 end
 
+--background image
 background = display.newImage("Images/darkness.png", true) --Images/page1Bk3.png
 background.x = display.contentWidth/2
 background.y = display.contentHeight/2
 
+--setup buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -69,11 +68,12 @@ background.y = display.contentHeight/2
 }
 previousBtn.rotation = -180
 
+--add elements to scene group
 sceneGroup:insert(background)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
-
+--gets params and creates text objects, loads custom font
 function loadText(params)
     print(params)
     for i = 1, #params do
@@ -98,7 +98,7 @@ function scene:show( event )
     local sceneText = scene.text
 
     if phase == "will" then
-        -- Called when the scene is off screen and is about to move on screen
+
     elseif phase == "did" then
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
@@ -114,10 +114,7 @@ function scene:hide( event )
     local phase = event.phase
 
     if event.phase == "will" then
-        -- Called when the scene is on screen and is about to move off screen
-        --
-        -- INSERT code here to pause the scene
-        -- e.g. stop timers, stop animation, unload sounds, etc.)
+
     elseif phase == "did" then
     end 
 end

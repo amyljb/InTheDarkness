@@ -1,3 +1,4 @@
+--contains all sounds
 local sfx = {}
 
 sfx.soundtrack = audio.loadSound( "Sounds/SpookyPlayground2.wav" )

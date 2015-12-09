@@ -1,3 +1,4 @@
+--plays tap indicator, indicator is passed from scene, pulses, scaling is canceled once scene is removed
 local functionTable = {}
           
 function functionTable.pulsateFunction(tapIndicator)
@@ -14,14 +15,8 @@ function functionTable.pulsateFunction(tapIndicator)
     end 
     return(scaleTrans) 
     end
-    --local stopClosure = function() return stopScale( tapIndicator ) end
-   -- timer.performWithDelay( 6000, stopClosure, 1 )
+
 end
---function stopScale(tapIndicator)
- --   print("stopping scale")
- --   transition.cancel(scaleTrans)
- --   tapIndicator.alpha=0
---end
 
 return functionTable
 

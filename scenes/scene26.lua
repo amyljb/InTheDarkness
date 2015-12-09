@@ -13,7 +13,6 @@ local previousScene = "scenes.scene25"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -45,6 +44,7 @@ local overlayOptions =
 
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 
+--setup page images
 local freddieBed = display.newImage( "Images/freddieBed.png", true )
 freddieBed.x=display.contentWidth/2
 freddieBed.y=display.contentHeight/2
@@ -64,6 +64,7 @@ endText.x=display.contentWidth/2
 endText.y=display.contentHeight/2
 endText.alpha=0
 
+--setup button
   local previousBtn = widget.newButton
 {
     width = 120,
@@ -77,12 +78,6 @@ endText.alpha=0
 }
 previousBtn.rotation = -180
 
-sceneGroup:insert(freddieBed)
-sceneGroup:insert(torch)
-sceneGroup:insert(blackOut)
-sceneGroup:insert(endText)
-sceneGroup:insert(previousBtn)
-
 function returnMenu()
     composer.gotoScene( "scenes.menu", pageChangeOptions )
 end
@@ -91,6 +86,7 @@ function endTextDisplay()
      transition.to(endText, {alpha=1, time=2000, onComplete=returnMenu})
 end
 
+--fades out main image and replaces with black screen
 function fadeOut(event)
     if event.phase == "began" and event.time >= 2000 then
         transition.to(freddieBed, {alpha=0, time=2000})
@@ -99,6 +95,15 @@ function fadeOut(event)
         audio.fadeOut( {time=5000 } )
         end
     end
+    
+ --insert display objects into sceneGroup
+sceneGroup:insert(freddieBed)
+sceneGroup:insert(torch)
+sceneGroup:insert(blackOut)
+sceneGroup:insert(endText)
+sceneGroup:insert(previousBtn)
+
+--add event listeners
 torch:addEventListener("touch", fadeOut)
 end
 

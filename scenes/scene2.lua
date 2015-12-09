@@ -1,4 +1,5 @@
 --HOUSE IMAGE
+--setup scene variables
 local composer = require( "composer" )
 local tapIndicatorFunc = require("modules.tapIndicatorFunc")
 local sfx = require("modules.sfx")
@@ -28,7 +29,6 @@ local pageChangeOptions = {
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber,
     previousScene = previousScene
 })
@@ -52,9 +52,11 @@ local overlayOptions =
         nextScene = nextSceneNumber
     }
 }
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end    
 
+--change pg func
 local function changePage(event)
     movedPage = true
     if event.target.id == "door" then
@@ -66,8 +68,10 @@ local function changePage(event)
     end
 end
 
+    --group to hold rain
     group = display.newGroup()
     
+--setup images
     local niceHouse = display.newImage("Images/niceHouse.png", true)
     niceHouse.x = display.contentWidth/2
     niceHouse.y = display.contentHeight/2
@@ -117,6 +121,7 @@ previousBtn.rotation = -180
     tapIndicator.y= display.contentHeight/2 + 125
     tapIndicator.alpha = 0
     
+--setup sprites    
   local sheetInfo = require("Sprites.lightning1")
    local lightningSheet = graphics.newImageSheet( "Sprites/lightning1.png", sheetInfo:getSheet() )
    local sequenceData =
@@ -126,14 +131,14 @@ previousBtn.rotation = -180
     lightningSprite.x = display.contentWidth/2
     lightningSprite.y = display.contentHeight/4
 
+--changes page on tap of door
 local function closeDoor()
             indTapped = true
             doorClosed:removeSelf()
-            --changePage()
             nextClosure()
-            --composer.gotoScene( "scenes.textPage", overlayOptions )
     end
 
+--begin animations func
 local function beginAnimations()
     if movedPage == false then
         transition.to(niceHouse, {alpha=0, time=1500})
@@ -143,6 +148,7 @@ local function beginAnimations()
         end
 end
 
+--called from show:did
    function animateForest()
        if movedPage == false then
         transition.to(forestR, { time=5000, x=display.contentWidth+150 } )
@@ -156,8 +162,9 @@ end
         audio.play(sfx.rainSound, {loops=-1, channel = 2})
     end
         
-    rain.new(group, {})    
+    rain.new(group, {})   
     
+   --insert display objects into sceneGroup 
     sceneGroup:insert(backgroundOne)
     sceneGroup:insert(clouds)
     sceneGroup:insert(house)
@@ -170,9 +177,8 @@ end
     sceneGroup:insert(tapIndicator)
     sceneGroup:insert(previousBtn)
            
+--add event listeners           
 doorClosed:addEventListener("tap", closeDoor)
---snapshot:addEventListener( "touch", listener )
---Runtime:addEventListener("enterFrame", screenWideEffect)
 end
 
 --------------------------------------------------------------------------------
@@ -188,12 +194,15 @@ function scene:show( event )
    elseif ( phase == "did" ) then
        
       print("scene1.2 did phase")    
+      -- remove previous scene from memory
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
+        --timed functions    
         timer.performWithDelay(1000, animateForest)
         timer.performWithDelay(500, playRainSounds)
+        --closure that passes tap indicator to function in tapIndicatorFunc.lua
        local myClosure = function() return tapIndicatorFunc.pulsateFunction( tapIndicator ) end
      timer.performWithDelay(8000, myClosure, 1)
    end
@@ -210,7 +219,9 @@ function scene:hide( event )
    if ( phase == "will" ) then
     rain.pause()
    elseif ( phase == "did" ) then
+       --stop rain audio
        audio.stop(2)
+       --stop tap indicator transition
        transition.cancel(scaleTrans)
        tapIndicator:removeSelf()
        tapIndicator = nil
@@ -224,7 +235,6 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-   print("destroying scene1.2")
 end
 
 ---------------------------------------------------------------------------------

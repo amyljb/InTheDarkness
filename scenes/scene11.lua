@@ -24,6 +24,7 @@ local centerY = display.contentHeight/2
 physics.start()
 physics.setGravity( 0, 9.8 )
 
+--path for rub out indicator to follow
 local movePath = {}
 movePath[1] = { x=-100, y=200 }
 movePath[2] = { x=200, y=-300 }
@@ -36,7 +37,6 @@ movePath[6] = { x=700, y=-100 }
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -65,10 +65,12 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-    local function changePage(event)
+--function to change pg based on button id
+local function changePage(event)
     movedPage = true
     audio.stop(swampPlay)   
     if event.target.id == "nextPage" then
@@ -80,7 +82,7 @@ local nextClosure = function() return changePg.loadNext( overlayOptions, movedPa
     end
 end
 
-    
+ --setup page buttons   
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -105,7 +107,7 @@ end
 }
 previousBtn.rotation = -180
     
-    
+ --set up images and snapshot   
     local snapshot = display.newSnapshot(2048, 1536)
     snapshot:translate( display.contentCenterX, display.contentCenterY )
 
@@ -142,6 +144,7 @@ previousBtn.rotation = -180
     local threshold = 10
     local thresholdSq = threshold*threshold
 
+--setup bursh
     local function draw( x, y )
 	local o = display.newImage( "Images/brush.png", x, y )
 	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
@@ -150,6 +153,7 @@ previousBtn.rotation = -180
 	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
     end
 
+--touch listener to rub out snapshot
     local function listener( event )
         local x,y = event.x - snapshot.x, event.y - snapshot.y  
 	if ( event.phase == "began" ) then
@@ -168,7 +172,8 @@ previousBtn.rotation = -180
 	end
     end
     
-    function moveMist()
+--moves mist    
+function moveMist()
     if movedPage == false then
     transition.to( mist1, {time=4000, x =display.contentWidth*1.5} ) 
    -- transition.to( mist1, {time=4000, x =display.contentWidth*1.5, onComplete= function(self) self.parent:remove(self); self = nil; end} )  
@@ -179,6 +184,7 @@ previousBtn.rotation = -180
 end
 end
     
+--play sounds    
     function playSwampSounds()
        -- audio.setVolume(0.0)
        if movedPage == false then
@@ -188,6 +194,7 @@ end
        end
     end
 
+--setup sprites
 local lizardSheet = graphics.newImageSheet("Sprites/lizardSprite.png", lizardsheetInfo:getSheet())
 
     local sequenceData =
@@ -208,13 +215,16 @@ local lizardSheet = graphics.newImageSheet("Sprites/lizardSprite.png", lizardshe
     headSprite.x = display.contentWidth/2
     headSprite.y = display.contentHeight/2.5
         
+--setup firefly emitter
 local emitter = particleDesigner.newEmitter( "bp_firefly_final.json" )
 emitter.x = display.contentWidth / 2
 emitter.y = display.contentHeight / 2
 
+--start particle emitter
 function start_particles( event )
 	emitter:start()
 end
+--stop particle emitter
 function stop_particles( event )
 	emitter:stop()
 end
@@ -225,11 +235,13 @@ local function set_original_rate( event )
 	emitter.emissionRateInParticlesPerSeconds = original_rate
 end
 
+--remove lizard sprite on tap - cannot add to snapshot
 local function removeLizard()
     lizardSprite.alpha=0
     lizardSprite:removeSelf()
 end
 
+--insert display objects into sceneGroup
    sceneGroup:insert(hall)
     sceneGroup:insert(snapshot)
     sceneGroup:insert(lizardSprite)
@@ -243,6 +255,7 @@ end
     sceneGroup:insert(nextPgBtn)
     sceneGroup:insert(previousBtn)
     
+--add event listeners
 snapshot:addEventListener( "touch", listener ) 
 lizardSprite:addEventListener( "tap", removeLizard ) 
 
@@ -257,16 +270,20 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
+       --rub out instruction
+        local rubOutClosure = function() return rubPrompt.rubOutIndicator(movedPage) end
         timer.performWithDelay(3000, rubOutClosure, 1)
+        --timed functions
         timer.performWithDelay(2500, playSwampSounds)
         timer.performWithDelay(700, moveMist)
+        --start particle emitter and sprites
         start_particles()
         lizardSprite:play()
         headSprite:play()
-       local previous =  composer.getSceneName( "previous" )
+        -- remove previous scene from memory
+        local previous =  composer.getSceneName( "previous" )
             if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
    end
 end
@@ -279,11 +296,9 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
        physics.pause()
-     --  audio.fadeOut( { channel=swampAmbience, time=1000 } )
-       --lizardSprite:stop()
-       --audio.stop(swampAmbience)
+       
    elseif ( phase == "did" ) then
-      -- Called immediately after scene goes off screen.
+       
    end
 end
 

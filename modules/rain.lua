@@ -1,11 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- rain.lua
--- V. Sergeyev, pydevside@gmail.com
--- http://pythondvside.com
---
--- Snow by David Schooley <illustrationism@gmail.com>
--- 
+
 -----------------------------------------------------------------------------------------
 local screenW, screenH = display.contentWidth, display.contentHeight
 

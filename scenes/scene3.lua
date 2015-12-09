@@ -42,7 +42,6 @@ local options = {
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -66,10 +65,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---change page on button tap
+--change page on button tap depending on id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -83,6 +83,7 @@ end
 
     local spawnTable = {}
 
+    --setup background image
     local backgroundOne = display.newImage("Images/page3_hall.png", true)
     backgroundOne.x = display.contentWidth/2
     backgroundOne.y = display.contentHeight/2
@@ -95,6 +96,7 @@ end
     local myText = display.newText( "0", 1875, 150, native.systemFont, 150 )
     myText:setFillColor( 0, 0, 0 )
  
+ --setup buttons
      local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -120,6 +122,7 @@ end
 }
 previousBtn.rotation = -180
 
+--setup blinking sprite
  local blinkingInfo = require("Sprites.blinking")
         local blinkingSheet = graphics.newImageSheet( "Sprites/blinking.png", blinkingInfo:getSheet() )
         local sequenceDataBlink =
@@ -129,13 +132,6 @@ previousBtn.rotation = -180
         blinking.x =display.contentWidth/2
         blinking.y = display.contentHeight*0.7
        
-           
-    sceneGroup:insert(backgroundOne)
-    sceneGroup:insert(nextPgBtn) 
-    sceneGroup:insert(myText)
-    sceneGroup:insert(previousBtn)
-    sceneGroup:insert(blinking)
-    sceneGroup:insert(instructions)
   
  local function checkTaps()
     if numTapped == 10 then
@@ -182,6 +178,7 @@ function spawnGhost2()
     end 
 end      
            
+--function to create swinging lampshade           
 function loadLight()
 	for i = 1, 10 do
             for j = 1, 10 do
@@ -221,7 +218,7 @@ function loadLight()
 			local joint = physics.newJoint('pivot', ropeParts[k-1], ropeParts[k], hang.x - 3, ropePart.y)
 		end
 		
-		-- Bone joint
+		-- joint
 		
 		if(k == 8) then
 			local boneJoint = physics.newJoint('pivot', ropePart, shade, hang.x - 3, ropePart.y)
@@ -242,8 +239,15 @@ end
         checkTaps()
     end
     
-   loadLight() 
-
+   loadLight()
+   
+--insert display objects into sceneGroup 
+    sceneGroup:insert(backgroundOne)
+    sceneGroup:insert(nextPgBtn) 
+    sceneGroup:insert(myText)
+    sceneGroup:insert(previousBtn)
+    sceneGroup:insert(blinking)
+    sceneGroup:insert(instructions)
 end 
 
 --------------------------------------------------------------------------------
@@ -288,7 +292,6 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    print("destroying scene2") 
     transition.cancel(scaleTrans)
     removeEventListeners2()  
 end

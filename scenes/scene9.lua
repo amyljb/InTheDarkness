@@ -18,7 +18,6 @@ local previousScene = "scenes.scene8"
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -43,6 +42,7 @@ local overlayOptions =
     }
 }
 
+ --closures that pass params to changePg module 
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
@@ -52,6 +52,7 @@ local function tapCounter()
     end
 end
 
+--setup background images
 local background = display.newImage("Images/page8.png", true)
 background.x = centreX
 background.y = centreY
@@ -73,6 +74,7 @@ bed.y = display.contentHeight/2
 }
 previousBtn.rotation = -180   
 
+--setup tentacle sprites
 local sheetInfo = require("Sprites.tentacle")
         local tentacleSheet = graphics.newImageSheet( "Sprites/tentacle.png", sheetInfo:getSheet() )
         local sequenceData = 
@@ -120,6 +122,7 @@ local sheetInfo5 = require("Sprites.tentBottomL")
         tentBottomL.x = display.contentWidth/4
         tentBottomL.y =display.contentHeight*0.7        
         
+ --insert scene elements into sceneGroup        
 sceneGroup:insert(background)
 sceneGroup:insert(tentacleNew)
 sceneGroup:insert(bearclaw)
@@ -129,6 +132,7 @@ sceneGroup:insert(tentBottomL)
 sceneGroup:insert(bed)
 sceneGroup:insert(previousBtn)
 
+--remove sprites on touch
 local function onTouch( event )
    display.remove( event.target )
    numTapped = numTapped + 1
@@ -136,6 +140,7 @@ local function onTouch( event )
    return true
 end
 
+--play sprites
 function playClaws()
         bearclaw:play()
         tentacle2:play()
@@ -144,20 +149,14 @@ function playClaws()
        spikedTent:play()
 end
 
+--add event listeners
 bearclaw:addEventListener( "tap", onTouch )
 tentBottomL:addEventListener( "touch", onTouch )
 tentacle2:addEventListener( "tap", onTouch )
 tentacleNew:addEventListener( "tap", onTouch )
 spikedTent:addEventListener( "tap", onTouch )
 
-   -- function removeEventListeners()
-     --   print("removeEventListeners called scene 8")
-    -- bearclaw:removeEventListener( "touch", onTouch )
-      --  spikeBottom:removeEventListener( "touch", onTouch )
-        --tentacle1:removeEventListener( "touch", onTouch )
-      --  tentacle2:removeEventListener( "touch", onTouch )
-      --  longTent:removeEventListener( "touch", onTouch )
-   -- end
+
 end
 
 -- "scene:show()"
@@ -184,9 +183,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
+
    elseif ( phase == "did" ) then
       -- Called immediately after scene goes off screen.
    end
@@ -196,10 +193,7 @@ end
 function scene:destroy( event )
 
    local sceneGroup = self.view
-    --removeEventListeners()
-   -- Called prior to the removal of scene's view ("sceneGroup").
-   -- Insert code here to clean up the scene.
-   -- Example: remove display objects, save state, etc.
+
 end
 
 ---------------------------------------------------------------------------------

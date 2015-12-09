@@ -18,7 +18,6 @@ local growlPlaying = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
@@ -42,6 +41,7 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
@@ -52,6 +52,7 @@ end
 
 local radiusMax = math.sqrt( centerX*centerX + centerY*centerY )
 
+--setup page images
 local bkg = display.newImage( "Images/caveDefeated.png", true )
 bkg.x=display.contentWidth/2
 bkg.y=display.contentHeight/2
@@ -65,6 +66,7 @@ pile.x = display.contentWidth/2
 pile.y = display.contentHeight/2
 pile.alpha = 0
 
+--setup sprite sheet
 local sheetInfo = require("Sprites.dizzy")
 local dizzySheet = graphics.newImageSheet( "Sprites/dizzy.png", sheetInfo:getSheet() )
 
@@ -74,6 +76,7 @@ local sequenceData =
         dizzySprite.x = display.contentWidth/2
         dizzySprite.y = display.contentHeight/8
 
+--hotspot is created for collision detection
 local hotspot = display.newCircle( display.contentWidth/2, display.contentHeight/2, 350 )
 hotspot:setFillColor( 0.5 )
 hotspot.alpha = 0 
@@ -87,6 +90,7 @@ instructions.x = display.contentWidth/2
 instructions.y = display.contentHeight/2
 instructions.alpha=0
 
+--setup buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -111,6 +115,7 @@ instructions.alpha=0
 }
 previousBtn.rotation = -180
         
+--SETUP EXPLOSION SPRITE        
 -- 1st image sheet
 local sheetData1 = require("Sprites.explosion1")
 local explosion1 = graphics.newImageSheet( "Sprites/explosion1.png", sheetData1:getSheet() )
@@ -144,6 +149,7 @@ explosionAnim.x = display.contentWidth/2
 explosionAnim.y = display.contentHeight/2
 explosionAnim.alpha=0
 
+--play growl sound, only play once to avoid constant play
 local function playGrowl()
     if growlPlaying == false then
         audio.setVolume( 0.5 ) 
@@ -152,6 +158,7 @@ local function playGrowl()
     end
 end
 
+--shake function
 local function monsterShake(target)
 local firstTran, secondTran, thirdTran
 
@@ -231,6 +238,7 @@ function hasCollided( torchLight, hotspot )
     return false
 end
 
+--swap explosion sheets
 function swapSheet4()
     explosionAnim:setSequence( "seq5" )
     explosionAnim:play()
@@ -261,12 +269,9 @@ function playExplode()
     monster:removeSelf()
     explosionAnim:play()
     timer.performWithDelay( 100, swapSheet )
-end
-
-    function removeEventListeners()
-        print("removeEventListeners called scene 13")
-    end     
+end    
       
+--insert display objects into sceneGroup
 sceneGroup:insert(bkg)
 sceneGroup:insert(pile)
 sceneGroup:insert(monster)
@@ -277,6 +282,7 @@ sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 sceneGroup:insert(dizzySprite)
 
+--add event listeners
 torchLight:addEventListener( "touch", torchLight )
 end
 

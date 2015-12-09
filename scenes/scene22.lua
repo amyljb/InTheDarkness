@@ -19,7 +19,6 @@ local collided = false
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
@@ -43,9 +42,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true
     if event.target.id == "nextPage" then
@@ -57,6 +58,7 @@ local function changePage(event)
     end
 end
 
+--setup background images
 local caveBkg = display.newImage( "Images/cave.png", true )
 caveBkg.x=display.contentWidth/2
 caveBkg.y=display.contentHeight/2
@@ -81,9 +83,6 @@ local cloud5 = display.newImage( "Images/cloud5.png", true )
 cloud5.x=display.contentWidth/4
 cloud5.y=display.contentHeight/4
 
---local cloudHotspot = display.newCircle(display.contentWidth/4, display.contentHeight/2, 400)
---cloudHotspot.alpha = 0.1
-
 local ohNoText = display.newImage( "Images/ohNoText.png", true )
 ohNoText.x=display.contentWidth/2
 ohNoText.y=display.contentHeight/2
@@ -94,6 +93,7 @@ tapIndicator.x= display.contentWidth/4
 tapIndicator.y= display.contentHeight/2
 tapIndicator.alpha = 0
 
+--setup buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -118,6 +118,8 @@ tapIndicator.alpha = 0
 }
 previousBtn.rotation = -180
 
+--setup sprite sheets
+--DUSTCLOUD
 local sheetInfo = require("Sprites.dustCloud") 
 local dustCloudSheet = graphics.newImageSheet( "Sprites/dustCloud.png", sheetInfo:getSheet() )
 local sequenceData = {name="explode", start = 1, time = 1000, loopCount = 1, count=6}
@@ -127,6 +129,7 @@ local dustSprite = display.newSprite(dustCloudSheet, sequenceData)
       dustSprite.y = display.contentHeight - display.contentHeight/3
       dustSprite.alpha=0
       
+--MONSTER THROWING BALLS      
 local sheetInfo2 = require("Sprites.underbedMons") 
 local monsterSheet = graphics.newImageSheet( "Sprites/underbedMons.png", sheetInfo2:getSheet() )
 local sequenceData2 = {
@@ -138,6 +141,7 @@ local sequenceData2 = {
       monsterSprite.x = display.contentWidth*0.25
       monsterSprite.y = display.contentHeight/2
       
+--FREDDIE'S HEAD WOBBLING      
  local sheetInfo3 = require("Sprites.wobble") 
 local wobbleSheet = graphics.newImageSheet( "Sprites/wobble.png", sheetInfo3:getSheet() )
 local sequenceData3 = {name="wobble", start = 1, time = 600, loopCount = 3, count=4}
@@ -148,6 +152,7 @@ local wobbleSprite = display.newSprite(wobbleSheet, sequenceData3)
     
     physics.addBody(wobbleSprite, "kinematic", {bounce = 0})
 
+--parts clouds and begins monster sprite
 function moveClouds()
     if movedPage == false then
     print("hotspot tapped")
@@ -161,6 +166,7 @@ function moveClouds()
     end
 end
 
+--reverses monster sprite sequence
 function reverseSequence()
     if movedPage == false then
     print("reversing")
@@ -170,7 +176,7 @@ function reverseSequence()
     end
 end
 
---detect collision - play dust explosion sprite
+--detect collision between freddie and dust ball - play dust explosion sprite
 function onCollision(event)
     if event.phase == "began" and movedPage == false then
     collided = true
@@ -186,9 +192,11 @@ end
 
 function loadDustballs()
     if movedPage == false then
+        --creates dustball image
         dustBall = display.newImage("Images/fuzzBall.png")
         dustBall.x = monsterSprite.x
         dustBall.y = display.contentHeight/3
+        --add physics
         physics.addBody(dustBall, "dynamic", {bounce = 0})
         dustBall.name = "dustBall"
         dustBall.isBullet = true
@@ -200,13 +208,14 @@ function loadDustballs()
     end
 end
 
+--remove text
 local function removeText()
     if ohNoText then
     ohNoText.alpha = 0
     ohNoText:removeSelf()
     end
 end
-
+--load OH NO! text
 function loadText()
     if collided == true then
     ohNoText.alpha=1
@@ -214,6 +223,7 @@ function loadText()
     end
 end
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(caveBkg)
 sceneGroup:insert(monsterSprite)
 sceneGroup:insert(cloud1)
@@ -223,14 +233,12 @@ sceneGroup:insert(cloud4)
 sceneGroup:insert(cloud5)
 sceneGroup:insert(wobbleSprite)
 sceneGroup:insert(dustSprite) 
---sceneGroup:insert(cloudHotspot) 
 sceneGroup:insert(ohNoText) 
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(tapIndicator)
 sceneGroup:insert(previousBtn)
 
---freddie:addEventListener("touch", touchFreddie)
---cloudHotspot:addEventListener("tap", moveClouds)
+--add event listeners
 Runtime:addEventListener( "collision", onCollision )
 
 

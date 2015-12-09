@@ -1,5 +1,4 @@
---TIRED - Z'S
---change?? bridging pg
+--FREDDIE FEELS TIRED - bridging pg
 local composer = require( "composer" )
 local widget = require("widget")
 local changePg = require("changePg")
@@ -11,7 +10,6 @@ local sceneNumber = 18
 local nextSceneNumber = "scenes.scene19"
 local previousScene = "scenes.scene17"
 local myZ
---Find device display height and width
 _H = display.contentHeight
 _W = display.contentWidth
 Random = math.random
@@ -24,7 +22,6 @@ totalZs = 20
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -50,13 +47,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
---
---local function changePage( event )
---        composer.gotoScene( "scenes.textPage", overlayOptions )
---    return true
---end
+
+--function to change pg based on button id
 local function changePage(event)
     if event.target.id == "nextPage" then
         movedPage = true
@@ -72,12 +67,14 @@ end
 physics.start()
 -- 2. Set gravity to be inverted
 physics.setGravity(0, -0.8)
+--setup background images
 local tiredBkg = display.newImage( "Images/tired.png", true )
 tiredBkg.x=display.contentWidth/2
 tiredBkg.y=display.contentHeight/2
 local leftWall = display.newRect (0, 0, 1, display.contentHeight)
 local rightWall = display.newRect (display.contentWidth, 0, 1, display.contentHeight)
 
+--setup buttons
     local nextPgBtn = widget.newButton
 {
     width = 120,
@@ -102,19 +99,11 @@ local rightWall = display.newRect (display.contentWidth, 0, 1, display.contentHe
 }
 previousBtn.rotation = -180
 
---leftWall:setStrokeColor( 1, 0, 0 )
---rightWall:setStrokeColor( 1, 0, 0 )
-
--- Add physics to the walls. They will not move so they will be "static"
+-- Add physics to the walls
 physics.addBody (leftWall, "static",  { bounce = 1 } );
 physics.addBody (rightWall, "static", { bounce = 1 } );
 
-sceneGroup:insert(tiredBkg)
-sceneGroup:insert(leftWall)
-sceneGroup:insert(rightWall)
-sceneGroup:insert(nextPgBtn)
-sceneGroup:insert(previousBtn)
-
+--generate Zs
 function startZs()
 -- Create an image, 250 pixels by 250 pixels
 myZ = display.newImageRect("Images/z.png", 250, 250)
@@ -135,6 +124,13 @@ myZ = display.newImageRect("Images/z.png", 250, 250)
         sceneGroup:insert(myZ)
 end
 
+--insert display objects into sceneGroup 
+sceneGroup:insert(tiredBkg)
+sceneGroup:insert(leftWall)
+sceneGroup:insert(rightWall)
+sceneGroup:insert(nextPgBtn)
+sceneGroup:insert(previousBtn)
+
 end
 
 -- "scene:show()"
@@ -146,14 +142,13 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
-       zTimer = timer.performWithDelay(20, startZs, totalZs);
+       
+       zTimer = timer.performWithDelay(20, startZs, totalZs)
+       -- remove previous scene from memory
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
-                composer.removeScene(previous, false)       -- remove previous scene from memory
+                composer.removeScene(previous, false)       
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 
@@ -164,11 +159,7 @@ function scene:hide( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
-      -- Called immediately after scene goes off screen.
    end
 end
 

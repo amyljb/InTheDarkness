@@ -1,5 +1,7 @@
+--plays rub out prompt
 local rubOutPrompt = {}
      
+--path for hand to move
 local movePath = {}
 movePath[1] = { x=-100, y=200 }
 movePath[2] = { x=200, y=-300 }
@@ -18,7 +20,7 @@ movePath[6] = { x=700, y=-100 }
 local function removeHand()
     hand:removeSelf()
 end
-       
+   --sets path for hand to move along    
     local function setPath( object, path, params )
         local delta = params.useDelta or nil
         local deltaX = 0
@@ -58,6 +60,7 @@ end
         end
     end    
      
+--initial function - displays hand, sets along path, removes     
 function rubOutPrompt.rubOutIndicator(movedPage)
     if movedPage == false then
         hand = display.newImage( "Images/hand.png" , true )

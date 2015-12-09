@@ -12,14 +12,12 @@ local sceneNumber = 19
 local nextSceneNumber = "scenes.scene20"
 local counter = 0
 local movedPage = false
---local whooshSound = audio.loadStream("Sounds/whoosh_1.mp3")
 local previousScene = "scenes.scene18"
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    transitions = {},
     nextScene = nextSceneNumber
 })
 
@@ -29,6 +27,10 @@ local sceneObject = BaseScene:new({
 function scene:create( event )
 
    local sceneGroup = self.view
+   
+    local previousX, previousY
+    local threshold = 10
+    local thresholdSq = threshold*threshold
    
             --Initialize the scene
     local sceneComponents = sceneObject:getText()
@@ -44,9 +46,11 @@ local overlayOptions =
     }
 }
 
+--closures that pass params to changePg module
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
+--function to change pg based on button id
 local function changePage(event)
     movedPage = true  
     if event.target.id == "nextPage" then
@@ -58,6 +62,7 @@ local function changePage(event)
     end
 end
 
+--setup background images
 local scene21bkg = display.newImage("Images/eyesReveal.png", true)
 scene21bkg.x = display.contentWidth/2
 scene21bkg.y = display.contentHeight/2
@@ -75,9 +80,51 @@ local roomEyes = display.newImage("Images/roomEyes.png", true)
 snapshot.canvas:insert(roomEyes)
 snapshot:invalidate( "canvas" )
 
-   local previousX, previousY
-    local threshold = 10
-    local thresholdSq = threshold*threshold
+--button setup
+    local nextPgBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="nextPage",
+    defaultFile = "Images/nextBtn.png",
+    x = display.contentWidth*0.95,
+    y = display.contentHeight*0.85,
+    onRelease = changePage
+}
+
+    local previousBtn = widget.newButton
+{
+    width = 120,
+    height = 250,
+    id ="previous",
+    defaultFile = "Images/nextBtn.png",
+    overFile = "Images/nextBtnOver.png",
+    x = display.contentWidth/14,
+    y = display.contentHeight*0.85,
+    onRelease = changePage
+}
+previousBtn.rotation = -180
+
+--spritesheet setup
+    local sheetInfo4 = require("Sprites.bedroomDoor")
+    local doorSheet = graphics.newImageSheet( "Sprites/bedroomDoor.png", sheetInfo4:getSheet() )
+ 
+    local sequenceData4 =
+   {name="opening", start = 1, time = 500, loopCount = 1, count=4}  
+        doorSprite = display.newSprite(doorSheet, sequenceData4)
+        doorSprite.x = display.contentWidth/2 
+       doorSprite.y = display.contentHeight/2
+        
+     local sheetInfo5 = require("Sprites.doorEyes")
+    local doorEyesSheet = graphics.newImageSheet( "Sprites/doorEyes.png", sheetInfo5:getSheet() )
+ 
+    local sequenceData5 =
+    {name="blinking", start = 1, time = 4000, loopCount = 3, count=5}  
+        doorEyesSprite = display.newSprite(doorEyesSheet, sequenceData5)
+        doorEyesSprite.x = display.contentWidth/2 
+        doorEyesSprite.y = display.contentHeight/2
+        doorEyesSprite.alpha=0
+        
 
     local function draw( x, y )
 	local o = display.newImage( "Images/brush.png", x, y )
@@ -104,52 +151,8 @@ snapshot:invalidate( "canvas" )
 		end
 	end
     end
-
-    local nextPgBtn = widget.newButton
-{
-    width = 120,
-    height = 250,
-    id ="nextPage",
-    defaultFile = "Images/nextBtn.png",
-    x = display.contentWidth*0.95,
-    y = display.contentHeight*0.85,
-    onRelease = changePage
-}
-
-    local previousBtn = widget.newButton
-{
-    width = 120,
-    height = 250,
-    id ="previous",
-    defaultFile = "Images/nextBtn.png",
-    overFile = "Images/nextBtnOver.png",
-    x = display.contentWidth/14,
-    y = display.contentHeight*0.85,
-    onRelease = changePage
-}
-previousBtn.rotation = -180
-
     
-    local sheetInfo4 = require("Sprites.bedroomDoor")
-    local doorSheet = graphics.newImageSheet( "Sprites/bedroomDoor.png", sheetInfo4:getSheet() )
- 
-    local sequenceData4 =
-   {name="opening", start = 1, time = 500, loopCount = 1, count=4}  
-        doorSprite = display.newSprite(doorSheet, sequenceData4)
-        doorSprite.x = display.contentWidth/2 
-       doorSprite.y = display.contentHeight/2
-        
-     local sheetInfo5 = require("Sprites.doorEyes")
-    local doorEyesSheet = graphics.newImageSheet( "Sprites/doorEyes.png", sheetInfo5:getSheet() )
- 
-    local sequenceData5 =
-    {name="blinking", start = 1, time = 4000, loopCount = 3, count=5}  
-        doorEyesSprite = display.newSprite(doorEyesSheet, sequenceData5)
-        doorEyesSprite.x = display.contentWidth/2 
-        doorEyesSprite.y = display.contentHeight/2
-        doorEyesSprite.alpha=0
-        
-
+--function to change image after door is opened    
 function changeImage()
     doorEyesSprite:removeSelf()
     doorSprite:removeSelf()
@@ -161,6 +164,7 @@ function changeImage()
     timer.performWithDelay(2000, rubOutClosure, 1)
 end
 
+--hide eye sprite
 function hideEyes()
     doorEyesSprite.alpha=0
     transition.to(doorSprite, {xScale = 6, yScale = 6, time = 2500, onComplete = changeImage})
@@ -180,6 +184,7 @@ function openDoor()
     
 end
 
+--insert display objects into sceneGroup 
 sceneGroup:insert(scene21bkg)
 sceneGroup:insert(snapshot)
 sceneGroup:insert(darkness)
@@ -188,6 +193,7 @@ sceneGroup:insert(doorEyesSprite)
 sceneGroup:insert(nextPgBtn)
 sceneGroup:insert(previousBtn)
 
+--add event listeners
 doorSprite:addEventListener("tap", openDoor)
 
 end

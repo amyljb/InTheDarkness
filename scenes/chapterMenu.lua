@@ -14,6 +14,7 @@ local overlayOptions = {
    time = 400
 }
 
+--change page based on button id
 local function changePage( event )
     if event.phase == "ended" then
         if event.target.id == "soundStory" then
@@ -42,6 +43,7 @@ local menuBackground = display.newImage("Images/menuBkg.png", true)
 menuBackground.x = display.contentWidth/2
 menuBackground.y = display.contentHeight/2
 
+--setup of buttons
    local soundStory = widget.newButton
 {
     width = 600,
@@ -89,8 +91,7 @@ menuBackground.y = display.contentHeight/2
 }
 previousBtn.rotation = -180
 
---timer.performWithDelay(1500, loadOverlay)
-
+--add to scene group
     sceneGroup:insert(menuBackground)
     sceneGroup:insert(soundStory)
     sceneGroup:insert(monsterStory)

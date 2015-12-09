@@ -1,6 +1,7 @@
+--changes page depending on button id, gets value of previous page and movedPage from scene
 local composer = require( "composer" )
-local tap = audio.loadSound( "Sounds/click.mp3" )
 local changePage = {}
+
 --options table for next page transitions
 local options = {
     effect = "crossFade",
