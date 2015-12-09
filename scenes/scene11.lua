@@ -21,6 +21,9 @@ local soundPlaying = false
 local movedPage = false
 local centerX = display.contentWidth/2 --* 0.5
 local centerY = display.contentHeight/2
+local previousX, previousY
+local threshold = 10
+local thresholdSq = threshold*threshold
 physics.start()
 physics.setGravity( 0, 9.8 )
 
@@ -140,11 +143,7 @@ previousBtn.rotation = -180
     snapshot.canvas:insert(swampImage)
     snapshot:invalidate( "canvas" )
 
-    local previousX, previousY
-    local threshold = 10
-    local thresholdSq = threshold*threshold
-
---setup bursh
+--setup brush
     local function draw( x, y )
 	local o = display.newImage( "Images/brush.png", x, y )
 	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }

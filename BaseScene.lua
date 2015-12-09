@@ -1,4 +1,4 @@
---TRYING TO CREATE A BASE SCENE TO USE THROUGHOUT APP
+--TRYING TO CREATE A BASE SCENE TO USE THROUGHOUT APP USING OBJECT LIBRARY
 --COULDN'T MANAGE IT IN TIME FOR SUBMISSION - LIMITED IT TO TEXT DATA
 require 'lua_objects'
 local BaseTransition = require "BaseTransition"
@@ -142,6 +142,7 @@ end
 --    return sceneComponents
 --end
 
+--function to get text data, called from each scene, that scene then passes the text data to textPage.lua
 function BaseScene:getText()
     local data = self.data
     if (data.text) then

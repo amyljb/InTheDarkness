@@ -219,10 +219,12 @@ function scene:show( event )
    if ( phase == "will" ) then
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
+       
       beatSprite:play()
       audio.play(sfx.heartSound)
       timer.performWithDelay(2000, playInstructions)
-     timer.performWithDelay(3500, generateButton, 20)
+      timer.performWithDelay(3500, generateButton, 20)
+     
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

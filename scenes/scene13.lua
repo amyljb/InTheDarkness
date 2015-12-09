@@ -214,7 +214,6 @@ function torchLight:touch( event )
                     --remove hotspot to prevent more collisions
                     hotspot:removeSelf()
                     hotspot = nil
-   
         end
     end
      return true
@@ -222,10 +221,10 @@ end
 
 -- collision detection
 function hasCollided( torchLight, hotspot )
-    if ( torchLight == nil ) then  -- Make sure the first object exists
+    if ( torchLight == nil ) then  -- Make sure the torchLight exists
         return false
     end
-    if ( hotspot == nil ) then  -- Make sure the other object exists
+    if ( hotspot == nil ) then  -- Make sure the hotspot exists
         return false
     end
 
@@ -301,6 +300,7 @@ function scene:show( event )
    elseif ( phase == "did" ) then
        local instructionsClosure = function() return instructionFunc.playInstructions(instructions) end
         timer.performWithDelay(1000, instructionsClosure, 1)
+        
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory

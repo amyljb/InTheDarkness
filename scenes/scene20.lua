@@ -42,12 +42,6 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
---change page function
-local function changePage()
-        composer.gotoScene( "scenes.textPage", overlayOptions )
-    return true
-end
-
 --setup background image
 local bkg = display.newImage("Images/underbed.png", true)
 bkg.x = display.contentWidth/2

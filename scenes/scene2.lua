@@ -29,8 +29,7 @@ local pageChangeOptions = {
 local sceneObject = BaseScene:new({
     name = sceneName,
     data = sceneData[sceneNumber],
-    nextScene = nextSceneNumber,
-    previousScene = previousScene
+    nextScene = nextSceneNumber
 })
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------

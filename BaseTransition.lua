@@ -1,3 +1,5 @@
+--ATTEMPT TO DEAL WITH PAGE TRANSITIONS
+--TO BE EXPANDED ON IN FUTURE
 require 'lua_objects'
 
 local BaseTransition = newClass()

@@ -67,6 +67,7 @@ end
 physics.start()
 -- 2. Set gravity to be inverted
 physics.setGravity(0, -0.8)
+
 --setup background images
 local tiredBkg = display.newImage( "Images/tired.png", true )
 tiredBkg.x=display.contentWidth/2

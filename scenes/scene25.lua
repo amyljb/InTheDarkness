@@ -43,11 +43,6 @@ local overlayOptions =
 local previousClosure = function() return changePg.loadPrevious( previousScene, movedPage ) end
 local nextClosure = function() return changePg.loadNext( overlayOptions, movedPage ) end  
 
-local function changePage()
-        composer.gotoScene( "scenes.textPage", overlayOptions )
-    return true
-end
-
 --setup background image
 local momBkg = display.newImage( "Images/momPage.png", true )
 momBkg.x=display.contentWidth/2

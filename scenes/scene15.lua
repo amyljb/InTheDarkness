@@ -13,6 +13,9 @@ local previousScene = "scenes.scene14"
 local previousX = 0
 local previousY = 0
 local nextTapped = false
+local previousX, previousY
+local threshold = 10
+local thresholdSq = threshold*threshold
 
 --Create a scene object based on data read from data.json
 local sceneObject = BaseScene:new({
@@ -105,11 +108,7 @@ local kitchenGhostSheet = graphics.newImageSheet( "Sprites/kitchenGhost.png", sh
         kitchenGhostSprite.x = display.contentWidth - display.contentWidth/4
         kitchenGhostSprite.y = display.contentHeight/3 
 
-
-local previousX, previousY
-local threshold = 10
-local thresholdSq = threshold*threshold
-
+--setup brush, add to snapshot
 local function draw( x, y )
 	local o = display.newImage( "Images/brush.png", x, y )
 	o.fill.blendMode = { srcColor = "zero", dstColor="oneMinusSrcAlpha" }
@@ -118,6 +117,7 @@ local function draw( x, y )
 	snapshot:invalidate( "canvas" ) -- accumulate changes w/o clearing
 end
 
+--rub out listener
 local function listener( event )
 	local x,y = event.x - snapshot.x, event.y - snapshot.y
 
@@ -159,13 +159,11 @@ function scene:show( event )
        local swipeClosure = function() return rubPrompt.rubOutIndicator(nextTapped) end
         timer.performWithDelay(1500, swipeClosure, 1)
        kitchenGhostSprite:play()
+       
        local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
                 composer.removeScene(previous, false)       -- remove previous scene from memory
             end
-      -- Called when the scene is now on screen.
-      -- Insert code here to make the scene come alive.
-      -- Example: start timers, begin animation, play audio, etc.
    end
 end
 

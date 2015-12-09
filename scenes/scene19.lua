@@ -111,9 +111,9 @@ previousBtn.rotation = -180
  
     local sequenceData4 =
    {name="opening", start = 1, time = 500, loopCount = 1, count=4}  
-        doorSprite = display.newSprite(doorSheet, sequenceData4)
-        doorSprite.x = display.contentWidth/2 
-       doorSprite.y = display.contentHeight/2
+    doorSprite = display.newSprite(doorSheet, sequenceData4)
+    doorSprite.x = display.contentWidth/2 
+    doorSprite.y = display.contentHeight/2
         
      local sheetInfo5 = require("Sprites.doorEyes")
     local doorEyesSheet = graphics.newImageSheet( "Sprites/doorEyes.png", sheetInfo5:getSheet() )

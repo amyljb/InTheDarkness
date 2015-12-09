@@ -122,6 +122,7 @@ function scene:show( event )
         --timed functions
         timer.performWithDelay(1000, loadText)
         timer.performWithDelay(2000, loadFreddie)
+        
          -- remove previous scene from memory
          local previous =  composer.getSceneName( "previous" )
              if previous ~= "main" and previous then
@@ -139,7 +140,7 @@ function scene:hide( event )
 
     if event.phase == "will" then
     elseif phase == "did" then
-        print("hiding scene1")-- Called when the scene is now off screen
+       -- Called when the scene is now off screen
     end 
 end
 
@@ -148,7 +149,7 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    print("destroying scene1")
+    
 end
 
 -------------------------------------------------------------------------------

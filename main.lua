@@ -1,4 +1,4 @@
--- hide the status bar
+require "CiderDebugger";-- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 local composer = require "composer"
 local widget = require("widget")

@@ -177,7 +177,28 @@ function spawnGhost2()
     return smallGhost  
     end 
 end      
-           
+   
+     --remove event listeners - called in scene destroy   
+    function removeEventListeners2()
+        print("removeEventListeners called scene 2")
+        backgroundOne:removeEventListener("touch", changePage)
+    end
+    
+    function removeGhost(event)
+        event.target:removeSelf()
+        numTapped = numTapped + 1
+        myText.text = numTapped
+        checkTaps()
+    end
+                    
+--insert display objects into sceneGroup 
+    sceneGroup:insert(backgroundOne)
+    sceneGroup:insert(nextPgBtn) 
+    sceneGroup:insert(myText)
+    sceneGroup:insert(previousBtn)
+    sceneGroup:insert(blinking)
+    sceneGroup:insert(instructions)
+    
 --function to create swinging lampshade           
 function loadLight()
 	for i = 1, 10 do
@@ -225,29 +246,9 @@ function loadLight()
 		end
 	end
 end
-   
-     --remove event listeners - called in scene destroy   
-    function removeEventListeners2()
-        print("removeEventListeners called scene 2")
-        backgroundOne:removeEventListener("touch", changePage)
-    end
-    
-    function removeGhost(event)
-        event.target:removeSelf()
-        numTapped = numTapped + 1
-        myText.text = numTapped
-        checkTaps()
-    end
     
    loadLight()
-   
---insert display objects into sceneGroup 
-    sceneGroup:insert(backgroundOne)
-    sceneGroup:insert(nextPgBtn) 
-    sceneGroup:insert(myText)
-    sceneGroup:insert(previousBtn)
-    sceneGroup:insert(blinking)
-    sceneGroup:insert(instructions)
+
 end 
 
 --------------------------------------------------------------------------------
